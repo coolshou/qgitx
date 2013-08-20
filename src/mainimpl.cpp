@@ -51,15 +51,12 @@ MainImpl::MainImpl(SCRef cd, QWidget* p) : QMainWindow(p) {
 	setupUi(this);
 
 	// manual setup widgets not buildable with Qt designer
-	lineEditSHA = new QLineEdit(NULL);
 	lineEditFilter = new QLineEdit(NULL);
 	cmbSearch = new QComboBox(NULL);
 	QString list("Short log,Log msg,Author,SHA1,File,Patch,Patch (regExp)");
 	cmbSearch->addItems(list.split(","));
-	toolBar->addWidget(lineEditSHA);
 	QAction* act = toolBar->insertWidget(ActSearchAndFilter, lineEditFilter);
 	toolBar->insertWidget(act, cmbSearch);
-	connect(lineEditSHA, SIGNAL(returnPressed()), this, SLOT(lineEditSHA_returnPressed()));
 	connect(lineEditFilter, SIGNAL(returnPressed()), this, SLOT(lineEditFilter_returnPressed()));
 
 	// create light and dark colors for alternate background
@@ -131,11 +128,6 @@ MainImpl::MainImpl(SCRef cd, QWidget* p) : QMainWindow(p) {
 	connect(Actions, SIGNAL(triggered(QAction*)), this, SLOT(customAction_triggered(QAction*)));
 	doUpdateCustomActionMenu(settings.value(ACT_LIST_KEY).toStringList());
 
-	// manual adjust lineEditSHA width
-	QString tmp(41, '8');
-	int wd = lineEditSHA->fontMetrics().boundingRect(tmp).width();
-	lineEditSHA->setMinimumWidth(wd);
-
 	// disable all actions
 	updateGlobalActions(false);
 
@@ -204,35 +196,12 @@ void MainImpl::highlightAbbrevSha(SCRef abbrevSha) {
 	ActSearchAndHighlight->toggle();
 }
 
-void MainImpl::lineEditSHA_returnPressed() {
-
-	QString sha = git->getRefSha(lineEditSHA->text());
-	if (!sha.isEmpty()) // good, we can resolve to an unique sha
-	{
-		rv->st.setSha(sha);
-		UPDATE_DOMAIN(rv);
-	} else { // try a multiple match search
-		highlightAbbrevSha(lineEditSHA->text());
-		goMatch(0);
-	}
-}
-
 void MainImpl::ActBack_activated() {
-
-	lineEditSHA->undo(); // first for insert(text)
-	if (lineEditSHA->text().isEmpty())
-		lineEditSHA->undo(); // double undo, see RevsView::updateLineEditSHA()
-
-	lineEditSHA_returnPressed();
+    //TODO: reimplement functionality that got lost when removing lineEditSHA
 }
 
 void MainImpl::ActForward_activated() {
-
-	lineEditSHA->redo();
-	if (lineEditSHA->text().isEmpty())
-		lineEditSHA->redo();
-
-	lineEditSHA_returnPressed();
+    //TODO: reimplement functionality that got lost when removing lineEditSHA
 }
 
 // *************************** ExternalDiffViewer ***************************
@@ -1660,9 +1629,9 @@ void MainImpl::doBranchOrTag(bool isTag) {
 
 	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 	if (isTag)
-	    ok = git->makeTag(lineEditSHA->text(), ref, msg);
+        ok = git->makeTag(rv->st.sha(), ref, msg);
 	else
-	    ok = git->makeBranch(lineEditSHA->text(), ref);
+        ok = git->makeBranch(rv->st.sha(), ref);
 
 	QApplication::restoreOverrideCursor();
 	if (ok)
@@ -1679,7 +1648,7 @@ void MainImpl::ActTagDelete_activated() {
 		return;
 
 	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-	bool ok = git->deleteTag(lineEditSHA->text());
+    bool ok = git->deleteTag(rv->st.sha());
 	QApplication::restoreOverrideCursor();
 	if (ok)
 		refreshRepo(true);

@@ -110,7 +110,6 @@ void RevsView::clear(bool complete) {
 	tab()->textEditDiff->clear();
 	tab()->fileList->clear();
 	m()->treeView->clear();
-	updateLineEditSHA(true);
 	if (linkedPatchView)
 		linkedPatchView->clear();
 }
@@ -229,8 +228,6 @@ void RevsView::on_updateRevDesc() {
 
 bool RevsView::doUpdate(bool force) {
 
-	force = force || m()->lineEditSHA->text().isEmpty();
-
 	bool found = tab()->listViewLog->update();
 
 	if (!found && !st.sha().isEmpty()) {
@@ -242,8 +239,6 @@ bool RevsView::doUpdate(bool force) {
 	} else { // sha could be NULL
 
 		if (st.isChanged(StateInfo::SHA) || force) {
-
-			updateLineEditSHA();
 			on_updateRevDesc();
 			showStatusBarMessage(git->getRevInfo(st.sha()));
 
@@ -289,28 +284,6 @@ bool RevsView::doUpdate(bool force) {
 		}
 	}
 	return (found || st.sha().isEmpty());
-}
-
-void RevsView::updateLineEditSHA(bool clear) {
-
-	QLineEdit* l = m()->lineEditSHA;
-
-	if (clear)
-		l->setText(""); // clears history
-
-	else if (l->text() != st.sha()) {
-
-		if (l->text().isEmpty())
-			l->setText(st.sha()); // first rev clears history
-		else {
-			// setText() clears undo/redo history so
-			// we use clear() + insert() instead
-			l->clear();
-			l->insert(st.sha());
-		}
-	}
-	m()->ActBack->setEnabled(l->isUndoAvailable());
-	m()->ActForward->setEnabled(l->isRedoAvailable());
 }
 
 void RevsView::on_lanesContextMenuRequested(SCList parents, SCList childs) {

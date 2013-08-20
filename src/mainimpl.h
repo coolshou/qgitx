@@ -38,7 +38,6 @@ public:
 	const QString getRevisionDesc(SCRef sha);
 
 	// not buildable with Qt designer, will be created manually
-	QLineEdit* lineEditSHA;
 	QLineEdit* lineEditFilter;
 
 	enum ComboSearch {
@@ -87,7 +86,6 @@ protected slots:
 	void customAction_exited(const QString& name);
 	void goRef_triggered(QAction*);
 	void changesCommitted(bool);
-	void lineEditSHA_returnPressed();
 	void lineEditFilter_returnPressed();
 	void pushButtonCloseTab_clicked();
 	void ActBack_activated();
@@ -142,7 +140,6 @@ private:
 	void highlightAbbrevSha(SCRef abbrevSha);
 	void setRepository(SCRef wd, bool = false, bool = false, const QStringList* = NULL, bool = false);
 	void getExternalDiffArgs(QStringList* args, QStringList* filenames);
-	void lineEditSHASetText(SCRef text);
 	void updateCommitMenu(bool isStGITStack);
 	void updateRecentRepoMenu(SCRef newEntry = "");
 	void doUpdateRecentRepoMenu(SCRef newEntry);
