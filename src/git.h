@@ -22,6 +22,9 @@ class Git;
 class Lanes;
 class MyProcess;
 class FileHistory;
+namespace Grantlee {
+    class Engine;
+}
 
 
 struct Reference { // stores tag information associated to a revision
@@ -43,6 +46,7 @@ class Git : public QObject {
 Q_OBJECT
 public:
 	explicit Git(QObject* parent);
+    ~Git();
 
 	// used as self-documenting boolean parameters
 	static const bool optFalse       = false;
@@ -289,6 +293,7 @@ private:
 	QHash<QString, int> fileNamesMap; // quick lookup file name
 	QHash<QString, int> dirNamesMap;  // quick lookup directory name
 	FileHistory* revData;
+    Grantlee::Engine* engine;
 };
 
 #endif

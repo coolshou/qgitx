@@ -1,0 +1,112 @@
+<html>
+	<head>
+		<style type="text/css">
+		        tr.head { background-color: #a0a0e0 }
+		        td.h { font-weight: bold; }
+		        table { background-color: #e0e0f0; }
+		        span.h { font-weight: bold; font-size: medium; }
+		        div.l { white-space: pre; }
+		        font-family:  {{ TYPE_WRITER_FONT_FAMILY }};
+		        font-size:  {{ TYPE_WRITER_FONT_SIZE }};
+		</style>
+	</head>
+	<body>
+		<div class='t'>
+		        <table width="100%" border=0 cellspacing=0 cellpadding=2>
+							<tr class='thead'>
+								<th></th>
+								<th>
+									<span class='h'>{{ short_log }}</span>
+								</th>
+							</tr>
+							{% ifnotequal committer author %}
+							<tr>
+								<td>
+									<span class='h'>Commiter<span>
+								</td>
+								<td>
+									{{ committer }}
+								</td>
+							</tr>
+							{% endifnotequal %}
+							<tr>
+								<td>
+									<span class='h'>Author<span>
+								</td>
+								<td>
+									{{ author }}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class='h'>Author date<span>
+								</td>
+								<td>
+									{{ author_date }}
+								</td>
+							</tr>
+							{% if patches %}
+							<tr>
+								<td>
+									<span class='h'>Patches<span>
+								</td>
+								<td>
+									{{ patches|join:"," }}
+								</td>
+							</tr>
+							{% endif %}
+							{% for parent in parents %}
+							<tr>
+								<td>
+									<span class='h'>Parent<span>
+								</td>
+								<td>
+									{{ parent }}
+								</td>
+							</tr>
+							{% endfor %}
+							{% for child in children %}
+							<tr>
+								<td>
+									<span class='h'>Child<span>
+								</td>
+								<td>
+									{{ child }}
+								</td>
+							</tr>
+							{% endfor %}
+							{% for branch in branches %}
+							<tr>
+								<td>
+									<span class='h'>Branch<span>
+								</td>
+								<td>
+									{{ branch }}
+								</td>
+							</tr>
+							{% endfor %}
+							{% if following %}
+							<tr>
+								<td>
+									<span class='h'>Follows<span>
+								</td>
+								<td>
+									{{ following|join:"," }}
+								</td>
+							</tr>
+							{% endif %}
+							{% if preceding %}
+							<tr>
+								<td>
+									<span class='h'>Precedes<span>
+								</td>
+								<td>
+									{{ preceding|join:"," }}
+								</td>
+							</tr>
+							{% endif %}
+						</table>
+		</div>
+		<div class="l">{{long_log}}</div>
+	</body>
+</html>

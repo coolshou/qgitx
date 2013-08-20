@@ -18,6 +18,9 @@
 #include <QTextCodec>
 #include <QTextDocument>
 #include <QTextStream>
+
+#include <grantlee_core.h>
+
 #include "annotate.h"
 #include "cache.h"
 #include "git.h"
@@ -53,6 +56,17 @@ Git::Git(QObject* p) : QObject(p) {
 	curDomain = NULL;
 	revData = NULL;
 	revsFiles.reserve(MAX_DICT_SIZE);
+
+    //initialize template engine
+    //will load templates from resources under the path /templates
+    engine = new Grantlee::Engine();
+    Grantlee::FileSystemTemplateLoader::Ptr loader = Grantlee::FileSystemTemplateLoader::Ptr( new Grantlee::FileSystemTemplateLoader() );
+    loader->setTemplateDirs(QStringList() << ":/templates/");
+    engine->addTemplateLoader(loader);
+}
+
+Git::~Git() {
+    delete engine;
 }
 
 void Git::checkEnvironment() {
@@ -988,49 +1002,40 @@ const QString Git::getDesc(SCRef sha, QRegExp& shortLogRE, QRegExp& longLogRE,
 	if (c->isDiffCache)
 		text = Qt::convertFromPlainText(c->longLog());
 	else {
-		QTextStream ts(&text);
-		ts << "<html><head><style type=\"text/css\">"
-		        "tr.head { background-color: #a0a0e0 }\n"
-		        "td.h { font-weight: bold; }\n"
-		        "table { background-color: #e0e0f0; }\n"
-		        "span.h { font-weight: bold; font-size: medium; }\n"
-		        "div.l { white-space: pre; "
-		        "font-family: " << TYPE_WRITER_FONT.family() << ";"
-		        "font-size: " << TYPE_WRITER_FONT.pointSize() << "pt;}\n"
-		        "</style></head><body><div class='t'>\n"
-		        "<table border=0 cellspacing=0 cellpadding=2>";
+        //render template into text with the help of grantlee
+        QVariantHash mapping;
 
-		ts << "<tr class='head'> <th></th> <th><span class='h'>"
-			<< colorMatch(c->shortLog(), shortLogRE)
-			<< "</span></th></tr>";
+        mapping["show_header"] = showHeader;
 
-		if (showHeader) {
-		    if (c->committer() != c->author())
-		        ts << formatList(QStringList(Qt::escape(c->committer())), "Committer");
-			ts << formatList(QStringList(Qt::escape(c->author())), "Author");
-			ts << formatList(QStringList(getLocalDate(c->authorDate())), " Author date");
+        mapping["TYPE_WRITER_FONT_FAMILY"] = TYPE_WRITER_FONT.family();
+        mapping["TYPE_WRITER_FONT_SIZE"] = TYPE_WRITER_FONT.pointSize();
 
-			if (c->isUnApplied || c->isApplied) {
+        mapping["committer"] = c->committer();
+        mapping["author"] = c->author();
+        mapping["author_date"] = getLocalDate(c->authorDate());
 
-				QStringList patches(getRefName(sha, APPLIED));
-				patches += getRefName(sha, UN_APPLIED);
-				ts << formatList(patches, "Patch");
-			} else {
-				ts << formatList(c->parents(), "Parent", false);
-				ts << formatList(getChilds(sha), "Child", false);
-				ts << formatList(getDescendantBranches(sha), "Branch", false);
-				ts << formatList(getNearTags(!optGoDown, sha), "Follows");
-				ts << formatList(getNearTags(optGoDown, sha), "Precedes");
-			}
-		}
-		QString longLog(c->longLog());
-		if (showHeader) {
-			longLog.prepend(QString("\n") + c->shortLog() + "\n");
-		}
+        if(c->isApplied || c->isUnApplied) {
+            QStringList patches(getRefName(sha, APPLIED));
+            patches += getRefName(sha, UN_APPLIED);
+            mapping["patches"] = patches;
+        }
+        else {
+            mapping["parents"] = c->parents();
+            mapping["children"] = getChilds(sha);
+            mapping["branches"] = getDescendantBranches(sha);
+            mapping["following"] = getNearTags(!optGoDown, sha);
+            mapping["preceding"] = getNearTags(optGoDown, sha);
+        }
 
-		QString log(colorMatch(longLog, longLogRE));
-		log.replace("\n", "\n    ").prepend('\n');
-		ts << "</table></div><div class='l'>" << log << "</div></body></html>";
+        mapping["short_log"] = c->shortLog();
+        mapping["long_log"] = c->longLog();
+
+        Grantlee::Context context(mapping);
+        Grantlee::Template t = engine->loadByName("desc.html" );
+        text = t->render(&context);
+        if(t->error()) {
+            text = t->errorString();
+        }
 	}
 	// highlight SHA's
 	//
