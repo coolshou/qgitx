@@ -613,10 +613,9 @@ void ListViewDelegate::paintGraphLane(QPainter* p, int type, int x1, int x2,
 
 void ListViewDelegate::paintGraph(QPainter* p, const QStyleOptionViewItem& opt,
                                   const QModelIndex& i) const {
-
-	static const QColor colors[COLORS_NUM] = { Qt::black, Qt::red, DARK_GREEN,
-	                                           Qt::blue, Qt::darkGray, BROWN,
-	                                           Qt::magenta, ORANGE };
+    static const QColor colors[COLORS_NUM] = { SOLAR_YELLOW, SOLAR_ORANGE, SOLAR_RED,
+                                               SOLAR_MAGENTA, SOLAR_VIOLET, SOLAR_BLUE,
+                                               SOLAR_CYAN, SOLAR_GREEN };
 	if (opt.state & QStyle::State_Selected)
 		p->fillRect(opt.rect, opt.palette.highlight());
 	else if (i.row() & 1)
