@@ -455,6 +455,8 @@ void ListViewDelegate::paintGraphLane(QPainter* p, int type, int x1, int x2,
 	#define R_CENTER m - r, h - r, d, d
 
 	static QPen myPen(Qt::black, 2); // fast path here
+    static QPen blackSolidThickPen(Qt::black, 2, Qt::SolidLine);
+    static QBrush whiteBrush(Qt::white);
 
 	// arc
 	switch (type) {
@@ -558,16 +560,18 @@ void ListViewDelegate::paintGraphLane(QPainter* p, int type, int x1, int x2,
 	case ACTIVE:
 	case INITIAL:
 	case BRANCH:
-		p->setPen(Qt::NoPen);
-		p->setBrush(col);
+        p->setPen(blackSolidThickPen);
+        p->setBrush(whiteBrush);
 		p->drawEllipse(R_CENTER);
+        p->setPen(Qt::NoPen);
 		break;
 	case MERGE_FORK:
 	case MERGE_FORK_R:
 	case MERGE_FORK_L:
-		p->setPen(Qt::NoPen);
-		p->setBrush(col);
-		p->drawRect(R_CENTER);
+        p->setPen(blackSolidThickPen);
+        p->setBrush(whiteBrush);
+        p->drawEllipse(R_CENTER);
+        p->setPen(Qt::NoPen);
 		break;
 	case UNAPPLIED:
 		// Red minus sign
