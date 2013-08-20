@@ -762,16 +762,16 @@ void ListViewDelegate::addRefPixmap(QPixmap** pp, SCRef sha, int type, QStyleOpt
 
 		QColor clr;
 		if (type == Git::BRANCH)
-			clr = (isCur ? Qt::green : DARK_GREEN);
+            clr = (isCur ? QColor(0xfc, 0xa6, 0x4f) : QColor(0xaa, 0xf2, 0x54));
 
 		else if (type == Git::RMT_BRANCH)
-			clr = LIGHT_ORANGE;
+            clr = QColor(0xb2, 0xdf, 0xff);
 
 		else if (type == Git::TAG)
-			clr = Qt::yellow;
+            clr = QColor(0xFC, 0xED, 0x4f);
 
 		else if (type == Git::REF)
-			clr = PURPLE;
+            clr = Qt::yellow;
 
 		opt.palette.setColor(QPalette::Window, clr);
 		addTextPixmap(pp, *it, opt);
