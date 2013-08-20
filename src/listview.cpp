@@ -781,24 +781,29 @@ void ListViewDelegate::addRefPixmap(QPixmap** pp, SCRef sha, int type, QStyleOpt
 void ListViewDelegate::addTextPixmap(QPixmap** pp, SCRef txt, const QStyleOptionViewItem& opt) const {
 
 	QPixmap* pm = *pp;
-	int ofs = pm->isNull() ? 0 : pm->width() + 2;
+    int ofs = pm->isNull() ? 1 : pm->width() + 3;
 	int spacing = 2;
-	QFontMetrics fm(opt.font);
-	int pw = fm.boundingRect(txt).width() + 2 * (spacing + int(opt.font.bold()));
-	int ph = fm.height() - 1; // leave vertical space between two consecutive tags
+    QFont smallerFont(opt.font);
+    smallerFont.setPointSizeF(opt.font.pointSizeF()*0.8f);
+    QFontMetrics fm(smallerFont);
+    QFontMetrics fmBigFont(opt.font);
+    int pw = fm.boundingRect(txt).width() + 2 * (spacing + int(smallerFont.bold()));
+    int ph = fm.height();
+    int y_offset = (fmBigFont.height() - ph)/2;
 
-	QPixmap* newPm = new QPixmap(ofs + pw, ph);
+    QPixmap* newPm = new QPixmap(ofs + pw + 2, fmBigFont.height());
 	QPainter p;
 	p.begin(newPm);
+    newPm->fill(opt.palette.base().color());
 	if (!pm->isNull()) {
-		newPm->fill(opt.palette.base().color());
 		p.drawPixmap(0, 0, *pm);
 	}
 	p.setPen(opt.palette.color(QPalette::WindowText));
 	p.setBrush(opt.palette.color(QPalette::Window));
-	p.setFont(opt.font);
-	p.drawRect(ofs, 0, pw - 1, ph - 1);
-	p.drawText(ofs + spacing, fm.ascent(), txt);
+    p.setFont(smallerFont);
+    float borderRadius = std::min(pw,ph)/4.0f;
+    p.drawRoundedRect(ofs, y_offset, pw, ph, borderRadius, borderRadius);
+    p.drawText(ofs + spacing, fm.ascent() + y_offset, txt);
 	p.end();
 
 	delete pm;
