@@ -27,6 +27,7 @@ CONFIG += qt warn_on exceptions debug_and_release
 INCLUDEPATH += ../src
 MAKEFILE = qmake
 RESOURCES += icons.qrc
+LIBS += -lgrantlee_core
 
 # Platform dependent stuff
 win32 {
