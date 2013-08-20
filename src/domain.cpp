@@ -10,6 +10,7 @@
 #include "exceptionmanager.h"
 #include "mainimpl.h"
 #include "git.h"
+#include "filehistory.h"
 #include "domain.h"
 
 using namespace QGit;

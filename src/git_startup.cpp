@@ -19,6 +19,7 @@
 #include "mainimpl.h"
 #include "dataloader.h"
 #include "git.h"
+#include "filehistory.h"
 
 #define SHOW_MSG(x) QApplication::postEvent(parent(), new MessageEvent(x)); EM_PROCESS_EVENTS_NO_INPUT;
 

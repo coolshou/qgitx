@@ -9,6 +9,7 @@
 #include <QDir>
 #include <QTemporaryFile>
 #include "git.h"
+#include "filehistory.h"
 #include "dataloader.h"
 
 #define GUI_UPDATE_INTERVAL 500

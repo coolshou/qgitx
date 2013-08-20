@@ -13,6 +13,7 @@
 #include "listview.h"
 #include "filecontent.h"
 #include "fileview.h"
+#include "filehistory.h"
 
 #define MAX_LINE_NUM 5
 
