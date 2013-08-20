@@ -255,7 +255,6 @@ private:
 	void appendFileName(RevFile& rf, SCRef name, FileNamesLoader& fl);
 	void flushFileNames(FileNamesLoader& fl);
 	void populateFileNamesMap();
-	const QString formatList(SCList sl, SCRef name, bool inOneLine = true);
 	static const QString quote(SCRef nm);
 	static const QString quote(SCList sl);
 	static const QStringList noSpaceSepHack(SCRef cmd);

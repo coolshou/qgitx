@@ -976,18 +976,6 @@ const QString Git::colorMatch(SCRef txt, QRegExp& regExp) {
 	return text;
 }
 
-const QString Git::formatList(SCList sl, SCRef name, bool inOneLine) {
-
-	if (sl.isEmpty())
-		return QString();
-
-	QString ls = "<tr><td class='h'>" + name + "</td><td>";
-	const QString joinStr = inOneLine ? ", " : "</td></tr>\n" + ls;
-	ls += sl.join(joinStr);
-	ls += "</td></tr>\n";
-	return ls;
-}
-
 const QString Git::getDesc(SCRef sha, QRegExp& shortLogRE, QRegExp& longLogRE,
                            bool showHeader, FileHistory* fh) {
 
