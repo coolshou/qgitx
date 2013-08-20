@@ -437,7 +437,7 @@ QTextCodec* Git::getTextCodec(bool* isGitArchive) {
 		return NULL;
 
 	QString runOutput;
-	if (!run("git repo-config --get i18n.commitencoding", &runOutput))
+    if (!run("git config --get i18n.commitencoding", &runOutput))
 		return NULL;
 
 	if (runOutput.isEmpty()) // git docs says default is utf-8
