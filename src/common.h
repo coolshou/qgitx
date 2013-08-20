@@ -158,6 +158,16 @@ namespace QGit {
 	extern const QColor PURPLE;
 	extern const QColor DARK_GREEN;
 
+    //solarized colors from https://github.com/altercation/solarized
+    extern const QColor SOLAR_YELLOW;
+    extern const QColor SOLAR_ORANGE;
+    extern const QColor SOLAR_RED;
+    extern const QColor SOLAR_MAGENTA;
+    extern const QColor SOLAR_VIOLET;
+    extern const QColor SOLAR_BLUE;
+    extern const QColor SOLAR_CYAN;
+    extern const QColor SOLAR_GREEN;
+
 	// initialized at startup according to system wide settings
 	extern QColor  ODD_LINE_COL;
 	extern QColor  EVEN_LINE_COL;

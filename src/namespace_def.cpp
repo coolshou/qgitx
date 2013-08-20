@@ -134,6 +134,17 @@ const QColor QGit::LIGHT_BLUE   = QColor(85, 255, 255);
 const QColor QGit::PURPLE       = QColor(221, 221, 255);
 const QColor QGit::DARK_GREEN   = QColor(0, 205, 0);
 
+//solarized colors from https://github.com/altercation/solarized
+const QColor QGit::SOLAR_YELLOW     = QColor(0xB5, 0x89, 0x00);
+const QColor QGit::SOLAR_ORANGE     = QColor(0xCB, 0x4B, 0x16);
+const QColor QGit::SOLAR_RED        = QColor(0xDC, 0x32, 0x2F);
+const QColor QGit::SOLAR_MAGENTA    = QColor(0xD3, 0x36, 0x82);
+const QColor QGit::SOLAR_VIOLET     = QColor(0x6C, 0x71, 0xC4);
+const QColor QGit::SOLAR_BLUE       = QColor(0x26, 0x8B, 0xD2);
+const QColor QGit::SOLAR_CYAN       = QColor(0x2A, 0xA1, 0x98);
+const QColor QGit::SOLAR_GREEN       = QColor(0x85, 0x99, 0x00);
+
+
 // initialized at startup according to system wide settings
 QColor QGit::ODD_LINE_COL;
 QColor QGit::EVEN_LINE_COL;
