@@ -29,5 +29,4 @@ and type (qmake should be in PATH)
 That's all, now you can fire your VC2008 IDE, open the qgit solution
 file and enjoy ;-)
 
-Please report any problem to the Git Mailing List <git@vger.kernel.org>
-specifying [QGit] in your mail subject
+Please report any problem to the issue tracker on <https://github.com/simonwagner/qgitx/issues>

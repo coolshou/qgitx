@@ -3,8 +3,7 @@
 With qgit you will be able to browse revisions history, view patch content
 and changed files, graphically following different development branches.
 
-Bugs or feature requests should be sent to the <git@vger.kernel.org>
-mailing list.
+Bugs or feature requests should be sent to the issue tracker on <https://github.com/simonwagner/qgitx/issues>.
 
 ##Main features
 
