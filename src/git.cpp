@@ -976,8 +976,7 @@ const QString Git::colorMatch(SCRef txt, QRegExp& regExp) {
 	return text;
 }
 
-const QString Git::getDesc(SCRef sha,
-                           bool showHeader, FileHistory* fh) {
+const QString Git::getDesc(SCRef sha, FileHistory* fh) {
 
 	if (sha.isEmpty())
 		return "";
@@ -992,8 +991,6 @@ const QString Git::getDesc(SCRef sha,
 	else {
         //render template into text with the help of grantlee
         QVariantHash mapping;
-
-        mapping["show_header"] = showHeader;
 
         mapping["TYPE_WRITER_FONT_FAMILY"] = TYPE_WRITER_FONT.family();
         mapping["TYPE_WRITER_FONT_SIZE"] = TYPE_WRITER_FONT.pointSize();

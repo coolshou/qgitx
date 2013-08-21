@@ -1273,7 +1273,7 @@ void MainImpl::ActToggleLogsDiff_activated() {
 const QString MainImpl::getRevisionDesc(SCRef sha) {
 
 	bool showHeader = ActShowDescHeader->isChecked();
-    return git->getDesc(sha, showHeader, NULL);
+    return git->getDesc(sha, NULL);
 }
 
 void MainImpl::ActShowDescHeader_activated() {
