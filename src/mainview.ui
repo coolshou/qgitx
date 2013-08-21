@@ -61,7 +61,6 @@
    <addaction name="ActBack"/>
    <addaction name="ActForward"/>
    <addaction name="ActRefresh"/>
-   <addaction name="ActFilterTree"/>
    <addaction name="separator"/>
    <addaction name="ActSearchAndFilter"/>
    <addaction name="ActSearchAndHighlight"/>
@@ -134,7 +133,6 @@
     <addaction name="ActExternalDiff"/>
     <addaction name="ActSplitView"/>
     <addaction name="ActToggleLogsDiff"/>
-    <addaction name="ActFilterTree"/>
    </widget>
    <addaction name="File"/>
    <addaction name="Edit"/>
@@ -370,27 +368,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
-   </property>
-  </action>
-  <action name="ActFilterTree">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="icons.qrc">
-     <normaloff>:/icons/resources/wizard.png</normaloff>:/icons/resources/wizard.png</iconset>
-   </property>
-   <property name="text">
-    <string>Toggle filter by tree</string>
-   </property>
-   <property name="iconText">
-    <string>Filter by tree</string>
-   </property>
-   <property name="toolTip">
-    <string>Filter by tree selection, multiple selections allowed</string>
    </property>
   </action>
   <action name="ActTagDelete">
@@ -719,22 +696,6 @@
    <signal>triggered()</signal>
    <receiver>MainBase</receiver>
    <slot>ActExternalDiff_activated()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>ActFilterTree</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>MainBase</receiver>
-   <slot>ActFilterTree_toggled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>

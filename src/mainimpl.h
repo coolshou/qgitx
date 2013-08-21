@@ -115,7 +115,6 @@ protected slots:
 	void ActSearchAndFilter_toggled(bool);
 	void ActSearchAndHighlight_toggled(bool);
 	void ActCheckWorkDir_toggled(bool);
-	void ActFilterTree_toggled(bool);
 	void ActAbout_activated();
 	void ActHelp_activated();
 	void closeEvent(QCloseEvent* ce);

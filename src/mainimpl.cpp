@@ -293,11 +293,6 @@ void MainImpl::setRepository(SCRef newDir, bool refresh, bool keepSelection,
 	setRepositoryBusy = true;
 
 	// check for a refresh or open of a new repository while in filtered view
-	if (ActFilterTree->isChecked() && passedArgs == NULL)
-		// toggle() triggers a refresh and a following setRepository()
-		// call that is filtered out by setRepositoryBusy guard flag
-		ActFilterTree->toggle(); // triggers ActFilterTree_toggled()
-
 	try {
 		EM_REGISTER(exExiting);
 
@@ -320,11 +315,6 @@ void MainImpl::setRepository(SCRef newDir, bool refresh, bool keepSelection,
 		updateGlobalActions(false);
 		updateContextActions("", "", false, false);
 		ActCommit_setEnabled(false);
-
-		if (ActFilterTree->isChecked())
-			setWindowTitle(windowTitle() + " - FILTER ON < " +
-			               passedArgs->join(" ") + " >");
-
 
         bool ok = git->init(curDir, passedArgs, overwriteArgs); // blocking call
 
@@ -376,7 +366,6 @@ void MainImpl::updateContextActions(SCRef newRevSha, SCRef newFileName,
 	ActViewFileNewTab->setEnabled(fileActionsEnabled && firstTab<FileView>());
 	ActExternalDiff->setEnabled(fileActionsEnabled);
 	ActSaveFile->setEnabled(fileActionsEnabled);
-	ActFilterTree->setEnabled(pathActionsEnabled || ActFilterTree->isChecked());
 
 	bool isTag, isUnApplied, isApplied;
 	isTag = isUnApplied = isApplied = false;
@@ -1194,9 +1183,6 @@ void MainImpl::doFileContexPopup(SCRef fileName, int type) {
 	if (!isRevPage && (type == POPUP_FILE_EV) && ActViewRev->isEnabled())
 		contextMenu.addAction(ActViewRev);
 
-	if (ActFilterTree->isEnabled())
-		contextMenu.addAction(ActFilterTree);
-
 	if (!isDir) {
 		if (ActSaveFile->isEnabled())
 			contextMenu.addAction(ActSaveFile);
@@ -1506,10 +1492,6 @@ void MainImpl::ActPop_activated() {
 	git->stgPop(selectedItems[0]);
 	QApplication::restoreOverrideCursor();
 	refreshRepo(false);
-}
-
-void MainImpl::ActFilterTree_toggled(bool b) {
-    //FIXME: remove me
 }
 
 void MainImpl::ActFindNext_activated() {
