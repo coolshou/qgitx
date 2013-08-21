@@ -1,9 +1,17 @@
-#qgit, a git GUI viewer
+#QGitX, a git GUI viewer, based on qgit4
 
 With qgit you will be able to browse revisions history, view patch content
 and changed files, graphically following different development branches.
 
 Bugs or feature requests should be sent to the issue tracker on <https://github.com/simonwagner/qgitx/issues>.
+
+This is a fork of <git://repo.or.cz/qgit4.git> with the intention to create a clone of GitX.
+Not every function of qgit will be retained, we strive to make the code simpler and easier
+to understand. We will also only implement the most basic functions, to keep the user
+from being irritated by many unknown functions.
+
+Therefore, we will also change the name from qgit to qgitx. As this is however a more
+complicated operation, it is currently delayed until we find nothing else to do ;).
 
 ##Main features
 
@@ -11,13 +19,6 @@ Bugs or feature requests should be sent to the issue tracker on <https://github.
  - Commit changes visually cherry picking modified files.
  - Apply or save patch series from selected commits, drag and
    drop commits between two instances of qgit.
- - Associate commands sequences, scripts and anything else executable
-   to a custom action. Actions can be run from menu and corresponding
-   output is grabbed by a terminal window.
- - qgit implements a GUI for the most common StGIT commands like push/pop
-   and apply/save patches. You can also create new patches or refresh
-   current top one using the same semantics of git commit, i.e. cherry
-   picking single modified files.
 
 
 ##Installation
@@ -177,18 +178,6 @@ SHA line edit at the top right of the window. After pressing enter
 this will trigger an higlighting of the matched revisions. It is
 a kind of shortcut of the previous tip.
 
-###Save patch series
-After mouse selecting the chosen revisions (use standard CTRL+left click)
-for single select or SHIFT+left click for range select), press 'Save
-Patch' button or use file menu and a dialog will let you choose patches
-destination directory. Then 'git format-patch-script' will be called and
-patches created. It is possible to specify additional options with
-Edit->Settings menu.
-
-###Apply patch
-This menu entry is complementary to save patch and it's an interface
-to ```git am```.
-
 ###Drag and drop
 It is possible to drag some selected revs from one instance of qgit to another
 open on a different archive. In this case ```git format-patch``` is used in the
@@ -336,57 +325,3 @@ If GNU Source-highlight (http://www.gnu.org/software/src-highlite/) is
 installed and in PATH then it is possible to toggle source code highlight
 pressing the 'Color text' tool button. Please refer to Source-highlight
 site for the list of supported languages and additional documentation.
-
-
-##Actions
-
-Actions can be added/removed using a dedicated dialog invoked
-from 'Actions->Setup actions...' menu. Actions can be activated
-clicking on their name from the Actions menu.
-
-Each action can be associated to a list of any type of git or shell
-commands or to an external script.
-
-While an action is running a terminal window is shown to display the
-corresponding output.
-
-An action can also ask for command line arguments before to run so
-to allow for maximum flexibility.
-
-NOTE: command line arguments are always appended to the first command only.
-This lets you define an action like:
-
-  git fetch
-  git merge
-
-And if you type 'origin' when prompted, the action executed will be:
-
-  git fetch origin
-  git merge
-
-If you need a more complex arguments passing with a shell like notation
-define a script and associate your action to it.
-
-
-##Integration with StGIT
-
-When a StGIT stack is found on top of a git archive, qgit transparently
-handles the added information.
-
-Integration with StGIT is implemented both by new and modified functions.
-
-New functions are automatically activated:
-
- - Visualization of applied and unapplied patches in main view.
- - Interface to push/pop patches by a mouse right click on selected items.
-   Push supports also multi-selection.
-	 
-Existing functions change behavior:
-
- - Amend commit dialog refreshes top stack patch with modified files instead
-   of amending the commit. It is appropriately renamed in the menu.
- - Commit dialog creates a new patch on the top of the stack filled with
-   modified working directory content instead of commit a new revision to
-   git repository.
- - Apply patch changes to interface StGIT import and fold commands instead
-   of applying patch directly on the git repository.
