@@ -163,10 +163,6 @@ void RevsView::setTabLogDiffVisible(bool b) {
 	container->setUpdatesEnabled(true);
 }
 
-void RevsView::viewPatch(bool newTab) {
-    //FIXME: remove this
-}
-
 void RevsView::on_newRevsAdded(const FileHistory* fh, const QVector<ShaString>&) {
 
 	if (!git->isMainHistory(fh) || !st.sha().isEmpty())

@@ -475,7 +475,8 @@ void MainImpl::ActViewDiff_activated() {
 		rv->st = t->st;
 		UPDATE_DOMAIN(rv);
 	}
-	rv->viewPatch(false);
+    //FIXME: check if we can remove this
+    //rv->viewPatch(false);
 	ActViewDiffNewTab->setEnabled(true);
 
 	if (ActSearchAndFilter->isChecked() || ActSearchAndHighlight->isChecked()) {
@@ -485,8 +486,8 @@ void MainImpl::ActViewDiff_activated() {
 }
 
 void MainImpl::ActViewDiffNewTab_activated() {
-
-	rv->viewPatch(true);
+    //FIXME: remove this
+    //rv->viewPatch(true);
 }
 
 bool MainImpl::eventFilter(QObject* obj, QEvent* ev) {
