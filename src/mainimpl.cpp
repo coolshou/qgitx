@@ -348,7 +348,6 @@ void MainImpl::updateGlobalActions(bool b) {
 	ActCheckWorkDir->setEnabled(b);
 	ActViewRev->setEnabled(b);
 	ActViewDiff->setEnabled(b);
-    //ActViewDiffNewTab->setEnabled(b && firstTab<PatchView>());
 
 	rv->setEnabled(b);
 }
@@ -477,17 +476,12 @@ void MainImpl::ActViewDiff_activated() {
 	}
     //FIXME: check if we can remove this
     //rv->viewPatch(false);
-	ActViewDiffNewTab->setEnabled(true);
+    //ActViewDiffNewTab->setEnabled(true);
 
 	if (ActSearchAndFilter->isChecked() || ActSearchAndHighlight->isChecked()) {
 		bool isRegExp = (cmbSearch->currentIndex() == CS_PATCH_REGEXP);
 		emit highlightPatch(lineEditFilter->text(), isRegExp);
 	}
-}
-
-void MainImpl::ActViewDiffNewTab_activated() {
-    //FIXME: remove this
-    //rv->viewPatch(true);
 }
 
 bool MainImpl::eventFilter(QObject* obj, QEvent* ev) {
@@ -1056,9 +1050,6 @@ void MainImpl::doContexPopup(SCRef sha) {
 
 	if (!isPatchPage && ActViewDiff->isEnabled())
 		contextMenu.addAction(ActViewDiff);
-
-	if (isRevPage && ActViewDiffNewTab->isEnabled())
-		contextMenu.addAction(ActViewDiffNewTab);
 
 	if (!isFilePage && ActExternalDiff->isEnabled())
 		contextMenu.addAction(ActExternalDiff);
