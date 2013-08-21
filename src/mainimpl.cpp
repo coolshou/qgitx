@@ -362,7 +362,6 @@ void MainImpl::updateGlobalActions(bool b) {
 	ActViewRev->setEnabled(b);
 	ActViewDiff->setEnabled(b);
 	ActViewDiffNewTab->setEnabled(b && firstTab<PatchView>());
-	ActShowTree->setEnabled(b);
 
 	rv->setEnabled(b);
 }
@@ -1254,10 +1253,6 @@ void MainImpl::ActToggleLogsDiff_activated() {
 
 const QString MainImpl::getRevisionDesc(SCRef sha) {
     return git->getDesc(sha, NULL);
-}
-
-void MainImpl::ActShowTree_toggled(bool b) {
-    //FIXME: remove me
 }
 
 void MainImpl::ActSaveFile_activated() {

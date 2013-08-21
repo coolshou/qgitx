@@ -61,7 +61,6 @@
    <addaction name="ActBack"/>
    <addaction name="ActForward"/>
    <addaction name="ActRefresh"/>
-   <addaction name="ActShowTree"/>
    <addaction name="ActFilterTree"/>
    <addaction name="separator"/>
    <addaction name="ActSearchAndFilter"/>
@@ -133,7 +132,6 @@
     <addaction name="ActViewFile"/>
     <addaction name="ActViewFileNewTab"/>
     <addaction name="ActExternalDiff"/>
-    <addaction name="ActShowTree"/>
     <addaction name="ActSplitView"/>
     <addaction name="ActToggleLogsDiff"/>
     <addaction name="ActFilterTree"/>
@@ -393,30 +391,6 @@
    </property>
    <property name="toolTip">
     <string>Filter by tree selection, multiple selections allowed</string>
-   </property>
-  </action>
-  <action name="ActShowTree">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="icons.qrc">
-     <normaloff>:/icons/resources/view_tree.png</normaloff>:/icons/resources/view_tree.png</iconset>
-   </property>
-   <property name="text">
-    <string>Toggle tree view</string>
-   </property>
-   <property name="iconText">
-    <string>Archive tree</string>
-   </property>
-   <property name="toolTip">
-    <string>Toggle tree view (T)</string>
-   </property>
-   <property name="shortcut">
-    <string>T</string>
    </property>
   </action>
   <action name="ActTagDelete">
@@ -873,22 +847,6 @@
    <signal>triggered()</signal>
    <receiver>MainBase</receiver>
    <slot>ActSettings_activated()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>ActShowTree</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>MainBase</receiver>
-   <slot>ActShowTree_toggled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
