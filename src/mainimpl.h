@@ -10,6 +10,7 @@
 #include <QProcess>
 #include <QRegExp>
 #include <QDir>
+#include <QTreeWidgetItem>
 #include "exceptionmanager.h"
 #include "common.h"
 #include "ui_mainview.h"
@@ -114,8 +115,6 @@ protected slots:
 	void ActSearchAndFilter_toggled(bool);
 	void ActSearchAndHighlight_toggled(bool);
 	void ActCheckWorkDir_toggled(bool);
-	void ActShowTree_toggled(bool);
-	void ActFilterTree_toggled(bool);
 	void ActAbout_activated();
 	void ActHelp_activated();
 	void closeEvent(QCloseEvent* ce);

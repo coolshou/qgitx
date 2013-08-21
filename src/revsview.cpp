@@ -11,7 +11,6 @@
 #include "common.h"
 #include "git.h"
 #include "domain.h"
-#include "treeview.h"
 #include "historyview.h"
 #include "filelist.h"
 #include "revdesc.h"
@@ -29,7 +28,6 @@ RevsView::RevsView(MainImpl* mi, Git* g, bool isMain) : Domain(mi, g, isMain) {
 	tab()->textBrowserDesc->setup(this);
 	tab()->textEditDiff->setup(this, git);
 	tab()->fileList->setup(this, git);
-	m()->treeView->setup(this, git);
 
 	setTabLogDiffVisible(QGit::testFlag(QGit::LOG_DIFF_TAB_F));
 
@@ -70,8 +68,9 @@ RevsView::RevsView(MainImpl* mi, Git* g, bool isMain) : Domain(mi, g, isMain) {
 	connect(tab()->listViewLog, SIGNAL(contextMenu(const QString&, int)),
 	        this, SLOT(on_contextMenu(const QString&, int)));
 
-	connect(m()->treeView, SIGNAL(contextMenu(const QString&, int)),
-	        this, SLOT(on_contextMenu(const QString&, int)));
+    //FIXME: remove me
+    /*connect(m()->treeView, SIGNAL(contextMenu(const QString&, int)),
+            this, SLOT(on_contextMenu(const QString&, int)));*/
 
 	connect(tab()->fileList, SIGNAL(contextMenu(const QString&, int)),
 	        this, SLOT(on_contextMenu(const QString&, int)));
@@ -109,7 +108,6 @@ void RevsView::clear(bool complete) {
 	tab()->textBrowserDesc->clear();
 	tab()->textEditDiff->clear();
 	tab()->fileList->clear();
-	m()->treeView->clear();
 	if (linkedPatchView)
 		linkedPatchView->clear();
 }
@@ -265,12 +263,8 @@ bool RevsView::doUpdate(bool force) {
 		// call always to allow a simple refresh
 		tab()->fileList->update(files, newFiles);
 
-		// update the tree at startup or when releasing a no-match toolbar search
-		if (m()->treeView->isVisible() || st.sha(false).isEmpty())
-			m()->treeView->updateTree(); // blocking call
-
 		if (st.selectItem()) {
-			bool isDir = m()->treeView->isDir(st.fileName());
+            bool isDir = st.isDir();
 			m()->updateContextActions(st.sha(), st.fileName(), isDir, found);
 		}
 		if (st.isChanged() || force)

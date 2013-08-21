@@ -27,25 +27,6 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="TreeView" name="treeView">
-       <property name="contextMenuPolicy">
-        <enum>Qt::CustomContextMenu</enum>
-       </property>
-       <property name="selectionMode">
-        <enum>QAbstractItemView::ExtendedSelection</enum>
-       </property>
-       <property name="rootIsDecorated">
-        <bool>false</bool>
-       </property>
-       <property name="columnCount">
-        <number>1</number>
-       </property>
-       <column>
-        <property name="text">
-         <string>Git tree</string>
-        </property>
-       </column>
-      </widget>
       <widget class="QTabWidget" name="tabWdg">
        <widget class="QWidget" name="TabWdg">
         <attribute name="title">
@@ -80,8 +61,6 @@
    <addaction name="ActBack"/>
    <addaction name="ActForward"/>
    <addaction name="ActRefresh"/>
-   <addaction name="ActShowTree"/>
-   <addaction name="ActFilterTree"/>
    <addaction name="separator"/>
    <addaction name="ActSearchAndFilter"/>
    <addaction name="ActSearchAndHighlight"/>
@@ -152,10 +131,8 @@
     <addaction name="ActViewFile"/>
     <addaction name="ActViewFileNewTab"/>
     <addaction name="ActExternalDiff"/>
-    <addaction name="ActShowTree"/>
     <addaction name="ActSplitView"/>
     <addaction name="ActToggleLogsDiff"/>
-    <addaction name="ActFilterTree"/>
    </widget>
    <addaction name="File"/>
    <addaction name="Edit"/>
@@ -391,51 +368,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
-   </property>
-  </action>
-  <action name="ActFilterTree">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="icons.qrc">
-     <normaloff>:/icons/resources/wizard.png</normaloff>:/icons/resources/wizard.png</iconset>
-   </property>
-   <property name="text">
-    <string>Toggle filter by tree</string>
-   </property>
-   <property name="iconText">
-    <string>Filter by tree</string>
-   </property>
-   <property name="toolTip">
-    <string>Filter by tree selection, multiple selections allowed</string>
-   </property>
-  </action>
-  <action name="ActShowTree">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="icons.qrc">
-     <normaloff>:/icons/resources/view_tree.png</normaloff>:/icons/resources/view_tree.png</iconset>
-   </property>
-   <property name="text">
-    <string>Toggle tree view</string>
-   </property>
-   <property name="iconText">
-    <string>Archive tree</string>
-   </property>
-   <property name="toolTip">
-    <string>Toggle tree view (T)</string>
-   </property>
-   <property name="shortcut">
-    <string>T</string>
    </property>
   </action>
   <action name="ActTagDelete">
@@ -675,13 +607,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>TreeView</class>
-   <extends>QTreeWidget</extends>
-   <header>treeview.h</header>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="icons.qrc"/>
  </resources>
@@ -771,22 +696,6 @@
    <signal>triggered()</signal>
    <receiver>MainBase</receiver>
    <slot>ActExternalDiff_activated()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>ActFilterTree</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>MainBase</receiver>
-   <slot>ActFilterTree_toggled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -899,22 +808,6 @@
    <signal>triggered()</signal>
    <receiver>MainBase</receiver>
    <slot>ActSettings_activated()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>ActShowTree</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>MainBase</receiver>
-   <slot>ActShowTree_toggled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
