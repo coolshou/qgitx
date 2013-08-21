@@ -82,7 +82,6 @@
    <addaction name="ActRefresh"/>
    <addaction name="ActShowTree"/>
    <addaction name="ActFilterTree"/>
-   <addaction name="ActMailApplyPatch"/>
    <addaction name="separator"/>
    <addaction name="ActSearchAndFilter"/>
    <addaction name="ActSearchAndHighlight"/>
@@ -115,7 +114,6 @@
     <addaction name="ActOpenRepoNewWindow"/>
     <addaction name="ActRefresh"/>
     <addaction name="ActSaveFile"/>
-    <addaction name="ActMailApplyPatch"/>
     <addaction name="separator"/>
     <addaction name="ActClose"/>
     <addaction name="ActExit"/>
@@ -284,21 +282,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+W</string>
-   </property>
-  </action>
-  <action name="ActMailApplyPatch">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="icons.qrc">
-     <normaloff>:/icons/resources/mail_get.png</normaloff>:/icons/resources/mail_get.png</iconset>
-   </property>
-   <property name="text">
-    <string>Apply patch...</string>
-   </property>
-   <property name="iconText">
-    <string>Apply a patch series</string>
    </property>
   </action>
   <action name="ActPush">
@@ -820,38 +803,6 @@
    <signal>triggered()</signal>
    <receiver>MainBase</receiver>
    <slot>ActHelp_activated()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>ActMailApplyPatch</sender>
-   <signal>triggered()</signal>
-   <receiver>MainBase</receiver>
-   <slot>ActMailApplyPatch_activated()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>ActOpenRepo</sender>
-   <signal>triggered()</signal>
-   <receiver>MainBase</receiver>
-   <slot>ActOpenRepo_activated()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>

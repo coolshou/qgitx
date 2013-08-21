@@ -372,7 +372,6 @@ void MainImpl::updateGlobalActions(bool b) {
 	ActViewDiff->setEnabled(b);
 	ActViewDiffNewTab->setEnabled(b && firstTab<PatchView>());
 	ActShowTree->setEnabled(b);
-	ActMailApplyPatch->setEnabled(b);
 
 	rv->setEnabled(b);
 }
@@ -1355,33 +1354,6 @@ bool MainImpl::askApplyPatchParameters(bool* workDirOnly, bool* fold) {
 		*fold = (ret == 1);
 	}
 	return (ret != 0);
-}
-
-void MainImpl::ActMailApplyPatch_activated() {
-
-	QSettings settings;
-	QString outDir(settings.value(PATCH_DIR_KEY, curDir).toString());
-	QString patchName(QFileDialog::getOpenFileName(this,
-	                  "Choose the patch file - Apply Patch", outDir,
-	                  "Patches (*.patch *.diff *.eml)\nAll Files (*.*)"));
-	if (patchName.isEmpty())
-		return;
-
-	QFileInfo f(patchName);
-	settings.setValue(PATCH_DIR_KEY, f.absolutePath());
-
-	bool workDirOnly, fold;
-	if (!askApplyPatchParameters(&workDirOnly, &fold))
-		return;
-
-	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-
-	bool ok = git->applyPatchFile(f.absoluteFilePath(), fold, !Git::optDragDrop);
-	if (workDirOnly && ok)
-		git->resetCommits(1);
-
-	QApplication::restoreOverrideCursor();
-	refreshRepo(false);
 }
 
 void MainImpl::ActCheckWorkDir_toggled(bool b) {
