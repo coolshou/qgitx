@@ -14,14 +14,14 @@
 #include <QShortcut>
 #include "domain.h"
 #include "git.h"
-#include "listview.h"
+#include "historyview.h"
 #include "filehistory.h"
 
 using namespace QGit;
 
-ListView::ListView(QWidget* parent) : QTreeView(parent), d(NULL), git(NULL), fh(NULL), lp(NULL) {}
+HistoryView::HistoryView(QWidget* parent) : QTreeView(parent), d(NULL), git(NULL), fh(NULL), lp(NULL) {}
 
-void ListView::setup(Domain* dm, Git* g) {
+void HistoryView::setup(Domain* dm, Git* g) {
 
 	d = dm;
 	git = g;
@@ -54,12 +54,12 @@ void ListView::setup(Domain* dm, Git* g) {
 	        this, SLOT(on_customContextMenuRequested(const QPoint&)));
 }
 
-ListView::~ListView() {
+HistoryView::~HistoryView() {
 
 	git->cancelDataLoading(fh); // non blocking
 }
 
-const QString ListView::sha(int row) const {
+const QString HistoryView::sha(int row) const {
 
 	if (!lp->sourceModel()) // unplugged
 		return fh->sha(row);
@@ -68,7 +68,7 @@ const QString ListView::sha(int row) const {
 	return fh->sha(idx.row());
 }
 
-int ListView::row(SCRef sha) const {
+int HistoryView::row(SCRef sha) const {
 
 	if (!lp->sourceModel()) // unplugged
 		return fh->row(sha);
@@ -78,7 +78,7 @@ int ListView::row(SCRef sha) const {
 	return lp->mapFromSource(idx).row();
 }
 
-void ListView::setupGeometry() {
+void HistoryView::setupGeometry() {
 
 	QPalette pl = palette();
 	pl.setColor(QPalette::Base, ODD_LINE_COL);
@@ -99,7 +99,7 @@ void ListView::setupGeometry() {
 		hideColumn(ANN_ID_COL);
 }
 
-void ListView::scrollToNextHighlighted(int direction) {
+void HistoryView::scrollToNextHighlighted(int direction) {
 
 	// Depending on the value of direction, scroll to:
 	// -1 = the next highlighted item above the current one (i.e. newer in history)
@@ -126,27 +126,27 @@ void ListView::scrollToNextHighlighted(int direction) {
 	setCurrentIndex(idx);
 }
 
-void ListView::scrollToCurrent(ScrollHint hint) {
+void HistoryView::scrollToCurrent(ScrollHint hint) {
 
 	if (currentIndex().isValid())
 		scrollTo(currentIndex(), hint);
 }
 
-void ListView::on_keyUp() {
+void HistoryView::on_keyUp() {
 
 	QModelIndex idx = indexAbove(currentIndex());
 	if (idx.isValid())
 		setCurrentIndex(idx);
 }
 
-void ListView::on_keyDown() {
+void HistoryView::on_keyDown() {
 
 	QModelIndex idx = indexBelow(currentIndex());
 	if (idx.isValid())
 		setCurrentIndex(idx);
 }
 
-void ListView::on_changeFont(const QFont& f) {
+void HistoryView::on_changeFont(const QFont& f) {
 
 	setFont(f);
 	ListViewDelegate* lvd = static_cast<ListViewDelegate*>(itemDelegate());
@@ -154,25 +154,25 @@ void ListView::on_changeFont(const QFont& f) {
 	scrollToCurrent();
 }
 
-const QString ListView::currentText(int column) {
+const QString HistoryView::currentText(int column) {
 
 	QModelIndex idx = model()->index(currentIndex().row(), column);
 	return (idx.isValid() ? idx.data().toString() : "");
 }
 
-int ListView::getLaneType(SCRef sha, int pos) const {
+int HistoryView::getLaneType(SCRef sha, int pos) const {
 
 	const Rev* r = git->revLookup(sha, fh);
 	return (r && pos < r->lanes.count() && pos >= 0 ? r->lanes.at(pos) : -1);
 }
 
-void ListView::showIdValues() {
+void HistoryView::showIdValues() {
 
 	fh->setAnnIdValid();
 	viewport()->update();
 }
 
-void ListView::getSelectedItems(QStringList& selectedItems) {
+void HistoryView::getSelectedItems(QStringList& selectedItems) {
 
 	selectedItems.clear();
 	QModelIndexList ml = selectionModel()->selectedRows();
@@ -184,7 +184,7 @@ void ListView::getSelectedItems(QStringList& selectedItems) {
 	selectedItems = git->sortShaListByIndex(selectedItems);
 }
 
-const QString ListView::shaFromAnnId(uint id) {
+const QString HistoryView::shaFromAnnId(uint id) {
 
 	if (git->isMainHistory(fh))
 		return "";
@@ -192,7 +192,7 @@ const QString ListView::shaFromAnnId(uint id) {
 	return sha(model()->rowCount() - id);
 }
 
-int ListView::filterRows(bool isOn, bool highlight, SCRef filter, int colNum, ShaSet* set) {
+int HistoryView::filterRows(bool isOn, bool highlight, SCRef filter, int colNum, ShaSet* set) {
 
 	setUpdatesEnabled(false);
 	int matchedNum = lp->setFilter(isOn, highlight, filter, colNum, set);
@@ -202,7 +202,7 @@ int ListView::filterRows(bool isOn, bool highlight, SCRef filter, int colNum, Sh
 	return matchedNum;
 }
 
-bool ListView::update() {
+bool HistoryView::update() {
 
 	int stRow = row(st->sha());
 	if (stRow == -1)
@@ -238,7 +238,7 @@ bool ListView::update() {
 	return currentIndex().isValid();
 }
 
-void ListView::currentChanged(const QModelIndex& index, const QModelIndex&) {
+void HistoryView::currentChanged(const QModelIndex& index, const QModelIndex&) {
 
 	SCRef selRev = sha(index.row());
 	if (st->sha() != selRev) { // to avoid looping
@@ -248,7 +248,7 @@ void ListView::currentChanged(const QModelIndex& index, const QModelIndex&) {
 	}
 }
 
-bool ListView::filterRightButtonPressed(QMouseEvent* e) {
+bool HistoryView::filterRightButtonPressed(QMouseEvent* e) {
 
 	QModelIndex index = indexAt(e->pos());
 	SCRef selSha = sha(index.row());
@@ -282,7 +282,7 @@ bool ListView::filterRightButtonPressed(QMouseEvent* e) {
 	return false;
 }
 
-void ListView::mousePressEvent(QMouseEvent* e) {
+void HistoryView::mousePressEvent(QMouseEvent* e) {
 
 	if (currentIndex().isValid() && e->button() == Qt::LeftButton)
 		d->setReadyToDrag(true);
@@ -293,13 +293,13 @@ void ListView::mousePressEvent(QMouseEvent* e) {
 	QTreeView::mousePressEvent(e);
 }
 
-void ListView::mouseReleaseEvent(QMouseEvent* e) {
+void HistoryView::mouseReleaseEvent(QMouseEvent* e) {
 
 	d->setReadyToDrag(false); // in case of just click without moving
 	QTreeView::mouseReleaseEvent(e);
 }
 
-void ListView::mouseMoveEvent(QMouseEvent* e) {
+void HistoryView::mouseMoveEvent(QMouseEvent* e) {
 
 	if (d->isReadyToDrag()) {
 
@@ -320,19 +320,19 @@ void ListView::mouseMoveEvent(QMouseEvent* e) {
 	QTreeView::mouseMoveEvent(e);
 }
 
-void ListView::dragEnterEvent(QDragEnterEvent* e) {
+void HistoryView::dragEnterEvent(QDragEnterEvent* e) {
 
 	if (e->mimeData()->hasFormat("text/plain"))
 		e->accept();
 }
 
-void ListView::dragMoveEvent(QDragMoveEvent* e) {
+void HistoryView::dragMoveEvent(QDragMoveEvent* e) {
 
 	// already checked by dragEnterEvent()
 	e->accept();
 }
 
-void ListView::dropEvent(QDropEvent *e) {
+void HistoryView::dropEvent(QDropEvent *e) {
 
 	SCList remoteRevs(e->mimeData()->text().split('\n', QString::SkipEmptyParts));
 	if (!remoteRevs.isEmpty()) {
@@ -344,7 +344,7 @@ void ListView::dropEvent(QDropEvent *e) {
 	}
 }
 
-void ListView::on_customContextMenuRequested(const QPoint& pos) {
+void HistoryView::on_customContextMenuRequested(const QPoint& pos) {
 
 	QModelIndex index = indexAt(pos);
 	if (!index.isValid())
@@ -358,7 +358,7 @@ void ListView::on_customContextMenuRequested(const QPoint& pos) {
 	emit contextMenu(sha(index.row()), POPUP_LIST_EV);
 }
 
-bool ListView::getLaneParentsChilds(SCRef sha, int x, SList p, SList c) {
+bool HistoryView::getLaneParentsChilds(SCRef sha, int x, SList p, SList c) {
 
 	ListViewDelegate* lvd = static_cast<ListViewDelegate*>(itemDelegate());
 	uint lane = x / lvd->laneWidth();
@@ -411,7 +411,7 @@ void ListViewDelegate::diffTargetChanged(int row) {
 
 const Rev* ListViewDelegate::revLookup(int row, FileHistory** fhPtr) const {
 
-	ListView* lv = static_cast<ListView*>(parent());
+    HistoryView* lv = static_cast<HistoryView*>(parent());
 	FileHistory* fh = static_cast<FileHistory*>(lv->model());
 
 	if (lp->sourceModel())
@@ -880,7 +880,7 @@ int ListViewProxy::setFilter(bool isOn, bool h, SCRef fl, int cn, ShaSet* s) {
 	// so reset 'isHighLight' flag in that case
 	isHighLight = h && isOn;
 
-	ListView* lv = static_cast<ListView*>(parent());
+    HistoryView* lv = static_cast<HistoryView*>(parent());
 	FileHistory* fh = d->model();
 
 	if (!isOn && sourceModel()){

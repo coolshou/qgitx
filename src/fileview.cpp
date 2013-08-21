@@ -10,7 +10,7 @@
 #include "mainimpl.h"
 #include "git.h"
 #include "annotate.h"
-#include "listview.h"
+#include "historyview.h"
 #include "filecontent.h"
 #include "fileview.h"
 #include "filehistory.h"
@@ -375,7 +375,7 @@ void FileView::on_revIdSelected(int id) {
 	if (fileTab->spinBoxRevision->isEnabled())
 		fileTab->spinBoxRevision->setValue(id);
 	else {
-		ListView* h = fileTab->histListView;
+        HistoryView* h = fileTab->histListView;
 		int row = h->model()->rowCount() - id;
 		QModelIndex idx = h->model()->index(row, 0);
 		h->setCurrentIndex(idx);

@@ -18,11 +18,11 @@ class Domain;
 class FileHistory;
 class ListViewProxy;
 
-class ListView: public QTreeView {
+class HistoryView: public QTreeView {
 Q_OBJECT
 public:
-	ListView(QWidget* parent);
-	~ListView();
+    HistoryView(QWidget* parent);
+    ~HistoryView();
 	void setup(Domain* d, Git* g);
 	const QString shaFromAnnId(uint id);
 	void showIdValues();

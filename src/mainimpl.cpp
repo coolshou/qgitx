@@ -27,7 +27,7 @@
 #include "fileview.h"
 #include "git.h"
 #include "help.h"
-#include "listview.h"
+#include "historyview.h"
 #include "mainimpl.h"
 #include "patchview.h"
 #include "revdesc.h"
@@ -716,7 +716,7 @@ void MainImpl::filterList(bool isOn, bool onlyHighlight) {
 	}
 	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
-	ListView* lv = rv->tab()->listViewLog;
+    HistoryView* lv = rv->tab()->listViewLog;
 	int matchedCnt = lv->filterRows(isOn, onlyHighlight, filter, colNum, &shaSet);
 
 	QApplication::restoreOverrideCursor();

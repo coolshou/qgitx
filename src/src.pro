@@ -77,18 +77,20 @@ FORMS += commit.ui console.ui fileview.ui help.ui \
 HEADERS += annotate.h cache.h commitimpl.h common.h config.h consoleimpl.h \
            dataloader.h domain.h exceptionmanager.h \
            filecontent.h filelist.h fileview.h git.h help.h lanes.h \
-           listview.h mainimpl.h myprocess.h patchcontent.h patchview.h \
+           mainimpl.h myprocess.h patchcontent.h patchview.h \
            revdesc.h revsview.h settingsimpl.h \
            smartbrowse.h treeview.h \
-    filehistory.h
+    filehistory.h \
+    historyview.h
 
 SOURCES += annotate.cpp cache.cpp commitimpl.cpp consoleimpl.cpp \
            dataloader.cpp domain.cpp exceptionmanager.cpp \
            filecontent.cpp filelist.cpp fileview.cpp git.cpp git_startup.cpp \
-           lanes.cpp listview.cpp mainimpl.cpp myprocess.cpp namespace_def.cpp \
+           lanes.cpp mainimpl.cpp myprocess.cpp namespace_def.cpp \
            patchcontent.cpp patchview.cpp qgit.cpp \
            revdesc.cpp revsview.cpp settingsimpl.cpp smartbrowse.cpp treeview.cpp \
-    filehistory.cpp
+    filehistory.cpp \
+    historyview.cpp
 
 DISTFILES += app_icon.rc helpgen.sh resources/* Src.vcproj todo.txt
 DISTFILES += ../COPYING ../exception_manager.txt ../README ../README_WIN.txt

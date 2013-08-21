@@ -12,7 +12,7 @@
 #include "git.h"
 #include "domain.h"
 #include "treeview.h"
-#include "listview.h"
+#include "historyview.h"
 #include "filelist.h"
 #include "revdesc.h"
 #include "patchview.h"
@@ -202,7 +202,7 @@ void RevsView::on_newRevsAdded(const FileHistory* fh, const QVector<ShaString>&)
 	if (!git->isMainHistory(fh) || !st.sha().isEmpty())
 		return;
 
-	ListView* lv = tab()->listViewLog;
+    HistoryView* lv = tab()->listViewLog;
 	if (lv->model()->rowCount() == 0)
 		return;
 
