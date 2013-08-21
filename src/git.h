@@ -184,7 +184,6 @@ private slots:
 private:
 	friend class MainImpl;
 	friend class DataLoader;
-	friend class ConsoleImpl;
 	friend class RevsView;
 
 	struct WorkingDirInfo {

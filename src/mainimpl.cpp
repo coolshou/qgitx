@@ -21,7 +21,6 @@
 #include <QTimer>
 #include <QWheelEvent>
 #include "config.h" // defines PACKAGE_VERSION
-#include "consoleimpl.h"
 #include "commitimpl.h"
 #include "common.h"
 #include "fileview.h"
