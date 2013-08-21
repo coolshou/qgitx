@@ -976,7 +976,7 @@ const QString Git::colorMatch(SCRef txt, QRegExp& regExp) {
 	return text;
 }
 
-const QString Git::getDesc(SCRef sha, QRegExp& shortLogRE, QRegExp& longLogRE,
+const QString Git::getDesc(SCRef sha,
                            bool showHeader, FileHistory* fh) {
 
 	if (sha.isEmpty())

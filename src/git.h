@@ -116,7 +116,7 @@ public:
 	const RevFile* getFiles(SCRef sha, SCRef sha2 = "", bool all = false, SCRef path = "");
 	bool getTree(SCRef ts, TreeInfo& ti, bool wd, SCRef treePath);
 	static const QString getLocalDate(SCRef gitDate);
-	const QString getDesc(SCRef sha, QRegExp& slogRE, QRegExp& lLogRE, bool showH, FileHistory* fh);
+    const QString getDesc(SCRef sha, bool showH, FileHistory* fh);
 	const QString getLastCommitMsg();
 	const QString getNewCommitMsg();
 	const QString getLaneParent(SCRef fromSHA, int laneNum);
