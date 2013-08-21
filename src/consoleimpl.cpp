@@ -106,5 +106,5 @@ void ConsoleImpl::procFinished() {
 	QApplication::restoreOverrideCursor();
 	statusBar()->showMessage("End of \'" + actionName + "\' execution.");
 	pushButtonTerminate->setEnabled(false);
-	emit customAction_exited(actionName);
+    emit customAction_exited(actionName);
 }

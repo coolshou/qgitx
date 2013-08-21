@@ -80,10 +80,7 @@ protected slots:
 	void fileList_itemDoubleClicked(QListWidgetItem*);
 	void treeView_doubleClicked(QTreeWidgetItem*, int);
 	void histListView_doubleClicked(const QModelIndex&);
-	void customActionListChanged(const QStringList& list);
 	void openRecent_triggered(QAction*);
-	void customAction_triggered(QAction*);
-	void customAction_exited(const QString& name);
 	void goRef_triggered(QAction*);
 	void changesCommitted(bool);
 	void lineEditFilter_returnPressed();
@@ -118,7 +115,6 @@ protected slots:
 	void ActExit_activated();
 	void ActSearchAndFilter_toggled(bool);
 	void ActSearchAndHighlight_toggled(bool);
-	void ActCustomActionSetup_activated();
 	void ActCheckWorkDir_toggled(bool);
 	void ActShowTree_toggled(bool);
 	void ActFilterTree_toggled(bool);
@@ -141,7 +137,6 @@ private:
 	void updateCommitMenu(bool isStGITStack);
 	void updateRecentRepoMenu(SCRef newEntry = "");
 	void doUpdateRecentRepoMenu(SCRef newEntry);
-	void doUpdateCustomActionMenu(const QStringList& list);
 	void doBranchOrTag(bool isTag);
 	void ActCommit_setEnabled(bool b);
 	void doContexPopup(SCRef sha);

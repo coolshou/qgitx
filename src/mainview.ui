@@ -140,12 +140,6 @@
     <addaction name="separator"/>
     <addaction name="ActSettings"/>
    </widget>
-   <widget class="QMenu" name="Actions">
-    <property name="title">
-     <string>&amp;Actions</string>
-    </property>
-    <addaction name="ActCustomActionSetup"/>
-   </widget>
    <widget class="QMenu" name="View">
     <property name="title">
      <string>&amp;View</string>
@@ -170,7 +164,6 @@
    <addaction name="File"/>
    <addaction name="Edit"/>
    <addaction name="View"/>
-   <addaction name="Actions"/>
    <addaction name="separator"/>
    <addaction name="Help"/>
   </widget>
@@ -618,18 +611,6 @@
    </property>
    <property name="shortcut">
     <string>Alt+Left</string>
-   </property>
-  </action>
-  <action name="ActCustomActionSetup">
-   <property name="icon">
-    <iconset resource="icons.qrc">
-     <normaloff>:/icons/resources/bookmark.png</normaloff>:/icons/resources/bookmark.png</iconset>
-   </property>
-   <property name="text">
-    <string>Setup actions...</string>
-   </property>
-   <property name="iconText">
-    <string>Setup actions...</string>
    </property>
   </action>
   <action name="ActViewFileNewTab">
@@ -1195,22 +1176,6 @@
    <signal>triggered()</signal>
    <receiver>MainBase</receiver>
    <slot>ActForward_activated()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>ActCustomActionSetup</sender>
-   <signal>triggered()</signal>
-   <receiver>MainBase</receiver>
-   <slot>ActCustomActionSetup_activated()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>

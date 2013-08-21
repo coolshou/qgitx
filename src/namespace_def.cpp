@@ -190,9 +190,6 @@ const QString QGit::MAIN_GEOM_KEY   = "Top_window/geometry";
 const QString QGit::REV_GEOM_KEY    = "Rev_List_view/geometry";
 const QString QGit::CMT_TEMPL_KEY   = "Commit/template_file_path";
 const QString QGit::CMT_ARGS_KEY    = "Commit/args";
-const QString QGit::ACT_GEOM_KEY    = "Custom_actions/geometry";
-const QString QGit::ACT_LIST_KEY    = "Custom_actions/list";
-const QString QGit::ACT_GROUP_KEY   = "Custom_action_list/";
 const QString QGit::ACT_TEXT_KEY    = "/commands";
 const QString QGit::ACT_FLAGS_KEY   = "/flags";
 

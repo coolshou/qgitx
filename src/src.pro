@@ -71,11 +71,11 @@ RCC_DIR = $$BUILD_DIR
 OBJECTS_DIR = $$BUILD_DIR
 
 # project files
-FORMS += commit.ui console.ui customaction.ui fileview.ui help.ui \
+FORMS += commit.ui console.ui fileview.ui help.ui \
          mainview.ui patchview.ui revsview.ui settings.ui
 
 HEADERS += annotate.h cache.h commitimpl.h common.h config.h consoleimpl.h \
-           customactionimpl.h dataloader.h domain.h exceptionmanager.h \
+           dataloader.h domain.h exceptionmanager.h \
            filecontent.h filelist.h fileview.h git.h help.h lanes.h \
            listview.h mainimpl.h myprocess.h patchcontent.h patchview.h \
            revdesc.h revsview.h settingsimpl.h \
@@ -83,7 +83,7 @@ HEADERS += annotate.h cache.h commitimpl.h common.h config.h consoleimpl.h \
     filehistory.h
 
 SOURCES += annotate.cpp cache.cpp commitimpl.cpp consoleimpl.cpp \
-           customactionimpl.cpp dataloader.cpp domain.cpp exceptionmanager.cpp \
+           dataloader.cpp domain.cpp exceptionmanager.cpp \
            filecontent.cpp filelist.cpp fileview.cpp git.cpp git_startup.cpp \
            lanes.cpp listview.cpp mainimpl.cpp myprocess.cpp namespace_def.cpp \
            patchcontent.cpp patchview.cpp qgit.cpp \

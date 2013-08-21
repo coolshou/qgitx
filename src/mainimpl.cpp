@@ -24,7 +24,6 @@
 #include "consoleimpl.h"
 #include "commitimpl.h"
 #include "common.h"
-#include "customactionimpl.h"
 #include "fileview.h"
 #include "git.h"
 #include "help.h"
@@ -122,10 +121,6 @@ MainImpl::MainImpl(SCRef cd, QWidget* p) : QMainWindow(p) {
 	// set-up menu for recent visited repositories
 	connect(File, SIGNAL(triggered(QAction*)), this, SLOT(openRecent_triggered(QAction*)));
 	doUpdateRecentRepoMenu("");
-
-	// set-up menu for custom actions
-	connect(Actions, SIGNAL(triggered(QAction*)), this, SLOT(customAction_triggered(QAction*)));
-	doUpdateCustomActionMenu(settings.value(ACT_LIST_KEY).toStringList());
 
 	// disable all actions
 	updateGlobalActions(false);
@@ -1442,87 +1437,6 @@ void MainImpl::ActSettings_activated() {
 	// update ActCheckWorkDir if necessary
 	if (ActCheckWorkDir->isChecked() != testFlag(DIFF_INDEX_F))
 		ActCheckWorkDir->toggle();
-}
-
-void MainImpl::ActCustomActionSetup_activated() {
-
-	CustomActionImpl* ca = new CustomActionImpl(); // has Qt::WA_DeleteOnClose
-
-	connect(this, SIGNAL(closeAllWindows()), ca, SLOT(close()));
-	connect(ca, SIGNAL(listChanged(const QStringList&)),
-	        this, SLOT(customActionListChanged(const QStringList&)));
-
-	ca->show();
-}
-
-void MainImpl::customActionListChanged(const QStringList& list) {
-
-	// update menu of all windows
-	foreach (QWidget* widget, QApplication::topLevelWidgets()) {
-
-		MainImpl* w = dynamic_cast<MainImpl*>(widget);
-		if (w)
-			w->doUpdateCustomActionMenu(list);
-	}
-}
-
-void MainImpl::doUpdateCustomActionMenu(const QStringList& list) {
-
-	QAction* setupAct = Actions->actions().first(); // is never empty
-	Actions->removeAction(setupAct);
-	Actions->clear();
-	Actions->addAction(setupAct);
-
-	if (list.isEmpty())
-		return;
-
-	Actions->addSeparator();
-	FOREACH_SL (it, list)
-		Actions->addAction(*it);
-}
-
-void MainImpl::customAction_triggered(QAction* act) {
-
-	SCRef actionName = act->text();
-	if (actionName == "Setup actions...")
-		return;
-
-	QSettings set;
-	if (!set.value(ACT_LIST_KEY).toStringList().contains(actionName)) {
-		dbp("ASSERT in customAction_activated, action %1 not found", actionName);
-		return;
-	}
-	QString cmdArgs;
-	if (testFlag(ACT_CMD_LINE_F, ACT_GROUP_KEY + actionName + ACT_FLAGS_KEY)) {
-		bool ok;
-		cmdArgs = QInputDialog::getText(this, "Run action - QGit", "Enter command line "
-		          "arguments for '" + actionName + "'", QLineEdit::Normal, "", &ok);
-		cmdArgs.prepend(' ');
-		if (!ok)
-			return;
-	}
-	SCRef cmd = set.value(ACT_GROUP_KEY + actionName + ACT_TEXT_KEY).toString();
-	if (cmd.isEmpty())
-		return;
-
-	ConsoleImpl* c = new ConsoleImpl(actionName, git); // has Qt::WA_DeleteOnClose attribute
-
-	connect(this, SIGNAL(typeWriterFontChanged()),
-	        c, SLOT(typeWriterFontChanged()));
-
-	connect(this, SIGNAL(closeAllWindows()), c, SLOT(close()));
-	connect(c, SIGNAL(customAction_exited(const QString&)),
-	        this, SLOT(customAction_exited(const QString&)));
-
-	if (c->start(cmd, cmdArgs))
-		c->show();
-}
-
-void MainImpl::customAction_exited(const QString& name) {
-
-	const QString flags(ACT_GROUP_KEY + name + ACT_FLAGS_KEY);
-	if (testFlag(ACT_REFRESH_F, flags))
-		QTimer::singleShot(10, this, SLOT(refreshRepo())); // outside of event handler
 }
 
 void MainImpl::ActCommit_activated() {
