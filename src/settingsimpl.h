@@ -24,7 +24,6 @@ signals:
 protected slots:
 	void checkBoxNumbers_toggled(bool b);
 	void checkBoxSign_toggled(bool b);
-	void checkBoxRangeSelectDialog_toggled(bool b);
 	void checkBoxReopenLastRepo_toggled(bool b);
 	void checkBoxRelativeDate_toggled(bool b);
 	void checkBoxLogDiffTab_toggled(bool b);
