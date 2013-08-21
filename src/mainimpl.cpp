@@ -130,9 +130,6 @@ MainImpl::MainImpl(SCRef cd, QWidget* p) : QMainWindow(p) {
 	connect(this, SIGNAL(changeFont(const QFont&)), git, SIGNAL(changeFont(const QFont&)));
 
 	// connect cross-domain update signals
-	connect(rv->tab()->listViewLog, SIGNAL(doubleClicked(const QModelIndex&)),
-	        this, SLOT(listViewLog_doubleClicked(const QModelIndex&)));
-
 	connect(rv->tab()->fileList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
 	        this, SLOT(fileList_itemDoubleClicked(QListWidgetItem*)));
 
@@ -379,10 +376,6 @@ void MainImpl::updateContextActions(SCRef newRevSha, SCRef newFileName,
 }
 
 // ************************* cross-domain update Actions ***************************
-
-void MainImpl::listViewLog_doubleClicked(const QModelIndex& index) {
-    //FIXME: remove this
-}
 
 void MainImpl::histListView_doubleClicked(const QModelIndex& index) {
 
