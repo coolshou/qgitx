@@ -105,7 +105,6 @@ available commands and a 'quick jump' tag list.
 	p             Go to patch page
 	f             Go to file page
 	<Alt+wheel>   Go to next/previous page
-	t             Toggle tree view
 	s             Toggle view of secondary panes
 	h             Toggle view of revision header
 	<Home>        Move to first revision
@@ -123,17 +122,6 @@ available commands and a 'quick jump' tag list.
 	<Space>       Scroll content down one page
 	u             Scroll content up 18 lines
 	d             Scroll content down 18 lines
-
-###Directory tree
-From menu or toolbar button it is possible to show a side panel with
-tree view of repository files and directories.
-
-Double clicking on a file opens file annotation window. With 'filter by tree'
-button it is possible to compress revision list to show only selected
-files/directories in tree view.
-
-Tree view supports multi-selection. When you right click on a file on tree
-view a context sensitive pop-up menu is shows with available commands.
 
 ###Working dir changes
 When 'Check working dir' flag is set, as example from main view context
