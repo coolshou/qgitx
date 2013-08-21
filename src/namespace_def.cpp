@@ -179,7 +179,6 @@ const QString QGit::REC_REP_KEY     = "recent_open_repos";
 const QString QGit::STD_FNT_KEY     = "standard_font";
 const QString QGit::TYPWRT_FNT_KEY  = "typewriter_font";
 const QString QGit::FLAGS_KEY       = "flags";
-const QString QGit::PATCH_DIR_KEY   = "Patch/last_dir";
 const QString QGit::FMT_P_OPT_KEY   = "Patch/args";
 const QString QGit::AM_P_OPT_KEY    = "Patch/args_2";
 const QString QGit::EX_KEY          = "Working_dir/exclude_file_path";
