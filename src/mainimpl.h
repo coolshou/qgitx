@@ -101,7 +101,6 @@ protected slots:
 	void ActOpenRepoNewWindow_activated();
 	void ActRefresh_activated();
 	void ActSaveFile_activated();
-	void ActMailFormatPatch_activated();
 	void ActMailApplyPatch_activated();
 	void ActSettings_activated();
 	void ActCommit_activated();

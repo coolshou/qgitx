@@ -373,7 +373,6 @@ void MainImpl::updateGlobalActions(bool b) {
 	ActViewDiffNewTab->setEnabled(b && firstTab<PatchView>());
 	ActShowTree->setEnabled(b);
 	ActMailApplyPatch->setEnabled(b);
-	ActMailFormatPatch->setEnabled(b);
 
 	rv->setEnabled(b);
 }
@@ -1120,8 +1119,6 @@ void MainImpl::doContexPopup(SCRef sha) {
 			contextMenu.addAction(ActTag);
 		if (ActTagDelete->isEnabled())
 			contextMenu.addAction(ActTagDelete);
-		if (ActMailFormatPatch->isEnabled())
-			contextMenu.addAction(ActMailFormatPatch);
 		if (ActPush->isEnabled())
 			contextMenu.addAction(ActPush);
 		if (ActPop->isEnabled())
@@ -1340,32 +1337,6 @@ void MainImpl::refreshRepo(bool b) {
 void MainImpl::ActRefresh_activated() {
 
 	refreshRepo(true);
-}
-
-void MainImpl::ActMailFormatPatch_activated() {
-
-	QStringList selectedItems;
-	rv->tab()->listViewLog->getSelectedItems(selectedItems);
-	if (selectedItems.isEmpty()) {
-		statusBar()->showMessage("At least one selected revision needed");
-		return;
-	}
-	if (selectedItems.contains(ZERO_SHA)) {
-		statusBar()->showMessage("Unable to save a patch for not committed content");
-		return;
-	}
-	QSettings settings;
-	QString outDir(settings.value(PATCH_DIR_KEY, curDir).toString());
-	QString dirPath(QFileDialog::getExistingDirectory(this,
-	                "Choose destination directory - Save Patch", outDir));
-	if (dirPath.isEmpty())
-		return;
-
-	QDir d(dirPath);
-	settings.setValue(PATCH_DIR_KEY, d.absolutePath());
-	QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-	git->formatPatch(selectedItems, d.absolutePath());
-	QApplication::restoreOverrideCursor();
 }
 
 bool MainImpl::askApplyPatchParameters(bool* workDirOnly, bool* fold) {
