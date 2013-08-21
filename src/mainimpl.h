@@ -10,6 +10,7 @@
 #include <QProcess>
 #include <QRegExp>
 #include <QDir>
+#include <QTreeWidgetItem>
 #include "exceptionmanager.h"
 #include "common.h"
 #include "ui_mainview.h"

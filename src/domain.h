@@ -9,6 +9,7 @@
 
 #include <QObject>
 #include <QEvent>
+#include <QFileInfo>
 #include "exceptionmanager.h"
 #include "common.h"
 
@@ -40,6 +41,7 @@ public:
 	void clear();
 	const QString sha(bool n = true) const { return (n ? curS.sha : prevS.sha); }
 	const QString fileName(bool n = true) const { return (n ? curS.fn : prevS.fn); }
+    bool isDir(bool n = true) const { QFileInfo fi(fileName(n)); return fi.isDir(); }
 	const QString diffToSha(bool n = true) const {return(n ? curS.dtSha : prevS.dtSha); }
 	bool selectItem(bool n = true) const { return (n ? curS.sel : prevS.sel); }
 	bool isMerge(bool n = true) const { return (n ? curS.isM : prevS.isM); }

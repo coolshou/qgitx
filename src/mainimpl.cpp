@@ -33,7 +33,6 @@
 #include "revdesc.h"
 #include "revsview.h"
 #include "settingsimpl.h"
-#include "treeview.h"
 #include "ui_help.h"
 #include "ui_revsview.h"
 #include "ui_fileview.h"
@@ -116,7 +115,6 @@ MainImpl::MainImpl(SCRef cd, QWidget* p) : QMainWindow(p) {
 
 	QVector<QSplitter*> v(1, treeSplitter);
 	QGit::restoreGeometrySetting(QGit::MAIN_GEOM_KEY, this, &v);
-	treeView->hide();
 
 	// set-up menu for recent visited repositories
 	connect(File, SIGNAL(triggered(QAction*)), this, SLOT(openRecent_triggered(QAction*)));
@@ -140,9 +138,6 @@ MainImpl::MainImpl(SCRef cd, QWidget* p) : QMainWindow(p) {
 
 	connect(rv->tab()->fileList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
 	        this, SLOT(fileList_itemDoubleClicked(QListWidgetItem*)));
-
-	connect(treeView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),
-	        this, SLOT(treeView_doubleClicked(QTreeWidgetItem*, int)));
 
 	// use most recent repo as startup dir if it exists and user opted to do so
 	QStringList recents(settings.value(REC_REP_KEY).toStringList());
@@ -330,10 +325,6 @@ void MainImpl::setRepository(SCRef newDir, bool refresh, bool keepSelection,
 			setWindowTitle(windowTitle() + " - FILTER ON < " +
 			               passedArgs->join(" ") + " >");
 
-		// tree name should be set before init because in case of
-		// StGIT archives the first revs are sent before init returns
-		QString n(curDir);
-		treeView->setTreeName(n.prepend('/').section('/', -1, -1));
 
         bool ok = git->init(curDir, passedArgs, overwriteArgs); // blocking call
 
@@ -1189,7 +1180,7 @@ void MainImpl::doFileContexPopup(SCRef fileName, int type) {
 	int tt = currentTabType(&t);
 	bool isRevPage = (tt == TAB_REV);
 	bool isPatchPage = (tt == TAB_PATCH);
-	bool isDir = treeView->isDir(fileName);
+    bool isDir = QFileInfo(fileName).isDir();
 
 	if (type == POPUP_FILE_EV)
 		if (!isPatchPage && ActViewDiff->isEnabled())
@@ -1266,14 +1257,7 @@ const QString MainImpl::getRevisionDesc(SCRef sha) {
 }
 
 void MainImpl::ActShowTree_toggled(bool b) {
-
-	if (b) {
-		treeView->show();
-		UPDATE_DOMAIN(rv);
-	} else {
-		saveCurrentGeometry();
-		treeView->hide();
-	}
+    //FIXME: remove me
 }
 
 void MainImpl::ActSaveFile_activated() {
@@ -1530,25 +1514,7 @@ void MainImpl::ActPop_activated() {
 }
 
 void MainImpl::ActFilterTree_toggled(bool b) {
-
-	if (!ActFilterTree->isEnabled()) {
-		dbs("ASSERT ActFilterTree_toggled while disabled");
-		return;
-	}
-	if (b) {
-		QStringList selectedItems;
-		if (!treeView->isVisible())
-			treeView->updateTree(); // force tree updating
-
-		treeView->getTreeSelectedItems(selectedItems);
-		if (selectedItems.count() == 0) {
-			dbs("ASSERT tree filter action activated with no selected items");
-			return;
-		}
-		statusBar()->showMessage("Filter view on " + selectedItems.join(" "));
-		setRepository(curDir, true, true, &selectedItems);
-	} else
-		refreshRepo(true);
+    //FIXME: remove me
 }
 
 void MainImpl::ActFindNext_activated() {
