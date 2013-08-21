@@ -92,7 +92,6 @@ protected slots:
 	void ActForward_activated();
 	void ActFind_activated();
 	void ActFindNext_activated();
-	void ActRangeDlg_activated();
 	void ActViewRev_activated();
 	void ActViewFile_activated();
 	void ActViewFileNewTab_activated();

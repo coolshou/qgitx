@@ -48,7 +48,6 @@ SettingsImpl::SettingsImpl(QWidget* p, Git* g, int defTab) : QDialog(p), git(g) 
 	checkBoxCommitSign->setChecked(f & SIGN_CMT_F);
 	checkBoxCommitVerify->setChecked(f & VERIFY_CMT_F);
 	checkBoxCommitUseDefMsg->setChecked(f & USE_CMT_MSG_F);
-	checkBoxRangeSelectDialog->setChecked(f & RANGE_SELECT_F);
 	checkBoxReopenLastRepo->setChecked(f & REOPEN_REPO_F);
 	checkBoxRelativeDate->setChecked(f & REL_DATE_F);
 	checkBoxLogDiffTab->setChecked(f & LOG_DIFF_TAB_F);
@@ -206,11 +205,6 @@ void SettingsImpl::checkBoxNumbers_toggled(bool b) {
 void SettingsImpl::checkBoxSign_toggled(bool b) {
 
 	changeFlag(SIGN_PATCH_F, b);
-}
-
-void SettingsImpl::checkBoxRangeSelectDialog_toggled(bool b) {
-
-	changeFlag(RANGE_SELECT_F, b);
 }
 
 void SettingsImpl::checkBoxReopenLastRepo_toggled(bool b) {

@@ -237,11 +237,11 @@ namespace QGit {
 		REL_DATE_F      = 1 << 10,
 		ALL_BRANCHES_F  = 1 << 11,
 		WHOLE_HISTORY_F = 1 << 12,
-		RANGE_SELECT_F  = 1 << 13,
+        //1 << 13 has been removed
 		REOPEN_REPO_F   = 1 << 14,
 		USE_CMT_MSG_F   = 1 << 15
 	};
-	const int FLAGS_DEF = USE_CMT_MSG_F | RANGE_SELECT_F | SMART_LBL_F | VERIFY_CMT_F | SIGN_PATCH_F | LOG_DIFF_TAB_F | MSG_ON_NEW_F;
+    const int FLAGS_DEF = USE_CMT_MSG_F | SMART_LBL_F | VERIFY_CMT_F | SIGN_PATCH_F | LOG_DIFF_TAB_F | MSG_ON_NEW_F;
 
 	// ShaString helpers
 	const ShaString toTempSha(const QString&); // use as argument only, see definition

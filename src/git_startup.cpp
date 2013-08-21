@@ -11,7 +11,6 @@
 #include <QSettings>
 #include <QTextCodec>
 #include "exceptionmanager.h"
-#include "rangeselectimpl.h"
 #include "lanes.h"
 #include "myprocess.h"
 #include "cache.h"
@@ -43,7 +42,7 @@ const QString Git::getLocalDate(SCRef gitDate) {
 	return localDate;
 }
 
-const QStringList Git::getArgs(bool* quit, bool repoChanged) {
+const QStringList Git::getArgs() {
 
 	QString args;
 	if (startup) {
@@ -57,13 +56,7 @@ const QStringList Git::getArgs(bool* quit, bool repoChanged) {
 			args.append(arg + ' ');
 		}
 	}
-	if (testFlag(RANGE_SELECT_F) && (!startup || args.isEmpty())) {
 
-		RangeSelectImpl rs((QWidget*)parent(), &args, repoChanged, this);
-		*quit = (rs.exec() == QDialog::Rejected); // modal execution
-		if (*quit)
-			return QStringList();
-	}
 	startup = false;
 	return MyProcess::splitArgList(args);
 }
@@ -590,10 +583,8 @@ void Git::clearFileNames() {
 	cacheNeedsUpdate = false;
 }
 
-bool Git::init(SCRef wd, bool askForRange, const QStringList* passedArgs, bool overwriteArgs, bool* quit) {
+bool Git::init(SCRef wd, const QStringList* passedArgs, bool overwriteArgs) {
 // normally called when changing git directory. Must be called after stop()
-
-	*quit = false;
 	clearRevs();
 
 	/* we only update filtering info here, original arguments
@@ -642,12 +633,8 @@ bool Git::init(SCRef wd, bool askForRange, const QStringList* passedArgs, bool o
 
 			// startup input range dialog
 			SHOW_MSG("");
-			if (startup || askForRange) {
-				loadArguments.args = getArgs(quit, repoChanged); // must be called with refs loaded
-				if (*quit) {
-					setThrowOnStop(false);
-					return false;
-				}
+            if (startup) {
+                loadArguments.args = getArgs(); // must be called with refs loaded
 			}
 			// load StGit unapplied patches, must be after getRefs()
 			if (isStGIT) {

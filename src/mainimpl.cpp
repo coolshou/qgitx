@@ -31,7 +31,6 @@
 #include "listview.h"
 #include "mainimpl.h"
 #include "patchview.h"
-#include "rangeselectimpl.h"
 #include "revdesc.h"
 #include "revsview.h"
 #include "settingsimpl.h"
@@ -341,10 +340,7 @@ void MainImpl::setRepository(SCRef newDir, bool refresh, bool keepSelection,
 		QString n(curDir);
 		treeView->setTreeName(n.prepend('/').section('/', -1, -1));
 
-		bool quit;
-		bool ok = git->init(curDir, !refresh, passedArgs, overwriteArgs, &quit); // blocking call
-		if (quit)
-			goto exit;
+        bool ok = git->init(curDir, passedArgs, overwriteArgs); // blocking call
 
 		updateCommitMenu(ok && git->isStGITStack());
 		ActCheckWorkDir->setChecked(testFlag(DIFF_INDEX_F)); // could be changed in Git::init()
@@ -356,12 +352,8 @@ void MainImpl::setRepository(SCRef newDir, bool refresh, bool keepSelection,
 		} else
 			statusBar()->showMessage("Not a git archive");
 
-exit:
 		setRepositoryBusy = false;
 		EM_REMOVE(exExiting);
-
-		if (quit && !startUpDir.isEmpty())
-			close();
 
 	} catch (int i) {
 		EM_REMOVE(exExiting);
@@ -470,17 +462,6 @@ void MainImpl::pushButtonCloseTab_clicked() {
 	default:
 		dbs("ASSERT in pushButtonCloseTab_clicked: unknown current page");
 		break;
-	}
-}
-
-void MainImpl::ActRangeDlg_activated() {
-
-	QString args;
-	RangeSelectImpl rs(this, &args, false, git);
-	bool quit = (rs.exec() == QDialog::Rejected); // modal execution
-	if (!quit) {
-		const QStringList l(args.split(" "));
-		setRepository(curDir, true, true, &l, true);
 	}
 }
 
