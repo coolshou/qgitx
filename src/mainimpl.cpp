@@ -347,7 +347,6 @@ void MainImpl::updateGlobalActions(bool b) {
 	ActRefresh->setEnabled(b);
 	ActCheckWorkDir->setEnabled(b);
 	ActViewRev->setEnabled(b);
-	ActViewDiff->setEnabled(b);
 
 	rv->setEnabled(b);
 }
@@ -382,9 +381,7 @@ void MainImpl::updateContextActions(SCRef newRevSha, SCRef newFileName,
 // ************************* cross-domain update Actions ***************************
 
 void MainImpl::listViewLog_doubleClicked(const QModelIndex& index) {
-
-	if (index.isValid() && ActViewDiff->isEnabled())
-		ActViewDiff->activate(QAction::Trigger);
+    //FIXME: remove this
 }
 
 void MainImpl::histListView_doubleClicked(const QModelIndex& index) {
@@ -400,8 +397,6 @@ void MainImpl::fileList_itemDoubleClicked(QListWidgetItem* item) {
 		return;
 
 	bool isMainView = (item && item->listWidget() == rv->tab()->fileList);
-	if (isMainView && ActViewDiff->isEnabled())
-		ActViewDiff->activate(QAction::Trigger);
 
 	if (item && !isMainView && ActViewFile->isEnabled())
 		ActViewFile->activate(QAction::Trigger);
@@ -465,23 +460,6 @@ void MainImpl::openFileTab(FileView* fv) {
 	tabWdg->setCurrentWidget(fv->tabPage());
 	fv->st = rv->st;
 	UPDATE_DOMAIN(fv);
-}
-
-void MainImpl::ActViewDiff_activated() {
-
-	Domain* t;
-	if (currentTabType(&t) == TAB_FILE) {
-		rv->st = t->st;
-		UPDATE_DOMAIN(rv);
-	}
-    //FIXME: check if we can remove this
-    //rv->viewPatch(false);
-    //ActViewDiffNewTab->setEnabled(true);
-
-	if (ActSearchAndFilter->isChecked() || ActSearchAndHighlight->isChecked()) {
-		bool isRegExp = (cmbSearch->currentIndex() == CS_PATCH_REGEXP);
-		emit highlightPatch(lineEditFilter->text(), isRegExp);
-	}
 }
 
 bool MainImpl::eventFilter(QObject* obj, QEvent* ev) {
@@ -1038,7 +1016,6 @@ void MainImpl::doContexPopup(SCRef sha) {
 	Domain* t;
 	int tt = currentTabType(&t);
 	bool isRevPage = (tt == TAB_REV);
-	bool isPatchPage = (tt == TAB_PATCH);
 	bool isFilePage = (tt == TAB_FILE);
 
 	if (!isFilePage && ActCheckWorkDir->isEnabled()) {
@@ -1047,9 +1024,6 @@ void MainImpl::doContexPopup(SCRef sha) {
 	}
 	if (isFilePage && ActViewRev->isEnabled())
 		contextMenu.addAction(ActViewRev);
-
-	if (!isPatchPage && ActViewDiff->isEnabled())
-		contextMenu.addAction(ActViewDiff);
 
 	if (!isFilePage && ActExternalDiff->isEnabled())
 		contextMenu.addAction(ActExternalDiff);
@@ -1133,12 +1107,7 @@ void MainImpl::doFileContexPopup(SCRef fileName, int type) {
 	Domain* t;
 	int tt = currentTabType(&t);
 	bool isRevPage = (tt == TAB_REV);
-	bool isPatchPage = (tt == TAB_PATCH);
     bool isDir = QFileInfo(fileName).isDir();
-
-	if (type == POPUP_FILE_EV)
-		if (!isPatchPage && ActViewDiff->isEnabled())
-			contextMenu.addAction(ActViewDiff);
 
 	if (!isDir && ActViewFile->isEnabled())
 		contextMenu.addAction(ActViewFile);
