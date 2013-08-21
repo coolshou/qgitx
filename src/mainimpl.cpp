@@ -1271,16 +1271,7 @@ void MainImpl::ActToggleLogsDiff_activated() {
 }
 
 const QString MainImpl::getRevisionDesc(SCRef sha) {
-
-	bool showHeader = ActShowDescHeader->isChecked();
     return git->getDesc(sha, NULL);
-}
-
-void MainImpl::ActShowDescHeader_activated() {
-
-	// each open tab get his description,
-	// could be different for each tab
-	emit updateRevDesc();
 }
 
 void MainImpl::ActShowTree_toggled(bool b) {
