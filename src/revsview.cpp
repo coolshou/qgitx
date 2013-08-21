@@ -14,7 +14,6 @@
 #include "historyview.h"
 #include "filelist.h"
 #include "revdesc.h"
-#include "patchview.h"
 #include "smartbrowse.h"
 #include "mainimpl.h"
 #include "revsview.h"
@@ -97,7 +96,6 @@ RevsView::~RevsView() {
 	delete tab()->textBrowserDesc;
 	delete tab()->textEditDiff;
 
-	delete linkedPatchView;
 	delete revTab;
 }
 
@@ -108,15 +106,11 @@ void RevsView::clear(bool complete) {
 	tab()->textBrowserDesc->clear();
 	tab()->textEditDiff->clear();
 	tab()->fileList->clear();
-	if (linkedPatchView)
-		linkedPatchView->clear();
 }
 
 void RevsView::setEnabled(bool b) {
 
 	container->setEnabled(b);
-	if (linkedPatchView)
-		linkedPatchView->tabPage()->setEnabled(b);
 }
 
 void RevsView::toggleDiffView() {
@@ -170,29 +164,7 @@ void RevsView::setTabLogDiffVisible(bool b) {
 }
 
 void RevsView::viewPatch(bool newTab) {
-
-	if (!newTab && linkedPatchView) {
-		m()->tabWdg->setCurrentWidget(linkedPatchView->tabPage());
-		return;
-	}
-	PatchView* pv = new PatchView(m(), git);
-	m()->tabWdg->addTab(pv->tabPage(), "&Patch");
-	m()->tabWdg->setCurrentWidget(pv->tabPage());
-
-	if (!newTab) { // linkedPatchView == NULL
-		linkedPatchView = pv;
-		linkDomain(linkedPatchView);
-
-		connect(m(), SIGNAL(highlightPatch(const QString&, bool)),
-			pv->tab()->textEditDiff, SLOT(on_highlightPatch(const QString&, bool)));
-
-		connect(pv->tab()->fileList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-			m(), SLOT(fileList_itemDoubleClicked(QListWidgetItem*)));
-	}
-	connect(m(), SIGNAL(updateRevDesc()), pv, SLOT(on_updateRevDesc()));
-	connect(m(), SIGNAL(closeAllTabs()), pv, SLOT(on_closeAllTabs()));
-	pv->st = st;
-	UPDATE_DM_MASTER(pv, false);
+    //FIXME: remove this
 }
 
 void RevsView::on_newRevsAdded(const FileHistory* fh, const QVector<ShaString>&) {
@@ -251,9 +223,6 @@ bool RevsView::doUpdate(bool force) {
 
 			tab()->fileList->clear();
 
-			if (linkedPatchView) // give some feedback while waiting
-				linkedPatchView->clear();
-
 			// blocking call, could be slow in case of all merge files
 			files = git->getFiles(st.sha(), st.diffToSha(), st.allMergeFiles());
 			newFiles = true;
@@ -269,13 +238,6 @@ bool RevsView::doUpdate(bool force) {
 		}
 		if (st.isChanged() || force)
 			tab()->textEditDiff->centerOnFileHeader(st);
-
-		// at the end update diffs that is the slowest and must be
-		// run after update of file list for 'diff to sha' to work
-		if (linkedPatchView) {
-			linkedPatchView->st = st;
-			UPDATE_DM_MASTER(linkedPatchView, force); // async call
-		}
 	}
 	return (found || st.sha().isEmpty());
 }

@@ -46,7 +46,6 @@ private:
 	void updateLineEditSHA(bool clear = false);
 
 	Ui_TabRev* revTab;
-	QPointer<PatchView> linkedPatchView;
 };
 
 #endif

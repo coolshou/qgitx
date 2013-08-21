@@ -28,14 +28,12 @@
 #include "help.h"
 #include "historyview.h"
 #include "mainimpl.h"
-#include "patchview.h"
 #include "revdesc.h"
 #include "revsview.h"
 #include "settingsimpl.h"
 #include "ui_help.h"
 #include "ui_revsview.h"
 #include "ui_fileview.h"
-#include "ui_patchview.h"
 
 using namespace QGit;
 
@@ -350,7 +348,7 @@ void MainImpl::updateGlobalActions(bool b) {
 	ActCheckWorkDir->setEnabled(b);
 	ActViewRev->setEnabled(b);
 	ActViewDiff->setEnabled(b);
-	ActViewDiffNewTab->setEnabled(b && firstTab<PatchView>());
+    //ActViewDiffNewTab->setEnabled(b && firstTab<PatchView>());
 
 	rv->setEnabled(b);
 }
@@ -421,10 +419,6 @@ void MainImpl::pushButtonCloseTab_clicked() {
 	Domain* t;
 	switch (currentTabType(&t)) {
 	case TAB_REV:
-		break;
-	case TAB_PATCH:
-		t->deleteWhenDone();
-		ActViewDiffNewTab->setEnabled(ActViewDiff->isEnabled() && firstTab<PatchView>());
 		break;
 	case TAB_FILE:
 		t->deleteWhenDone();
@@ -753,13 +747,6 @@ int MainImpl::currentTabType(Domain** t) {
 		*t = rv;
 		return TAB_REV;
 	}
-	QList<PatchView*>* l = getTabs<PatchView>(curPage);
-	if (l->count() > 0) {
-		*t = l->first();
-		delete l;
-		return TAB_PATCH;
-	}
-	delete l;
 	QList<FileView*>* l2 = getTabs<FileView>(curPage);
 	if (l2->count() > 0) {
 		*t = l2->first();
@@ -821,10 +808,6 @@ void MainImpl::tabWdg_currentChanged(int w) {
 		static_cast<RevsView*>(t)->tab()->listViewLog->setFocus();
 		emit closeTabButtonEnabled(false);
 		break;
-	case TAB_PATCH:
-		static_cast<PatchView*>(t)->tab()->textEditDiff->setFocus();
-		emit closeTabButtonEnabled(true);
-		break;
 	case TAB_FILE:
 		static_cast<FileView*>(t)->tab()->histListView->setFocus();
 		emit closeTabButtonEnabled(true);
@@ -865,8 +848,6 @@ void MainImpl::shortCutActivated() {
 	QShortcut* se = dynamic_cast<QShortcut*>(sender());
 	if (!se)
 		return;
-
-	bool isKey_P = false;
 
 	switch (se->key()) {
 
@@ -912,12 +893,9 @@ void MainImpl::shortCutActivated() {
 	case Qt::Key_R:
 		tabWdg->setCurrentWidget(rv->tabPage());
 		break;
-	case Qt::Key_P:
-		isKey_P = true;
 	case Qt::Key_F: {
 		QWidget* cp = tabWdg->currentWidget();
-		Domain* d = isKey_P ? static_cast<Domain*>(firstTab<PatchView>(cp)) :
-		                      static_cast<Domain*>(firstTab<FileView>(cp));
+        Domain* d = static_cast<Domain*>(firstTab<FileView>(cp));
 		if (d)
 			tabWdg->setCurrentWidget(d->tabPage()); }
 		break;
@@ -939,9 +917,6 @@ QTextEdit* MainImpl::getCurrentTextEdit() {
 		te = static_cast<RevsView*>(t)->tab()->textBrowserDesc;
 		if (!te->isVisible())
 			te = static_cast<RevsView*>(t)->tab()->textEditDiff;
-		break;
-	case TAB_PATCH:
-		te = static_cast<PatchView*>(t)->tab()->textEditDiff;
 		break;
 	case TAB_FILE:
 		te = static_cast<FileView*>(t)->tab()->textEditFile;
@@ -1210,11 +1185,6 @@ void MainImpl::ActSplitView_activated() {
 		QWidget* w = rv->tab()->fileList;
 		QSplitter* sp = static_cast<QSplitter*>(w->parent());
 		sp->setHidden(w->isVisible()); }
-		break;
-	case TAB_PATCH: {
-		PatchView* pv = static_cast<PatchView*>(t);
-		QWidget* w = pv->tab()->textBrowserDesc;
-		w->setHidden(w->isVisible()); }
 		break;
 	case TAB_FILE: {
 		FileView* fv = static_cast<FileView*>(t);
