@@ -23,7 +23,6 @@ public:
 	RevsView(MainImpl* parent, Git* git, bool isMain = false);
 	~RevsView();
 	void clear(bool complete);
-	void viewPatch(bool newTab);
 	void setEnabled(bool b);
 	void setTabLogDiffVisible(bool);
 	Ui_TabRev* tab() { return revTab; }
@@ -46,7 +45,6 @@ private:
 	void updateLineEditSHA(bool clear = false);
 
 	Ui_TabRev* revTab;
-	QPointer<PatchView> linkedPatchView;
 };
 
 #endif

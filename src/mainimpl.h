@@ -77,7 +77,6 @@ protected:
 protected slots:
 	void initWithEventLoopActive();
 	void refreshRepo(bool setCurRevAfterLoad = true);
-	void listViewLog_doubleClicked(const QModelIndex&);
 	void fileList_itemDoubleClicked(QListWidgetItem*);
 	void treeView_doubleClicked(QTreeWidgetItem*, int);
 	void histListView_doubleClicked(const QModelIndex&);
@@ -93,8 +92,6 @@ protected slots:
 	void ActViewRev_activated();
 	void ActViewFile_activated();
 	void ActViewFileNewTab_activated();
-	void ActViewDiff_activated();
-	void ActViewDiffNewTab_activated();
 	void ActExternalDiff_activated();
 	void ActSplitView_activated();
 	void ActToggleLogsDiff_activated();

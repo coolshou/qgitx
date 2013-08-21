@@ -126,8 +126,6 @@
     <addaction name="ActCheckWorkDir"/>
     <addaction name="separator"/>
     <addaction name="ActViewRev"/>
-    <addaction name="ActViewDiff"/>
-    <addaction name="ActViewDiffNewTab"/>
     <addaction name="ActViewFile"/>
     <addaction name="ActViewFileNewTab"/>
     <addaction name="ActExternalDiff"/>
@@ -311,26 +309,6 @@
    </property>
    <property name="shortcut">
     <string>F5</string>
-   </property>
-  </action>
-  <action name="ActViewDiff">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>View patch</string>
-   </property>
-   <property name="iconText">
-    <string>View patch</string>
-   </property>
-   <property name="toolTip">
-    <string>Double click on revision log as a shortcut</string>
-   </property>
-   <property name="statusTip">
-    <string>Double click on revision log as a shortcut</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+P</string>
    </property>
   </action>
   <action name="ActViewFile">
@@ -520,20 +498,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+A</string>
-   </property>
-  </action>
-  <action name="ActViewDiffNewTab">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>View patch in new tab</string>
-   </property>
-   <property name="iconText">
-    <string>View patch in new tab</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+P</string>
    </property>
   </action>
   <action name="ActSearchAndFilter">
@@ -884,22 +848,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>ActViewDiff</sender>
-   <signal>triggered()</signal>
-   <receiver>MainBase</receiver>
-   <slot>ActViewDiff_activated()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>ActViewRev</sender>
    <signal>triggered()</signal>
    <receiver>MainBase</receiver>
@@ -1000,22 +948,6 @@
    <signal>triggered()</signal>
    <receiver>MainBase</receiver>
    <slot>ActViewFileNewTab_activated()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>ActViewDiffNewTab</sender>
-   <signal>triggered()</signal>
-   <receiver>MainBase</receiver>
-   <slot>ActViewDiffNewTab_activated()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
