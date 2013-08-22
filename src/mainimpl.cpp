@@ -20,10 +20,10 @@
 #include <QStatusBar>
 #include <QTimer>
 #include <QWheelEvent>
+#include <QToolButton>
 #include "config.h" // defines PACKAGE_VERSION
 #include "commitimpl.h"
 #include "common.h"
-#include "fileview.h"
 #include "git.h"
 #include "help.h"
 #include "historyview.h"
@@ -33,7 +33,6 @@
 #include "settingsimpl.h"
 #include "ui_help.h"
 #include "ui_revsview.h"
-#include "ui_fileview.h"
 
 using namespace QGit;
 
@@ -394,9 +393,6 @@ void MainImpl::pushButtonCloseTab_clicked() {
 	switch (currentTabType(&t)) {
 	case TAB_REV:
 		break;
-	case TAB_FILE:
-		t->deleteWhenDone();
-		break;
 	default:
 		dbs("ASSERT in pushButtonCloseTab_clicked: unknown current page");
 		break;
@@ -404,12 +400,6 @@ void MainImpl::pushButtonCloseTab_clicked() {
 }
 
 void MainImpl::ActViewRev_activated() {
-
-	Domain* t;
-	if (currentTabType(&t) == TAB_FILE) {
-		rv->st = t->st;
-		UPDATE_DOMAIN(rv);
-	}
 	tabWdg->setCurrentWidget(rv->tabPage());
 }
 
@@ -671,16 +661,6 @@ int MainImpl::currentTabType(Domain** t) {
 		*t = rv;
 		return TAB_REV;
 	}
-	QList<FileView*>* l2 = getTabs<FileView>(curPage);
-	if (l2->count() > 0) {
-		*t = l2->first();
-		delete l2;
-		return TAB_FILE;
-	}
-	if (l2->count() > 0)
-		dbs("ASSERT in tabType file not found");
-
-	delete l2;
 	return -1;
 }
 
@@ -731,10 +711,6 @@ void MainImpl::tabWdg_currentChanged(int w) {
 	case TAB_REV:
 		static_cast<RevsView*>(t)->tab()->listViewLog->setFocus();
 		emit closeTabButtonEnabled(false);
-		break;
-	case TAB_FILE:
-		static_cast<FileView*>(t)->tab()->histListView->setFocus();
-		emit closeTabButtonEnabled(true);
 		break;
 	default:
 		dbs("ASSERT in tabWdg_currentChanged: unknown current page");
@@ -817,12 +793,6 @@ void MainImpl::shortCutActivated() {
 	case Qt::Key_R:
 		tabWdg->setCurrentWidget(rv->tabPage());
 		break;
-	case Qt::Key_F: {
-		QWidget* cp = tabWdg->currentWidget();
-        Domain* d = static_cast<Domain*>(firstTab<FileView>(cp));
-		if (d)
-			tabWdg->setCurrentWidget(d->tabPage()); }
-		break;
 	}
 }
 
@@ -841,9 +811,6 @@ QTextEdit* MainImpl::getCurrentTextEdit() {
 		te = static_cast<RevsView*>(t)->tab()->textBrowserDesc;
 		if (!te->isVisible())
 			te = static_cast<RevsView*>(t)->tab()->textEditDiff;
-		break;
-	case TAB_FILE:
-		te = static_cast<FileView*>(t)->tab()->textEditFile;
 		break;
 	default:
 		break;
@@ -967,16 +934,13 @@ void MainImpl::doContexPopup(SCRef sha) {
 	Domain* t;
 	int tt = currentTabType(&t);
 	bool isRevPage = (tt == TAB_REV);
-	bool isFilePage = (tt == TAB_FILE);
 
-	if (!isFilePage && ActCheckWorkDir->isEnabled()) {
+    if (ActCheckWorkDir->isEnabled()) {
 		contextMenu.addAction(ActCheckWorkDir);
 		contextMenu.addSeparator();
 	}
-	if (isFilePage && ActViewRev->isEnabled())
-		contextMenu.addAction(ActViewRev);
 
-	if (!isFilePage && ActExternalDiff->isEnabled())
+    if (ActExternalDiff->isEnabled())
 		contextMenu.addAction(ActExternalDiff);
 
 	if (isRevPage) {
@@ -1091,11 +1055,6 @@ void MainImpl::ActSplitView_activated() {
 		QWidget* w = rv->tab()->fileList;
 		QSplitter* sp = static_cast<QSplitter*>(w->parent());
 		sp->setHidden(w->isVisible()); }
-		break;
-	case TAB_FILE: {
-		FileView* fv = static_cast<FileView*>(t);
-		QWidget* w = fv->tab()->histListView;
-		w->setHidden(w->isVisible()); }
 		break;
 	default:
 		dbs("ASSERT in ActSplitView_activated: unknown current page");

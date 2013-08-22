@@ -28,7 +28,6 @@ class QTextEdit;
 class Domain;
 class Git;
 class FileHistory;
-class FileView;
 class RevsView;
 
 class MainImpl : public QMainWindow, public Ui_MainBase {
