@@ -22,7 +22,6 @@
 #include <QWidget>
 #include "common.h"
 #include "git.h"
-#include "annotate.h"
 
 #ifdef Q_OS_WIN32 // *********  platform dependent code ******
 

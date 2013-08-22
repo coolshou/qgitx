@@ -38,7 +38,6 @@ private slots:
     void on_loadCompleted(const FileHistory*, const QString&);
 
 private:
-    friend class Annotate;
     friend class DataLoader;
     friend class Git;
 

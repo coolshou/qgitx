@@ -21,7 +21,6 @@
 
 #include <grantlee_core.h>
 
-#include "annotate.h"
 #include "cache.h"
 #include "git.h"
 #include "lanes.h"
@@ -441,26 +440,6 @@ void Git::formatPatchFileHeader(QString* rowName, SCRef sha, SCRef diffToSha,
 		*rowName = "diff --git a/" + origFile + " b/" + destFile;
 	} else
 		*rowName = "diff --git a/" + *rowName + " b/" + *rowName;
-}
-
-Annotate* Git::startAnnotate(FileHistory* fh, QObject* guiObj) { // non blocking
-
-	Annotate* ann = new Annotate(this, guiObj);
-	if (!ann->start(fh)) // non blocking call
-		return NULL; // ann will delete itself when done
-
-	return ann; // caller will delete with Git::cancelAnnotate()
-}
-
-void Git::cancelAnnotate(Annotate* ann) {
-
-	if (ann)
-		ann->deleteWhenDone();
-}
-
-const FileAnnotation* Git::lookupAnnotation(Annotate* ann, SCRef sha) {
-
-	return (ann ? ann->lookupAnnotation(sha) : NULL);
 }
 
 void Git::cancelDataLoading(const FileHistory* fh) {

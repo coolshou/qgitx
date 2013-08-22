@@ -74,7 +74,7 @@ OBJECTS_DIR = $$BUILD_DIR
 FORMS += commit.ui help.ui \
          mainview.ui revsview.ui settings.ui
 
-HEADERS += annotate.h cache.h commitimpl.h common.h config.h \
+HEADERS += cache.h commitimpl.h common.h config.h \
            dataloader.h domain.h exceptionmanager.h \
            filelist.h git.h help.h lanes.h \
            mainimpl.h myprocess.h patchcontent.h \
@@ -83,7 +83,7 @@ HEADERS += annotate.h cache.h commitimpl.h common.h config.h \
     filehistory.h \
     historyview.h
 
-SOURCES += annotate.cpp cache.cpp commitimpl.cpp \
+SOURCES += cache.cpp commitimpl.cpp \
            dataloader.cpp domain.cpp exceptionmanager.cpp \
            filelist.cpp git.cpp git_startup.cpp \
            lanes.cpp mainimpl.cpp myprocess.cpp namespace_def.cpp \

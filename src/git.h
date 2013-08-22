@@ -14,7 +14,6 @@
 template <class, class> struct QPair;
 class QRegExp;
 class QTextCodec;
-class Annotate;
 class Cache;
 class DataLoader;
 class Domain;
@@ -88,9 +87,6 @@ public:
 	void setThrowOnStop(bool b);
 	bool isThrowOnStopRaised(int excpId, SCRef curContext);
 	void setLane(SCRef sha, FileHistory* fh);
-	Annotate* startAnnotate(FileHistory* fh, QObject* guiObj);
-	const FileAnnotation* lookupAnnotation(Annotate* ann, SCRef sha);
-	void cancelAnnotate(Annotate* ann);
 	bool startFileHistory(SCRef sha, SCRef startingFileName, FileHistory* fh);
 	void cancelDataLoading(const FileHistory* fh);
 	void cancelProcess(MyProcess* p);
@@ -165,7 +161,6 @@ signals:
 	void loadCompleted(const FileHistory*, const QString&);
 	void cancelLoading(const FileHistory*);
 	void cancelAllProcesses();
-	void annotateReady(Annotate*, bool, const QString&);
 	void fileNamesLoad(int, int);
 	void changeFont(const QFont&);
 

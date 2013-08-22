@@ -14,7 +14,6 @@
 #include "lanes.h"
 #include "myprocess.h"
 #include "cache.h"
-#include "annotate.h"
 #include "mainimpl.h"
 #include "dataloader.h"
 #include "git.h"
