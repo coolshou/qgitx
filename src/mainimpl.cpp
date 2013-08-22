@@ -355,7 +355,6 @@ void MainImpl::updateContextActions(SCRef newRevSha, SCRef newFileName,
 	bool fileActionsEnabled = (pathActionsEnabled && !isDir);
 
 	ActViewFile->setEnabled(fileActionsEnabled);
-	ActViewFileNewTab->setEnabled(fileActionsEnabled && firstTab<FileView>());
 	ActExternalDiff->setEnabled(fileActionsEnabled);
 	ActSaveFile->setEnabled(fileActionsEnabled);
 
@@ -409,7 +408,6 @@ void MainImpl::pushButtonCloseTab_clicked() {
 		break;
 	case TAB_FILE:
 		t->deleteWhenDone();
-		ActViewFileNewTab->setEnabled(ActViewFile->isEnabled() && firstTab<FileView>());
 		break;
 	default:
 		dbs("ASSERT in pushButtonCloseTab_clicked: unknown current page");
@@ -432,11 +430,6 @@ void MainImpl::ActViewFile_activated() {
 	openFileTab(firstTab<FileView>());
 }
 
-void MainImpl::ActViewFileNewTab_activated() {
-
-	openFileTab();
-}
-
 void MainImpl::openFileTab(FileView* fv) {
 
 	if (!fv) {
@@ -447,8 +440,6 @@ void MainImpl::openFileTab(FileView* fv) {
 		        this, SLOT(histListView_doubleClicked(const QModelIndex&)));
 
 		connect(this, SIGNAL(closeAllTabs()), fv, SLOT(on_closeAllTabs()));
-
-		ActViewFileNewTab->setEnabled(ActViewFile->isEnabled());
 	}
 	tabWdg->setCurrentWidget(fv->tabPage());
 	fv->st = rv->st;
@@ -1104,9 +1095,6 @@ void MainImpl::doFileContexPopup(SCRef fileName, int type) {
 
 	if (!isDir && ActViewFile->isEnabled())
 		contextMenu.addAction(ActViewFile);
-
-	if (!isDir && ActViewFileNewTab->isEnabled())
-		contextMenu.addAction(ActViewFileNewTab);
 
 	if (!isRevPage && (type == POPUP_FILE_EV) && ActViewRev->isEnabled())
 		contextMenu.addAction(ActViewRev);
