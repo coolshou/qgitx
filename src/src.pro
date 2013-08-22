@@ -76,7 +76,7 @@ FORMS += commit.ui help.ui \
 
 HEADERS += annotate.h cache.h commitimpl.h common.h config.h \
            dataloader.h domain.h exceptionmanager.h \
-           filecontent.h filelist.h git.h help.h lanes.h \
+           filelist.h git.h help.h lanes.h \
            mainimpl.h myprocess.h patchcontent.h \
            revdesc.h revsview.h settingsimpl.h \
            smartbrowse.h \
@@ -85,7 +85,7 @@ HEADERS += annotate.h cache.h commitimpl.h common.h config.h \
 
 SOURCES += annotate.cpp cache.cpp commitimpl.cpp \
            dataloader.cpp domain.cpp exceptionmanager.cpp \
-           filecontent.cpp filelist.cpp git.cpp git_startup.cpp \
+           filelist.cpp git.cpp git_startup.cpp \
            lanes.cpp mainimpl.cpp myprocess.cpp namespace_def.cpp \
            patchcontent.cpp qgit.cpp \
            revdesc.cpp revsview.cpp settingsimpl.cpp smartbrowse.cpp \
