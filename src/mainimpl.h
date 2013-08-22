@@ -90,7 +90,6 @@ protected slots:
 	void ActFind_activated();
 	void ActFindNext_activated();
 	void ActViewRev_activated();
-	void ActViewFile_activated();
 	void ActExternalDiff_activated();
 	void ActSplitView_activated();
 	void ActToggleLogsDiff_activated();

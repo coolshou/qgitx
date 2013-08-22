@@ -354,7 +354,6 @@ void MainImpl::updateContextActions(SCRef newRevSha, SCRef newFileName,
 	bool pathActionsEnabled = !newFileName.isEmpty();
 	bool fileActionsEnabled = (pathActionsEnabled && !isDir);
 
-	ActViewFile->setEnabled(fileActionsEnabled);
 	ActExternalDiff->setEnabled(fileActionsEnabled);
 	ActSaveFile->setEnabled(fileActionsEnabled);
 
@@ -387,17 +386,10 @@ void MainImpl::fileList_itemDoubleClicked(QListWidgetItem* item) {
 	bool isFirst = (item && item->listWidget()->item(0) == item);
 	if (isFirst && rv->st.isMerge())
 		return;
-
-	bool isMainView = (item && item->listWidget() == rv->tab()->fileList);
-
-	if (item && !isMainView && ActViewFile->isEnabled())
-		ActViewFile->activate(QAction::Trigger);
 }
 
 void MainImpl::treeView_doubleClicked(QTreeWidgetItem* item, int) {
-
-	if (item && ActViewFile->isEnabled())
-		ActViewFile->activate(QAction::Trigger);
+    //FIXME: remove this
 }
 
 void MainImpl::pushButtonCloseTab_clicked() {
@@ -423,11 +415,6 @@ void MainImpl::ActViewRev_activated() {
 		UPDATE_DOMAIN(rv);
 	}
 	tabWdg->setCurrentWidget(rv->tabPage());
-}
-
-void MainImpl::ActViewFile_activated() {
-
-	openFileTab(firstTab<FileView>());
 }
 
 void MainImpl::openFileTab(FileView* fv) {
@@ -1092,9 +1079,6 @@ void MainImpl::doFileContexPopup(SCRef fileName, int type) {
 	int tt = currentTabType(&t);
 	bool isRevPage = (tt == TAB_REV);
     bool isDir = QFileInfo(fileName).isDir();
-
-	if (!isDir && ActViewFile->isEnabled())
-		contextMenu.addAction(ActViewFile);
 
 	if (!isRevPage && (type == POPUP_FILE_EV) && ActViewRev->isEnabled())
 		contextMenu.addAction(ActViewRev);
