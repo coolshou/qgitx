@@ -388,10 +388,6 @@ void MainImpl::fileList_itemDoubleClicked(QListWidgetItem* item) {
 		return;
 }
 
-void MainImpl::treeView_doubleClicked(QTreeWidgetItem* item, int) {
-    //FIXME: remove this
-}
-
 void MainImpl::pushButtonCloseTab_clicked() {
 
 	Domain* t;
