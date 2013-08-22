@@ -413,22 +413,6 @@ void MainImpl::ActViewRev_activated() {
 	tabWdg->setCurrentWidget(rv->tabPage());
 }
 
-void MainImpl::openFileTab(FileView* fv) {
-
-	if (!fv) {
-		fv = new FileView(this, git);
-		tabWdg->addTab(fv->tabPage(), "File");
-
-		connect(fv->tab()->histListView, SIGNAL(doubleClicked(const QModelIndex&)),
-		        this, SLOT(histListView_doubleClicked(const QModelIndex&)));
-
-		connect(this, SIGNAL(closeAllTabs()), fv, SLOT(on_closeAllTabs()));
-	}
-	tabWdg->setCurrentWidget(fv->tabPage());
-	fv->st = rv->st;
-	UPDATE_DOMAIN(fv);
-}
-
 bool MainImpl::eventFilter(QObject* obj, QEvent* ev) {
 
 	if (ev->type() == QEvent::Wheel) {
