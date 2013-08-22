@@ -28,7 +28,6 @@ class QTextEdit;
 class Domain;
 class Git;
 class FileHistory;
-class FileView;
 class RevsView;
 
 class MainImpl : public QMainWindow, public Ui_MainBase {
@@ -78,7 +77,6 @@ protected slots:
 	void initWithEventLoopActive();
 	void refreshRepo(bool setCurRevAfterLoad = true);
 	void fileList_itemDoubleClicked(QListWidgetItem*);
-	void treeView_doubleClicked(QTreeWidgetItem*, int);
 	void histListView_doubleClicked(const QModelIndex&);
 	void openRecent_triggered(QAction*);
 	void goRef_triggered(QAction*);
@@ -90,8 +88,6 @@ protected slots:
 	void ActFind_activated();
 	void ActFindNext_activated();
 	void ActViewRev_activated();
-	void ActViewFile_activated();
-	void ActViewFileNewTab_activated();
 	void ActExternalDiff_activated();
 	void ActSplitView_activated();
 	void ActToggleLogsDiff_activated();
@@ -143,7 +139,6 @@ private:
 	QTextEdit* getCurrentTextEdit();
 	template<class X> QList<X*>* getTabs(QWidget* tabPage = NULL);
 	template<class X> X* firstTab(QWidget* startPage = NULL);
-	void openFileTab(FileView* fv = NULL);
 
 	EM_DECLARE(exExiting);
 

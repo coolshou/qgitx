@@ -69,8 +69,7 @@ namespace QGit {
 	// tab pages
 	enum TabType {
 		TAB_REV,
-		TAB_PATCH,
-		TAB_FILE
+        TAB_PATCH
 	};
 
 	// graph elements
