@@ -127,7 +127,6 @@
     <addaction name="separator"/>
     <addaction name="ActViewRev"/>
     <addaction name="ActExternalDiff"/>
-    <addaction name="ActSplitView"/>
     <addaction name="ActToggleLogsDiff"/>
    </widget>
    <addaction name="File"/>
@@ -383,24 +382,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
-   </property>
-  </action>
-  <action name="ActSplitView">
-   <property name="icon">
-    <iconset resource="icons.qrc">
-     <normaloff>:/icons/resources/view_top_bottom.png</normaloff>:/icons/resources/view_top_bottom.png</iconset>
-   </property>
-   <property name="text">
-    <string>Toggle split view</string>
-   </property>
-   <property name="iconText">
-    <string>Toggle split view</string>
-   </property>
-   <property name="toolTip">
-    <string>Hide/unhide secondary pane</string>
-   </property>
-   <property name="shortcut">
-    <string>S</string>
    </property>
   </action>
   <action name="ActFind">
@@ -800,22 +781,6 @@
    <signal>triggered()</signal>
    <receiver>MainBase</receiver>
    <slot>ActViewRev_activated()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>ActSplitView</sender>
-   <signal>triggered()</signal>
-   <receiver>MainBase</receiver>
-   <slot>ActSplitView_activated()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>

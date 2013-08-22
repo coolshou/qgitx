@@ -128,10 +128,6 @@ MainImpl::MainImpl(SCRef cd, QWidget* p) : QMainWindow(p) {
 
 	connect(this, SIGNAL(changeFont(const QFont&)), git, SIGNAL(changeFont(const QFont&)));
 
-	// connect cross-domain update signals
-	connect(rv->tab()->fileList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-	        this, SLOT(fileList_itemDoubleClicked(QListWidgetItem*)));
-
 	// use most recent repo as startup dir if it exists and user opted to do so
 	QStringList recents(settings.value(REC_REP_KEY).toStringList());
 	QDir checkRepo;
@@ -378,13 +374,6 @@ void MainImpl::histListView_doubleClicked(const QModelIndex& index) {
 
 	if (index.isValid() && ActViewRev->isEnabled())
 		ActViewRev->activate(QAction::Trigger);
-}
-
-void MainImpl::fileList_itemDoubleClicked(QListWidgetItem* item) {
-
-	bool isFirst = (item && item->listWidget()->item(0) == item);
-	if (isFirst && rv->st.isMerge())
-		return;
 }
 
 void MainImpl::pushButtonCloseTab_clicked() {
@@ -1044,22 +1033,6 @@ void MainImpl::goRef_triggered(QAction* act) {
 	SCRef refSha(git->getRefSha(act->text()));
 	rv->st.setSha(refSha);
 	UPDATE_DOMAIN(rv);
-}
-
-void MainImpl::ActSplitView_activated() {
-
-	Domain* t;
-	switch (currentTabType(&t)) {
-	case TAB_REV: {
-		RevsView* rv = static_cast<RevsView*>(t);
-		QWidget* w = rv->tab()->fileList;
-		QSplitter* sp = static_cast<QSplitter*>(w->parent());
-		sp->setHidden(w->isVisible()); }
-		break;
-	default:
-		dbs("ASSERT in ActSplitView_activated: unknown current page");
-		break;
-	}
 }
 
 void MainImpl::ActToggleLogsDiff_activated() {

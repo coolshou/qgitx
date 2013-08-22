@@ -12,7 +12,6 @@
 #include "git.h"
 #include "domain.h"
 #include "historyview.h"
-#include "filelist.h"
 #include "revdesc.h"
 #include "smartbrowse.h"
 #include "mainimpl.h"
@@ -26,7 +25,6 @@ RevsView::RevsView(MainImpl* mi, Git* g, bool isMain) : Domain(mi, g, isMain) {
 	tab()->listViewLog->setup(this, g);
 	tab()->textBrowserDesc->setup(this);
 	tab()->textEditDiff->setup(this, git);
-	tab()->fileList->setup(this, git);
 
 	setTabLogDiffVisible(QGit::testFlag(QGit::LOG_DIFF_TAB_F));
 
@@ -71,12 +69,6 @@ RevsView::RevsView(MainImpl* mi, Git* g, bool isMain) : Domain(mi, g, isMain) {
     /*connect(m()->treeView, SIGNAL(contextMenu(const QString&, int)),
             this, SLOT(on_contextMenu(const QString&, int)));*/
 
-	connect(tab()->fileList, SIGNAL(contextMenu(const QString&, int)),
-	        this, SLOT(on_contextMenu(const QString&, int)));
-
-	connect(m(), SIGNAL(changeFont(const QFont&)),
-	       tab()->fileList, SLOT(on_changeFont(const QFont&)));
-
 	connect(m(), SIGNAL(highlightPatch(const QString&, bool)),
 	        tab()->textEditDiff, SLOT(on_highlightPatch(const QString&, bool)));
 }
@@ -105,7 +97,6 @@ void RevsView::clear(bool complete) {
 
 	tab()->textBrowserDesc->clear();
 	tab()->textEditDiff->clear();
-	tab()->fileList->clear();
 }
 
 void RevsView::setEnabled(bool b) {
@@ -216,17 +207,12 @@ bool RevsView::doUpdate(bool force) {
 		bool newFiles = false;
 
 		if (st.isChanged(StateInfo::ANY & ~StateInfo::FILE_NAME) || force) {
-
-			tab()->fileList->clear();
-
 			// blocking call, could be slow in case of all merge files
 			files = git->getFiles(st.sha(), st.diffToSha(), st.allMergeFiles());
 			newFiles = true;
 
 			tab()->textEditDiff->update(st);
 		}
-		// call always to allow a simple refresh
-		tab()->fileList->update(files, newFiles);
 
 		if (st.selectItem()) {
             bool isDir = st.isDir();

@@ -76,7 +76,6 @@ protected:
 protected slots:
 	void initWithEventLoopActive();
 	void refreshRepo(bool setCurRevAfterLoad = true);
-	void fileList_itemDoubleClicked(QListWidgetItem*);
 	void histListView_doubleClicked(const QModelIndex&);
 	void openRecent_triggered(QAction*);
 	void goRef_triggered(QAction*);
@@ -89,7 +88,6 @@ protected slots:
 	void ActFindNext_activated();
 	void ActViewRev_activated();
 	void ActExternalDiff_activated();
-	void ActSplitView_activated();
 	void ActToggleLogsDiff_activated();
 	void ActOpenRepo_activated();
 	void ActOpenRepoNewWindow_activated();
