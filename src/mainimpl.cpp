@@ -93,15 +93,6 @@ MainImpl::MainImpl(SCRef cd, QWidget* p) : QMainWindow(p) {
 	rv = new RevsView(this, git, true); // set has main domain
 	tabWdg->addTab(rv->tabPage(), "&Rev list");
 
-	// set-up tab corner widget ('close tab' button)
-	QToolButton* ct = new QToolButton(tabWdg);
-	ct->setIcon(QIcon(QString::fromUtf8(":/icons/resources/tab_remove.png")));
-	ct->setToolTip("Close tab");
-	ct->setEnabled(false);
-	tabWdg->setCornerWidget(ct);
-	connect(ct, SIGNAL(clicked()), this, SLOT(pushButtonCloseTab_clicked()));
-	connect(this, SIGNAL(closeTabButtonEnabled(bool)), ct, SLOT(setEnabled(bool)));
-
 	// set-up file names loading progress bar
 	pbFileNamesLoading = new QProgressBar(statusBar());
 	pbFileNamesLoading->setTextVisible(false);
@@ -374,18 +365,6 @@ void MainImpl::histListView_doubleClicked(const QModelIndex& index) {
 
 	if (index.isValid() && ActViewRev->isEnabled())
 		ActViewRev->activate(QAction::Trigger);
-}
-
-void MainImpl::pushButtonCloseTab_clicked() {
-
-	Domain* t;
-	switch (currentTabType(&t)) {
-	case TAB_REV:
-		break;
-	default:
-		dbs("ASSERT in pushButtonCloseTab_clicked: unknown current page");
-		break;
-	}
 }
 
 void MainImpl::ActViewRev_activated() {
@@ -699,7 +678,6 @@ void MainImpl::tabWdg_currentChanged(int w) {
 	switch (currentTabType(&t)) {
 	case TAB_REV:
 		static_cast<RevsView*>(t)->tab()->listViewLog->setFocus();
-		emit closeTabButtonEnabled(false);
 		break;
 	default:
 		dbs("ASSERT in tabWdg_currentChanged: unknown current page");

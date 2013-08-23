@@ -58,7 +58,6 @@ signals:
 	void closeAllWindows();
 	void closeAllTabs();
 	void changeFont(const QFont&);
-	void closeTabButtonEnabled(bool);
 	void typeWriterFontChanged();
 	void flagChanged(uint);
 
@@ -81,7 +80,6 @@ protected slots:
 	void goRef_triggered(QAction*);
 	void changesCommitted(bool);
 	void lineEditFilter_returnPressed();
-	void pushButtonCloseTab_clicked();
 	void ActBack_activated();
 	void ActForward_activated();
 	void ActFind_activated();

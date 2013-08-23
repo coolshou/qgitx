@@ -113,7 +113,7 @@ Domain::~Domain() {
 		return;
 
 	// remove before to delete, avoids a Qt warning in QInputContext()
-	m()->tabWdg->removeTab(m()->tabWdg->indexOf(container));
+    //m()->tabWdg->removeTab(m()->tabWdg->indexOf(container)); //FIXME: replace tabWdg
 	container->deleteLater();
 }
 
