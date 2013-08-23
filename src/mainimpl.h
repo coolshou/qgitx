@@ -132,7 +132,6 @@ private:
 	bool askApplyPatchParameters(bool* commit, bool* fold);
 	void saveCurrentGeometry();
 	QTextEdit* getCurrentTextEdit();
-	template<class X> QList<X*>* getTabs(QWidget* tabPage = NULL);
 
 	EM_DECLARE(exExiting);
 

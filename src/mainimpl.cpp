@@ -606,18 +606,6 @@ int MainImpl::currentTabType(Domain** t) {
     return TAB_REV;
 }
 
-template<class X> QList<X*>* MainImpl::getTabs(QWidget* tabPage) {
-
-	QList<X*> l = this->findChildren<X*>();
-	QList<X*>* ret = new QList<X*>;
-
-	for (int i = 0; i < l.size(); ++i) {
-		if (!tabPage || l.at(i)->tabPage() == tabPage)
-			ret->append(l.at(i));
-	}
-	return ret; // 'ret' must be deleted by caller
-}
-
 void MainImpl::tabWdg_currentChanged(int w) {
 
 	if (w == -1)
