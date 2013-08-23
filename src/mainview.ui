@@ -22,6 +22,9 @@
   </property>
   <widget class="QWidget" name="widget">
    <layout class="QHBoxLayout">
+    <property name="margin">
+     <number>0</number>
+    </property>
     <item>
      <widget class="QSplitter" name="treeSplitter">
       <property name="orientation">
