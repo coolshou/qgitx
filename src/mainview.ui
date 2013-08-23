@@ -27,8 +27,17 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QStackedWidget" name="viewStack">
+      <widget class="QTreeWidget" name="navigator">
+       <attribute name="headerVisible">
+        <bool>false</bool>
+       </attribute>
+       <column>
+        <property name="text">
+         <string notr="true">1</string>
+        </property>
+       </column>
       </widget>
+      <widget class="QStackedWidget" name="viewStack"/>
      </widget>
     </item>
    </layout>
