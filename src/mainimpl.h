@@ -58,12 +58,10 @@ signals:
 	void closeAllWindows();
 	void closeAllTabs();
 	void changeFont(const QFont&);
-	void closeTabButtonEnabled(bool);
 	void typeWriterFontChanged();
 	void flagChanged(uint);
 
 private slots:
-	void tabWdg_currentChanged(int);
 	void newRevsAdded(const FileHistory*, const QVector<ShaString>&);
 	void fileNamesLoad(int, int);
 	void revisionsDragged(const QStringList&);
@@ -81,7 +79,6 @@ protected slots:
 	void goRef_triggered(QAction*);
 	void changesCommitted(bool);
 	void lineEditFilter_returnPressed();
-	void pushButtonCloseTab_clicked();
 	void ActBack_activated();
 	void ActForward_activated();
 	void ActFind_activated();
@@ -113,7 +110,6 @@ protected slots:
 private:
 	friend class setRepoDelayed;
 
-	virtual bool eventFilter(QObject* obj, QEvent* ev);
 	void updateGlobalActions(bool b);
 	void setupShortcuts();
 	int currentTabType(Domain** t);
@@ -135,8 +131,6 @@ private:
 	bool askApplyPatchParameters(bool* commit, bool* fold);
 	void saveCurrentGeometry();
 	QTextEdit* getCurrentTextEdit();
-	template<class X> QList<X*>* getTabs(QWidget* tabPage = NULL);
-	template<class X> X* firstTab(QWidget* startPage = NULL);
 
 	EM_DECLARE(exExiting);
 

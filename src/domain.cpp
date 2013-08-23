@@ -113,7 +113,7 @@ Domain::~Domain() {
 		return;
 
 	// remove before to delete, avoids a Qt warning in QInputContext()
-	m()->tabWdg->removeTab(m()->tabWdg->indexOf(container));
+    //m()->tabWdg->removeTab(m()->tabWdg->indexOf(container)); //FIXME: replace tabWdg
 	container->deleteLater();
 }
 
@@ -169,12 +169,6 @@ MainImpl* Domain::m() const {
 void Domain::showStatusBarMessage(const QString& msg, int timeout) {
 
 	m()->statusBar()->showMessage(msg, timeout);
-}
-
-void Domain::setTabCaption(const QString& caption) {
-
-	int idx = m()->tabWdg->indexOf(container);
-	m()->tabWdg->setTabText(idx, caption);
 }
 
 bool Domain::setReadyToDrag(bool b) {

@@ -89,18 +89,8 @@ MainImpl::MainImpl(SCRef cd, QWidget* p) : QMainWindow(p) {
 	QGit::TYPE_WRITER_FONT.fromString(font);
 
 	// set-up tab view
-	delete tabWdg->currentWidget(); // cannot be done in Qt Designer
 	rv = new RevsView(this, git, true); // set has main domain
-	tabWdg->addTab(rv->tabPage(), "&Rev list");
-
-	// set-up tab corner widget ('close tab' button)
-	QToolButton* ct = new QToolButton(tabWdg);
-	ct->setIcon(QIcon(QString::fromUtf8(":/icons/resources/tab_remove.png")));
-	ct->setToolTip("Close tab");
-	ct->setEnabled(false);
-	tabWdg->setCornerWidget(ct);
-	connect(ct, SIGNAL(clicked()), this, SLOT(pushButtonCloseTab_clicked()));
-	connect(this, SIGNAL(closeTabButtonEnabled(bool)), ct, SLOT(setEnabled(bool)));
+    viewStack->addWidget(rv->tabPage());
 
 	// set-up file names loading progress bar
 	pbFileNamesLoading = new QProgressBar(statusBar());
@@ -376,40 +366,8 @@ void MainImpl::histListView_doubleClicked(const QModelIndex& index) {
 		ActViewRev->activate(QAction::Trigger);
 }
 
-void MainImpl::pushButtonCloseTab_clicked() {
-
-	Domain* t;
-	switch (currentTabType(&t)) {
-	case TAB_REV:
-		break;
-	default:
-		dbs("ASSERT in pushButtonCloseTab_clicked: unknown current page");
-		break;
-	}
-}
-
 void MainImpl::ActViewRev_activated() {
-	tabWdg->setCurrentWidget(rv->tabPage());
-}
-
-bool MainImpl::eventFilter(QObject* obj, QEvent* ev) {
-
-	if (ev->type() == QEvent::Wheel) {
-
-		QWheelEvent* e = static_cast<QWheelEvent*>(ev);
-		if (e->modifiers() == Qt::AltModifier) {
-
-			int idx = tabWdg->currentIndex();
-			if (e->delta() < 0)
-				idx = (++idx == tabWdg->count() ? 0 : idx);
-			else
-				idx = (--idx < 0 ? tabWdg->count() - 1 : idx);
-
-			tabWdg->setCurrentIndex(idx);
-			return true;
-		}
-	}
-	return QWidget::eventFilter(obj, ev);
+    viewStack->setCurrentWidget(rv->tabPage());
 }
 
 void MainImpl::revisionsDragged(SCList selRevs) {
@@ -643,68 +601,8 @@ bool MainImpl::event(QEvent* e) {
 }
 
 int MainImpl::currentTabType(Domain** t) {
-
-	*t = NULL;
-	QWidget* curPage = tabWdg->currentWidget();
-	if (curPage == rv->tabPage()) {
-		*t = rv;
-		return TAB_REV;
-	}
-	return -1;
-}
-
-template<class X> QList<X*>* MainImpl::getTabs(QWidget* tabPage) {
-
-	QList<X*> l = this->findChildren<X*>();
-	QList<X*>* ret = new QList<X*>;
-
-	for (int i = 0; i < l.size(); ++i) {
-		if (!tabPage || l.at(i)->tabPage() == tabPage)
-			ret->append(l.at(i));
-	}
-	return ret; // 'ret' must be deleted by caller
-}
-
-template<class X> X* MainImpl::firstTab(QWidget* startPage) {
-
-	int minVal = 99, firstVal = 99;
-	int startPos = tabWdg->indexOf(startPage);
-	X* min = NULL;
-	X* first = NULL;
-	QList<X*>* l = getTabs<X>();
-	for (int i = 0; i < l->size(); ++i) {
-
-		X* d = l->at(i);
-		int idx = tabWdg->indexOf(d->tabPage());
-		if (idx < minVal) {
-			minVal = idx;
-			min = d;
-		}
-		if (idx < firstVal && idx > startPos) {
-			firstVal = idx;
-			first = d;
-		}
-	}
-	delete l;
-	return (first ? first : min);
-}
-
-void MainImpl::tabWdg_currentChanged(int w) {
-
-	if (w == -1)
-		return;
-
-	// set correct focus for keyboard browsing
-	Domain* t;
-	switch (currentTabType(&t)) {
-	case TAB_REV:
-		static_cast<RevsView*>(t)->tab()->listViewLog->setFocus();
-		emit closeTabButtonEnabled(false);
-		break;
-	default:
-		dbs("ASSERT in tabWdg_currentChanged: unknown current page");
-		break;
-	}
+    //FIXME: adapt this to new code, when ready
+    return TAB_REV;
 }
 
 void MainImpl::setupShortcuts() {
@@ -780,7 +678,7 @@ void MainImpl::shortCutActivated() {
 		scrollTextEdit(1);
 		break;
 	case Qt::Key_R:
-		tabWdg->setCurrentWidget(rv->tabPage());
+        viewStack->setCurrentWidget(rv->tabPage());
 		break;
 	}
 }
