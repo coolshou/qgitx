@@ -111,7 +111,6 @@ protected slots:
 private:
 	friend class setRepoDelayed;
 
-	virtual bool eventFilter(QObject* obj, QEvent* ev);
 	void updateGlobalActions(bool b);
 	void setupShortcuts();
 	int currentTabType(Domain** t);

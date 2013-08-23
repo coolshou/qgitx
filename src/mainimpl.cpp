@@ -371,26 +371,6 @@ void MainImpl::ActViewRev_activated() {
 	tabWdg->setCurrentWidget(rv->tabPage());
 }
 
-bool MainImpl::eventFilter(QObject* obj, QEvent* ev) {
-
-	if (ev->type() == QEvent::Wheel) {
-
-		QWheelEvent* e = static_cast<QWheelEvent*>(ev);
-		if (e->modifiers() == Qt::AltModifier) {
-
-			int idx = tabWdg->currentIndex();
-			if (e->delta() < 0)
-				idx = (++idx == tabWdg->count() ? 0 : idx);
-			else
-				idx = (--idx < 0 ? tabWdg->count() - 1 : idx);
-
-			tabWdg->setCurrentIndex(idx);
-			return true;
-		}
-	}
-	return QWidget::eventFilter(obj, ev);
-}
-
 void MainImpl::revisionsDragged(SCList selRevs) {
 
 	const QString h(QString::fromLatin1("@") + curDir + '\n');
