@@ -133,7 +133,6 @@ private:
 	void saveCurrentGeometry();
 	QTextEdit* getCurrentTextEdit();
 	template<class X> QList<X*>* getTabs(QWidget* tabPage = NULL);
-	template<class X> X* firstTab(QWidget* startPage = NULL);
 
 	EM_DECLARE(exExiting);
 
