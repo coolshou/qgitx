@@ -602,14 +602,8 @@ bool MainImpl::event(QEvent* e) {
 }
 
 int MainImpl::currentTabType(Domain** t) {
-
-	*t = NULL;
-	QWidget* curPage = tabWdg->currentWidget();
-	if (curPage == rv->tabPage()) {
-		*t = rv;
-		return TAB_REV;
-	}
-	return -1;
+    //FIXME: adapt this to new code, when ready
+    return TAB_REV;
 }
 
 template<class X> QList<X*>* MainImpl::getTabs(QWidget* tabPage) {
