@@ -27,12 +27,7 @@
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QTabWidget" name="tabWdg">
-       <widget class="QWidget" name="TabWdg">
-        <attribute name="title">
-         <string>Tab&amp;Wdg</string>
-        </attribute>
-       </widget>
+      <widget class="QStackedWidget" name="viewStack">
       </widget>
      </widget>
     </item>

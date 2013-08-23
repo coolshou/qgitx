@@ -89,9 +89,8 @@ MainImpl::MainImpl(SCRef cd, QWidget* p) : QMainWindow(p) {
 	QGit::TYPE_WRITER_FONT.fromString(font);
 
 	// set-up tab view
-	delete tabWdg->currentWidget(); // cannot be done in Qt Designer
 	rv = new RevsView(this, git, true); // set has main domain
-	tabWdg->addTab(rv->tabPage(), "&Rev list");
+    viewStack->addWidget(rv->tabPage());
 
 	// set-up file names loading progress bar
 	pbFileNamesLoading = new QProgressBar(statusBar());
@@ -368,7 +367,7 @@ void MainImpl::histListView_doubleClicked(const QModelIndex& index) {
 }
 
 void MainImpl::ActViewRev_activated() {
-	tabWdg->setCurrentWidget(rv->tabPage());
+    viewStack->setCurrentWidget(rv->tabPage());
 }
 
 void MainImpl::revisionsDragged(SCList selRevs) {
@@ -679,7 +678,7 @@ void MainImpl::shortCutActivated() {
 		scrollTextEdit(1);
 		break;
 	case Qt::Key_R:
-		tabWdg->setCurrentWidget(rv->tabPage());
+        viewStack->setCurrentWidget(rv->tabPage());
 		break;
 	}
 }
