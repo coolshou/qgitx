@@ -171,12 +171,6 @@ void Domain::showStatusBarMessage(const QString& msg, int timeout) {
 	m()->statusBar()->showMessage(msg, timeout);
 }
 
-void Domain::setTabCaption(const QString& caption) {
-
-	int idx = m()->tabWdg->indexOf(container);
-	m()->tabWdg->setTabText(idx, caption);
-}
-
 bool Domain::setReadyToDrag(bool b) {
 
 	readyToDrag = (b && !busy && !dragging && !dropping);
