@@ -606,23 +606,6 @@ int MainImpl::currentTabType(Domain** t) {
     return TAB_REV;
 }
 
-void MainImpl::tabWdg_currentChanged(int w) {
-
-	if (w == -1)
-		return;
-
-	// set correct focus for keyboard browsing
-	Domain* t;
-	switch (currentTabType(&t)) {
-	case TAB_REV:
-		static_cast<RevsView*>(t)->tab()->listViewLog->setFocus();
-		break;
-	default:
-		dbs("ASSERT in tabWdg_currentChanged: unknown current page");
-		break;
-	}
-}
-
 void MainImpl::setupShortcuts() {
 
 	new QShortcut(Qt::Key_I,     this, SLOT(shortCutActivated()));

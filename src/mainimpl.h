@@ -62,7 +62,6 @@ signals:
 	void flagChanged(uint);
 
 private slots:
-	void tabWdg_currentChanged(int);
 	void newRevsAdded(const FileHistory*, const QVector<ShaString>&);
 	void fileNamesLoad(int, int);
 	void revisionsDragged(const QStringList&);
