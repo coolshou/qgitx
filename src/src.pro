@@ -23,7 +23,8 @@ contains(QMAKE_CC,.*gcc.*) {
 
 # General stuff
 TEMPLATE = app
-CONFIG += qt warn_on exceptions debug_and_release
+CONFIG += qt warn_on exceptions debug_and_release c++11
+QMAKE_CXXFLAGS +=-std=c++11
 INCLUDEPATH += ../src
 MAKEFILE = qmake
 RESOURCES += icons.qrc
