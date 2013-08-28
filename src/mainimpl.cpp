@@ -21,6 +21,7 @@
 #include <QTimer>
 #include <QWheelEvent>
 #include <QToolButton>
+#include <QMimeData>
 #include "config.h" // defines PACKAGE_VERSION
 #include "commitimpl.h"
 #include "common.h"
@@ -635,8 +636,7 @@ void MainImpl::shortCutActivated() {
 	QShortcut* se = dynamic_cast<QShortcut*>(sender());
 	if (!se)
 		return;
-
-	switch (se->key()) {
+    switch (se->key()[0]) {
 
 	case Qt::Key_I:
 		rv->tab()->listViewLog->on_keyUp();

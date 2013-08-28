@@ -22,6 +22,7 @@ contains(QMAKE_CC,.*gcc.*) {
 }
 
 # General stuff
+QT += widgets
 TEMPLATE = app
 CONFIG += qt warn_on exceptions debug_and_release c++11
 QMAKE_CXXFLAGS +=-std=c++11
