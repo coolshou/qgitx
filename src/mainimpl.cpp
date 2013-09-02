@@ -32,6 +32,7 @@
 #include "revdesc.h"
 #include "revsview.h"
 #include "settingsimpl.h"
+#include "navigator/navigatorcontroller.h"
 #include "ui_help.h"
 #include "ui_revsview.h"
 
@@ -44,6 +45,7 @@ MainImpl::MainImpl(SCRef cd, QWidget* p) : QMainWindow(p) {
 	setAttribute(Qt::WA_DeleteOnClose);
 	setupUi(this);
 
+    navigatorController = new NavigatorController(*navigator); //TODO: does this magically get deleted by QT?
 	// manual setup widgets not buildable with Qt designer
 	lineEditFilter = new QLineEdit(NULL);
 	cmbSearch = new QComboBox(NULL);
@@ -135,6 +137,39 @@ MainImpl::MainImpl(SCRef cd, QWidget* p) : QMainWindow(p) {
 	// MainImpl c'tor is called before to enter event loop,
 	// but some stuff requires event loop to init properly
 	QTimer::singleShot(10, this, SLOT(initWithEventLoopActive()));
+
+    //load branches when git is ready
+    connect(this->git, &Git::loadCompleted, [this](const FileHistory* fh, const QString& s) {
+        navigatorController->clear();
+        for(QString branchName : this->git->getAllRefNames(Git::BRANCH, Git::optOnlyLoaded))
+        {
+            navigatorController->addBranch(branchName);
+        }
+        for(QString tagName : this->git->getAllRefNames(Git::TAG, Git::optOnlyLoaded))
+        {
+            navigatorController->addTag(tagName);
+        }
+        for(QString remoteName : this->git->getAllRefNames(Git::RMT_BRANCH, Git::optOnlyLoaded))
+        {
+            navigatorController->addRemote(remoteName);
+        }
+    });
+    //jump to branch ref when selected in navigation
+    connect(this->navigatorController, &NavigatorController::branchActivated, [this](const QString& branchName) {
+        SCRef refSha(git->getRefSha(branchName));
+        rv->st.setSha(refSha);
+        UPDATE_DOMAIN(rv);
+    });
+    connect(this->navigatorController, &NavigatorController::tagActivated, [this](const QString& tagName) {
+        SCRef refSha(git->getRefSha(tagName));
+        rv->st.setSha(refSha);
+        UPDATE_DOMAIN(rv);
+    });
+    connect(this->navigatorController, &NavigatorController::remoteActivated, [this](const QString& remoteName) {
+        SCRef refSha(git->getRefSha(remoteName));
+        rv->st.setSha(refSha);
+        UPDATE_DOMAIN(rv);
+    });
 }
 
 void MainImpl::initWithEventLoopActive() {

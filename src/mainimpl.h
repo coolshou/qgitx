@@ -29,6 +29,7 @@ class Domain;
 class Git;
 class FileHistory;
 class RevsView;
+class NavigatorController;
 
 class MainImpl : public QMainWindow, public Ui_MainBase {
 Q_OBJECT
@@ -137,6 +138,7 @@ private:
 	Git* git;
 	RevsView* rv;
 	QProgressBar* pbFileNamesLoading;
+    NavigatorController* navigatorController;
 
 	// curDir is the repository working dir, could be different from qgit running
 	// directory QDir::current(). Note that qgit could be run from subdirectory

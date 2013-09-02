@@ -83,7 +83,8 @@ HEADERS += cache.h commitimpl.h common.h config.h \
            revdesc.h revsview.h settingsimpl.h \
            smartbrowse.h \
     filehistory.h \
-    historyview.h
+    historyview.h \
+    navigator/navigatorcontroller.h
 
 SOURCES += cache.cpp commitimpl.cpp \
            dataloader.cpp domain.cpp exceptionmanager.cpp \
@@ -92,7 +93,8 @@ SOURCES += cache.cpp commitimpl.cpp \
            patchcontent.cpp qgit.cpp \
            revdesc.cpp revsview.cpp settingsimpl.cpp smartbrowse.cpp \
     filehistory.cpp \
-    historyview.cpp
+    historyview.cpp \
+    navigator/navigatorcontroller.cpp
 
 DISTFILES += app_icon.rc helpgen.sh resources/* Src.vcproj todo.txt
 DISTFILES += ../COPYING ../exception_manager.txt ../README ../README_WIN.txt
