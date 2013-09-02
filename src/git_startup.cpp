@@ -42,22 +42,10 @@ const QString Git::getLocalDate(SCRef gitDate) {
 }
 
 const QStringList Git::getArgs() {
-
-	QString args;
-	if (startup) {
-		for (int i = 1; i < qApp->argc(); i++) {
-			// in arguments with spaces double quotes
-			// are stripped by Qt, so re-add them
-			QString arg(qApp->argv()[i]);
-			if (arg.contains(' '))
-				arg.prepend('\"').append('\"');
-
-			args.append(arg + ' ');
-		}
-	}
-
-	startup = false;
-	return MyProcess::splitArgList(args);
+    QStringList arguments(qApp->arguments());
+    arguments.removeFirst();
+    startup = false;
+    return arguments;
 }
 
 const QString Git::getBaseDir(bool* changed, SCRef wd, bool* ok, QString* gd) {
@@ -268,7 +256,7 @@ Rev* Git::fakeRevData(SCRef sha, SCList parents, SCRef author, SCRef date, SCRef
 	if (!patch.isEmpty())
 		data.append('\n' + patch);
 
-	QByteArray* ba = new QByteArray(data.toAscii());
+    QByteArray* ba = new QByteArray(data.toLatin1());
 	ba->append('\0');
 
 	fh->rowData.append(ba);
@@ -623,7 +611,7 @@ bool Git::init(SCRef wd, const QStringList* passedArgs, bool overwriteArgs) {
 
 			// update text codec according to repo settings
 			bool dummy;
-			QTextCodec::setCodecForCStrings(getTextCodec(&dummy));
+//			QTextCodec::setCodecForCStrings(getTextCodec(&dummy)); //FIXME: no longer available
 
 			// load references
 			SHOW_MSG(msg1 + "refs...");
@@ -1426,7 +1414,7 @@ const QString Rev::mid(int start, int len) const {
 
 	// warning no sanity check is done on arguments
 	const char* data = ba.constData();
-	return QString::fromAscii(data + start, len);
+    return QString::fromLatin1(data + start, len);
 }
 
 const QString Rev::midSha(int start, int len) const {

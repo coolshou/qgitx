@@ -132,7 +132,7 @@ void Git::userInfo(SList info) {
 bool Git::isImageFile(SCRef file) {
 
 	const QString ext(file.section('.', -1).toLower());
-	return QImageReader::supportedImageFormats().contains(ext.toAscii());
+    return QImageReader::supportedImageFormats().contains(ext.toLatin1());
 }
 
 bool Git::isBinaryFile(SCRef file) {
@@ -167,8 +167,9 @@ bool Git::isThrowOnStopRaised(int excpId, SCRef curContext) {
 
 void Git::setTextCodec(QTextCodec* tc) {
 
-	QTextCodec::setCodecForCStrings(tc); // works also with tc == 0 (Latin1)
-	QTextCodec::setCodecForLocale(tc);
+    //FIXME: QTextCodec::setCodecForXXX are deprecated, we will have to do the conversion on our own
+    //QTextCodec::setCodecForCStrings(tc); // works also with tc == 0 (Latin1)
+    //QTextCodec::setCodecForLocale(tc);
 	QString name(tc ? tc->name() : "Latin1");
 
 	// workaround Qt issue of mime name different from
@@ -937,7 +938,7 @@ const QString Git::colorMatch(SCRef txt, QRegExp& regExp) {
 
 	QString text;
 
-	text = Qt::escape(txt);
+    text = txt.toHtmlEscaped();
 
 	if (regExp.isEmpty())
 		return text;
@@ -1021,7 +1022,7 @@ const QString Git::getDesc(SCRef sha, FileHistory* fh) {
 			if (slog.length() > 60)
 				slog = slog.left(57).trimmed().append("...");
 
-			slog = Qt::escape(slog);
+            slog = slog.toHtmlEscaped();
 			const QString link("<a href=\"" + r->sha() + "\">" + slog + "</a>");
 			text.replace(pos + 2, ref.length(), link);
 			pos += link.length();
