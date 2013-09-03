@@ -1,4 +1,7 @@
 Makefile*
+*.pro.user
+qmake
+qmake.*
 *~
 bin
 build
