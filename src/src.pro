@@ -1,128 +1,38 @@
-# Under Windows launch script start_qgit.bat needs the
-# value GIT_EXEC_DIR to be set to the git bin directory
-GIT_EXEC_DIR = "$$(ProgramFiles)\\Git\\bin"
-
-# Under Windows uncomment following line to enable console messages
-#CONFIG += ENABLE_CONSOLE_MSG
-
-# check for Qt >= 5.1
-CUR_QT = $$[QT_VERSION]
-
-# WARNING greaterThan is an undocumented function
-!greaterThan(CUR_QT, 5.1) {
-        error("Sorry I need Qt 5.1 or later, you seem to have Qt $$CUR_QT instead")
-}
-
-# check for g++ compiler
-contains(QMAKE_CC,.*g\\+\\+.*) {
-	CONFIG += HAVE_GCC
-}
-contains(QMAKE_CC,.*gcc.*) {
-	CONFIG += HAVE_GCC
-}
-
-# General stuff
-QT += widgets
-TEMPLATE = app
 CONFIG += qt warn_on exceptions debug_and_release c++11
 QMAKE_CXXFLAGS +=-std=c++11
-INCLUDEPATH += ../src
+INCLUDEPATH += $$PWD
 MAKEFILE = qmake
-RESOURCES += icons.qrc
+RESOURCES += $$PWD/icons.qrc
 LIBS += -lgrantlee_core
 
-# Platform dependent stuff
-win32 {
-    TARGET = qgit
-    target.path = $$GIT_EXEC_DIR
-    CONFIG += windows embed_manifest_exe
-    RC_FILE = app_icon.rc
-}
-
-unix {
-    TARGET = qgit
-    target.path = ~/bin
-    CONFIG += x11
-}
-
-macx {
-    TARGET = qgit
-    target.path = ~/bin
-    #CONFIG += x86 ppc
-    RC_FILE = resources/qgit.icns
-}
-
-HAVE_GCC {
-	QMAKE_CXXFLAGS_RELEASE += -s -O2 -Wno-non-virtual-dtor -Wno-long-long -pedantic -Wconversion
-	QMAKE_CXXFLAGS_DEBUG += -g3 -ggdb -O0 -Wno-non-virtual-dtor -Wno-long-long -pedantic -Wconversion
-}
-
-ENABLE_CONSOLE_MSG {
-	CONFIG -= windows
-	CONFIG += console
-}
-
-INSTALLS += target
-
 # Directories
-DESTDIR = ../bin
-BUILD_DIR = ../build
+DESTDIR = $$PWD/../bin
+BUILD_DIR = $$PWD/../build
 UI_DIR = $$BUILD_DIR
 MOC_DIR = $$BUILD_DIR
 RCC_DIR = $$BUILD_DIR
 OBJECTS_DIR = $$BUILD_DIR
 
 # project files
-FORMS += commit.ui help.ui \
-         mainview.ui revsview.ui settings.ui
+FORMS += $$PWD/commit.ui $$PWD/help.ui \
+         $$PWD/mainview.ui $$PWD/revsview.ui $$PWD/settings.ui
 
-HEADERS += cache.h commitimpl.h common.h config.h \
-           dataloader.h domain.h exceptionmanager.h \
-           git.h help.h lanes.h \
-           mainimpl.h myprocess.h patchcontent.h \
-           revdesc.h revsview.h settingsimpl.h \
-           smartbrowse.h \
-    filehistory.h \
-    historyview.h \
-    navigator/navigatorcontroller.h
+HEADERS += $$PWD/cache.h $$PWD/commitimpl.h $$PWD/common.h $$PWD/config.h \
+           $$PWD/dataloader.h $$PWD/domain.h $$PWD/exceptionmanager.h \
+           $$PWD/git.h $$PWD/help.h $$PWD/lanes.h \
+           $$PWD/mainimpl.h $$PWD/myprocess.h $$PWD/patchcontent.h \
+           $$PWD/revdesc.h $$PWD/revsview.h $$PWD/settingsimpl.h \
+           $$PWD/smartbrowse.h \
+    $$PWD/filehistory.h \
+    $$PWD/historyview.h \
+    $$PWD/navigator/navigatorcontroller.h
 
-SOURCES += cache.cpp commitimpl.cpp \
-           dataloader.cpp domain.cpp exceptionmanager.cpp \
-           git.cpp git_startup.cpp \
-           lanes.cpp mainimpl.cpp myprocess.cpp namespace_def.cpp \
-           patchcontent.cpp qgit.cpp \
-           revdesc.cpp revsview.cpp settingsimpl.cpp smartbrowse.cpp \
-    filehistory.cpp \
-    historyview.cpp \
-    navigator/navigatorcontroller.cpp
-
-DISTFILES += app_icon.rc helpgen.sh resources/* Src.vcproj todo.txt
-DISTFILES += ../COPYING ../exception_manager.txt ../README ../README_WIN.txt
-DISTFILES += ../qgit_inno_setup.iss ../QGit4.sln
-
-# Here we generate a batch called start_qgit.bat used, under Windows only,
-# to start qgit with proper PATH set.
-#
-# NOTE: qgit must be installed in git directory, among git exe files
-# for this to work. If you install with 'make install' this is already
-# done for you.
-#
-# Remember to set proper GIT_EXEC_DIR value at the beginning of this file
-#
-win32 {
-    !exists($${GIT_EXEC_DIR}/git.exe) {
-        error("I cannot found git files, please set GIT_EXEC_DIR in 'src.pro' file")
-    }
-    QGIT_BAT = ../start_qgit.bat
-    CUR_PATH = $$system(echo %PATH%)
-    LINE_1 = $$quote(set PATH=$$CUR_PATH;$$GIT_EXEC_DIR;)
-    LINE_2 = $$quote(set PATH=$$CUR_PATH;)
-
-    qgit_launcher.commands =    @echo @echo OFF > $$QGIT_BAT
-    qgit_launcher.commands += && @echo $$LINE_1 >> $$QGIT_BAT
-    qgit_launcher.commands += && @echo bin\\$$TARGET >> $$QGIT_BAT
-    qgit_launcher.commands += && @echo $$LINE_2 >> $$QGIT_BAT
-
-    QMAKE_EXTRA_TARGETS += qgit_launcher
-    PRE_TARGETDEPS += qgit_launcher
-}
+SOURCES += $$PWD/cache.cpp $$PWD/commitimpl.cpp \
+           $$PWD/dataloader.cpp $$PWD/domain.cpp $$PWD/exceptionmanager.cpp \
+           $$PWD/git.cpp $$PWD/git_startup.cpp \
+           $$PWD/lanes.cpp $$PWD/mainimpl.cpp $$PWD/myprocess.cpp $$PWD/namespace_def.cpp \
+           $$PWD/patchcontent.cpp \
+           $$PWD/revdesc.cpp $$PWD/revsview.cpp $$PWD/settingsimpl.cpp $$PWD/smartbrowse.cpp \
+    $$PWD/filehistory.cpp \
+    $$PWD/historyview.cpp \
+    $$PWD/navigator/navigatorcontroller.cpp

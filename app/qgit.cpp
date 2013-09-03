@@ -5,8 +5,8 @@
 
 */
 #include <QSettings>
-#include "common.h"
-#include "mainimpl.h"
+#include "../src/common.h"
+#include "../src/mainimpl.h"
 
 #if defined(_MSC_VER) && defined(NDEBUG)
 	#pragma comment(linker,"/entry:mainCRTStartup")

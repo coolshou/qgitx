@@ -1,5 +1,7 @@
 TEMPLATE=subdirs
-SUBDIRS=src
+SUBDIRS= \
+    app \
+    test
 CONFIG += debug_and_release c++11
 
 QMAKE_CXXFLAGS += -std=c++11
