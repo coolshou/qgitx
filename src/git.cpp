@@ -19,7 +19,7 @@
 #include <QTextDocument>
 #include <QTextStream>
 
-#include <grantlee_core.h>
+#include <grantlee_templates.h>
 
 #include "cache.h"
 #include "git.h"

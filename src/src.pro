@@ -3,7 +3,7 @@ QMAKE_CXXFLAGS +=-std=c++11
 INCLUDEPATH += $$PWD
 MAKEFILE = qmake
 RESOURCES += $$PWD/icons.qrc
-LIBS += -lgrantlee_core
+LIBS += -lGrantlee_Templates
 
 # Directories
 DESTDIR = $$PWD/../bin
