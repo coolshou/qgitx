@@ -45,6 +45,10 @@
         <file>resources/view_top_bottom.png</file>
         <file>resources/view_tree.png</file>
         <file>resources/wizard.png</file>
+        <file alias="add.svg">resources/add.svg</file>
+        <file alias="modify.svg">resources/modify.svg</file>
+        <file alias="delete.svg">resources/delete.svg</file>
+        <file alias="move.svg">resources/move.svg</file>
     </qresource>
     <qresource prefix="/templates">
         <file alias="desc.html">templates/desc.html</file>

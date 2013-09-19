@@ -12,10 +12,18 @@
               color: #333333;
               background-color: #FFFFFF;
             }
-            .changed { color: #C78400;}
-            .renamed { color: #00007B;}
-            .deleted { color: #7A0001;}
-            .new { color: #006200;}
+            ul.tree_diff {
+              padding-left: 0px;
+            }
+            ul.tree_diff li {
+              list-style: none;
+              padding-left: 18px;
+              padding-bottom: 2px;
+            }
+            .changed { background: url("qrc:/icons/modify.svg") no-repeat left center; }
+            .renamed { background: url("qrc:/icons/move.svg") no-repeat left center; }
+            .deleted { background: url("qrc:/icons/delete.svg") no-repeat left center; }
+            .new { background: url("qrc:/icons/add.svg") no-repeat left center; }
 
             .file_diff { padding-bottom: 32px; }
             .file_diff  table { background-color: #FFFFFF; font-family: Consolas,"Liberation Mono",Courier,monospace; border-collapse: collapse; border-spacing: 0; border: 1px solid #E5E5E5;}
@@ -166,7 +174,7 @@
     <div class="l">{{long_log}}</div>
     <div class="changed_files">
       {% if diff_exists %}
-      <ul>
+      <ul class="tree_diff">
         {% for entry in diff.entries %}
           {% if entry.isNew %}
             <li class="new">{{ entry.displayedFileName }}</li>
