@@ -4,6 +4,7 @@ INCLUDEPATH += $$PWD
 MAKEFILE = qmake
 RESOURCES += $$PWD/icons.qrc
 LIBS += -lGrantlee_Templates
+QT += webkitwidgets
 
 # Directories
 DESTDIR = $$PWD/../bin

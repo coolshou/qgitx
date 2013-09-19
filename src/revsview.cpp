@@ -79,7 +79,7 @@ void RevsView::clear(bool complete) {
 
 	Domain::clear(complete);
 
-	tab()->textBrowserDesc->clear();
+    tab()->textBrowserDesc->setUrl(QUrl("about:blank"));
 }
 
 void RevsView::setEnabled(bool b) {

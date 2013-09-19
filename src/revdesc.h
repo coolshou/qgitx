@@ -6,11 +6,11 @@
 #ifndef REVDESC_H
 #define REVDESC_H
 
-#include <QTextBrowser>
+#include <QWebView>
 
 class Domain;
 
-class RevDesc: public QTextBrowser {
+class RevDesc: public QWebView {
 Q_OBJECT
 public:
 	RevDesc(QWidget* parent);
