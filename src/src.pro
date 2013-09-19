@@ -24,7 +24,8 @@ HEADERS += $$PWD/cache.h $$PWD/commitimpl.h $$PWD/common.h $$PWD/config.h \
            $$PWD/revdesc.h $$PWD/revsview.h $$PWD/settingsimpl.h \
     $$PWD/filehistory.h \
     $$PWD/historyview.h \
-    $$PWD/navigator/navigatorcontroller.h
+    $$PWD/navigator/navigatorcontroller.h \
+    $$PWD/tools/optional.h \
 
 SOURCES += $$PWD/cache.cpp $$PWD/commitimpl.cpp \
            $$PWD/dataloader.cpp $$PWD/domain.cpp $$PWD/exceptionmanager.cpp \
