@@ -26,6 +26,7 @@ HEADERS += $$PWD/cache.h $$PWD/commitimpl.h $$PWD/common.h $$PWD/config.h \
     $$PWD/historyview.h \
     $$PWD/navigator/navigatorcontroller.h \
     $$PWD/tools/optional.h \
+    $$PWD/tools/maybe.h \
 
 SOURCES += $$PWD/cache.cpp $$PWD/commitimpl.cpp \
            $$PWD/dataloader.cpp $$PWD/domain.cpp $$PWD/exceptionmanager.cpp \
@@ -35,4 +36,5 @@ SOURCES += $$PWD/cache.cpp $$PWD/commitimpl.cpp \
            $$PWD/revdesc.cpp $$PWD/revsview.cpp $$PWD/settingsimpl.cpp \
     $$PWD/filehistory.cpp \
     $$PWD/historyview.cpp \
-    $$PWD/navigator/navigatorcontroller.cpp
+    $$PWD/navigator/navigatorcontroller.cpp \
+    $$PWD/tools/maybe.cpp \
