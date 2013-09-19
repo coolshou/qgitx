@@ -8,6 +8,8 @@
 #include <QContextMenuEvent>
 #include <QRegExp>
 #include <QClipboard>
+#include <QWebFrame>
+#include <QRegularExpression>
 #include "domain.h"
 #include "revdesc.h"
 
@@ -19,19 +21,19 @@ RevDesc::RevDesc(QWidget* p) : QWebView(p), d(NULL) {
 
 	connect(this, SIGNAL(highlighted(const QUrl&)),
             this, SLOT(on_highlighted(const QUrl&)));*/
+    this->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+    connect(this, &QWebView::linkClicked, this, &RevDesc::on_anchorClicked);
 }
 
 void RevDesc::on_anchorClicked(const QUrl& link) {
+    static QRegularExpression anchorRE("^#(.+)$");
+    qDebug() << "clicked on " << link.toDisplayString() << "\n";
+    QWebFrame* frame = this->page()->mainFrame();
 
-    //FIXME as we are no longer a QTextEdit widget, setSource is not available
-/*	QRegExp re("[0-9a-f]{40}", Qt::CaseInsensitive);
-	if (re.exactMatch(link.toString())) {
-
-		setSource(QUrl()); // override default navigation behavior
-		d->st.setSha(link.toString());
-		UPDATE_DOMAIN(d);
-	}
-*/
+    QRegularExpressionMatch anchorMatch = anchorRE.match(link.toDisplayString());
+    if(anchorMatch.hasMatch()) {
+        frame->scrollToAnchor(anchorMatch.captured(1));
+    }
 }
 
 void RevDesc::on_highlighted(const QUrl& link) {
