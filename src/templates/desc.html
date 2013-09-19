@@ -9,6 +9,8 @@
               font-size:  {{ TYPE_WRITER_FONT_SIZE }};
               color: #333333;
               background-color: #FFFFFF;
+              height: 100%;
+              width: 100%;
             }
             ul.tree_diff {
               padding-left: 0px;
@@ -32,6 +34,7 @@
             .new { background: url("qrc:/icons/add.svg") no-repeat left center; }
 
             .file_diff { padding-bottom: 32px; }
+            .file_diff .diff_content_wrapper { overflow-x: auto; }
             .file_diff  table { background-color: #FFFFFF; font-family: Consolas,"Liberation Mono",Courier,monospace; border-collapse: collapse; border-spacing: 0; border: 1px solid #E5E5E5;}
             .file_diff  table tr,
             .file_diff  table td { padding: 0; margin: 0; padding: 0; }
@@ -163,6 +166,7 @@
               <div class="file_diff_meta">
                 <h1 class="file_diff_title">{{ entry.displayedFileName }}</h1>
               </div>
+              <div class="diff_content_wrapper">
               <table width="100%" class="diff_content">
                 {% for hunk in entry.fileDiff.hunks %}
                   {% for line in hunk.lines %}
@@ -187,6 +191,7 @@
                   </tr>
                 {% endfor %}
               </table>
+              </div>
             </div>
         {% endfor %}
       </div>
