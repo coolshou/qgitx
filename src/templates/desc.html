@@ -70,6 +70,10 @@
               background-repeat: repeat-x;
               border: 1px solid #E5E5E5;
             }
+
+            .sha {
+              font-family: Consolas,"Liberation Mono",Courier,monospace;
+            }
     </style>
   </head>
   <body>
@@ -113,7 +117,7 @@
                 </td>
                 <td>
                   {% for parent in parents %}
-                    {{ parent }}
+                    <span class="sha">{{ parent }}</span>
                   {% endfor %}
                 </td>
               </tr>
