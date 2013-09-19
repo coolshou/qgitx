@@ -13,7 +13,6 @@
 #include "domain.h"
 #include "historyview.h"
 #include "revdesc.h"
-#include "smartbrowse.h"
 #include "mainimpl.h"
 #include "revsview.h"
 
@@ -25,15 +24,10 @@ RevsView::RevsView(MainImpl* mi, Git* g, bool isMain) : Domain(mi, g, isMain) {
 	tab()->listViewLog->setup(this, g);
 	tab()->textBrowserDesc->setup(this);
 
-	SmartBrowse* sb = new SmartBrowse(this);
-
 	// restore geometry
 	QVector<QSplitter*> v;
 	v << tab()->horizontalSplitter << tab()->verticalSplitter;
 	QGit::restoreGeometrySetting(QGit::REV_GEOM_KEY, NULL, &v);
-
-	connect(m(), SIGNAL(flagChanged(uint)),
-	        sb, SLOT(flagChanged(uint)));
 
 	connect(git, SIGNAL(newRevsAdded(const FileHistory*, const QVector<ShaString>&)),
 	        this, SLOT(on_newRevsAdded(const FileHistory*, const QVector<ShaString>&)));

@@ -22,7 +22,6 @@ HEADERS += $$PWD/cache.h $$PWD/commitimpl.h $$PWD/common.h $$PWD/config.h \
            $$PWD/git.h $$PWD/help.h $$PWD/lanes.h \
            $$PWD/mainimpl.h $$PWD/myprocess.h $$PWD/patchcontent.h \
            $$PWD/revdesc.h $$PWD/revsview.h $$PWD/settingsimpl.h \
-           $$PWD/smartbrowse.h \
     $$PWD/filehistory.h \
     $$PWD/historyview.h \
     $$PWD/navigator/navigatorcontroller.h
@@ -32,7 +31,7 @@ SOURCES += $$PWD/cache.cpp $$PWD/commitimpl.cpp \
            $$PWD/git.cpp $$PWD/git_startup.cpp \
            $$PWD/lanes.cpp $$PWD/mainimpl.cpp $$PWD/myprocess.cpp $$PWD/namespace_def.cpp \
            $$PWD/patchcontent.cpp \
-           $$PWD/revdesc.cpp $$PWD/revsview.cpp $$PWD/settingsimpl.cpp $$PWD/smartbrowse.cpp \
+           $$PWD/revdesc.cpp $$PWD/revsview.cpp $$PWD/settingsimpl.cpp \
     $$PWD/filehistory.cpp \
     $$PWD/historyview.cpp \
     $$PWD/navigator/navigatorcontroller.cpp
