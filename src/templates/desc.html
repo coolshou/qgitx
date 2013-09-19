@@ -6,8 +6,10 @@
 		        table { background-color: #e0e0f0; }
 		        span.h { font-weight: bold; font-size: medium; }
 		        div.l { white-space: pre; }
-		        font-family:  {{ TYPE_WRITER_FONT_FAMILY }};
-		        font-size:  {{ TYPE_WRITER_FONT_SIZE }};
+            body {
+              font-family:  {{ TYPE_WRITER_FONT_FAMILY }};
+              font-size:  {{ TYPE_WRITER_FONT_SIZE }};
+            }
             .changed { color: #C78400;}
             .renamed { color: #00007B;}
             .deleted { color: #7A0001;}
