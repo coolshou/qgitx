@@ -8,6 +8,58 @@
 		        div.l { white-space: pre; }
 		        font-family:  {{ TYPE_WRITER_FONT_FAMILY }};
 		        font-size:  {{ TYPE_WRITER_FONT_SIZE }};
+            .changed { color: #C78400;}
+            .renamed { color: #00007B;}
+            .deleted { color: #7A0001;}
+            .new { color: #006200;}
+
+            .file_diff { padding-bottom: 32px; }
+            .file_diff  table { background-color: #FFFFFF; font-family: Consolas,"Liberation Mono",Courier,monospace; border-collapse: collapse; border-spacing: 0; border: 1px solid #E5E5E5;}
+            .file_diff  table tr,
+            .file_diff  table td { padding: 0; margin: 0; padding: 0; }
+            .file_diff  table .diff_line_content { width: 100%; }
+            .file_diff .hunk_seperator, .file_diff .hunk_seperator .linenumber { background-color: #DFDFDF; }
+            .file_diff .linenumber {
+              color: rgba(0, 0, 0, 0.3);
+              background-color: #EFEFEF;
+              border-right: 1px solid #E5E5E5;
+              line-height: 18px;
+              padding-left: 8px;
+              padding-right: 8px;
+              text-align: right;
+              vertical-align: top;
+              width: 1%;
+            }
+            .file_diff code,  .file_diff pre {
+              font-family: Consolas,"Liberation Mono",Courier,monospace;
+            }
+            .diff_line.adding .diff_line_content {
+              background-color: rgba(0, 255, 0, 0.2);
+            }
+            .diff_line.adding .linenumber {
+              background-color: rgba(0, 255, 0, 0.4);
+            }
+            .diff_line.deleting .diff_line_content {
+              background-color: rgba(255, 0, 0, 0.2);
+            }
+            .diff_line.deleting .linenumber {
+              background-color: rgba(255, 0, 0, 0.4);
+            }
+            .file_diff_meta .file_diff_title {
+              padding: 5px 10px;
+              margin: 0;
+              font-size: 110%;
+              font-family: Consolas,"Liberation Mono",Courier,monospace;
+              text-shadow: 0 1px 0 #FFFFFF;
+              color: #555555;
+            }
+            .file_diff_meta {
+              background-color: #EAEAEA;
+              background-image: linear-gradient(#FAFAFA, #EAEAEA);
+              background-image: -webkit-linear-gradient(#FAFAFA, #EAEAEA);
+              background-repeat: repeat-x;
+              border: 1px solid #E5E5E5;
+            }
 		</style>
 	</head>
 	<body>
@@ -108,5 +160,62 @@
 						</table>
 		</div>
 		<div class="l">{{long_log}}</div>
+		<div class="changed_files">
+			{% if diff_exists %}
+			<ul>
+				{% for entry in diff.entries %}
+					{% if entry.isNew %}
+						<li class="new">{{ entry.displayedFileName }}</li>
+					{% endif %}
+					{% if entry.isDeleted %}
+						<li class="deleted">{{ entry.displayedFileName }}</li>
+					{% endif %}
+					{% if entry.isRenamed %}
+						<li class="renamed">{{ entry.oldName }} → {{ entry.fileName }}</li>
+					{% endif %}
+					{% if entry.isChanged and not entry.isRenamed %}
+						<li class="changed">{{ entry.displayedFileName }}</li>
+					{% endif %}
+				{% endfor %}
+			</ul>
+			{% else %}
+			<strong>No changed files</strong>
+			{% endif %}
+		</div>
+		{% if diff_exists %}
+			<div class="diff">
+				{% for entry in diff.entries %}
+						<div class="file_diff">
+							<div class="file_diff_meta">
+								<h1 class="file_diff_title">{{ entry.displayedFileName }}</h1>
+							</div>
+							<table width="100%" class="diff_content">
+								{% for hunk in entry.fileDiff.hunks %}
+									{% for line in hunk.lines %}
+										{% if line.adding %}
+											<tr class="diff_line adding">
+										{% endif %}
+										{% if line.deleting %}
+											<tr class="diff_line deleting">
+										{% endif %}
+										{% if line.context %}
+											<tr class="diff_line context">
+										{% endif %}
+											<td class="old_linenumber linenumber">{% if line.hasOldLineNumber %}{{ line.oldLineNumber }}{% endif %}</td>
+											<td class="new_linenumber linenumber">{% if line.hasNewLineNumber %}{{ line.newLineNumber }}{% endif %}</td>
+											<td class="diff_line_content"><code><pre>{{line.content}}</pre></code></td>
+										</tr>
+									{% endfor %}
+									<tr class="hunk_seperator">
+										<td class="old_linenumber linenumber">...</td>
+										<td class="new_linenumber linenumber">...</td>
+										<td class="diff_line_content"></td>
+									</tr>
+								{% endfor %}
+							</table>
+						</div>
+				{% endfor %}
+			</div>
+		{% endif %}
 	</body>
 </html>
