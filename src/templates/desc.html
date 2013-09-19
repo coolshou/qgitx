@@ -1,11 +1,9 @@
 <html>
   <head>
     <style type="text/css">
-            tr.head { background-color: #a0a0e0 }
-            td.h { font-weight: bold; }
-            table { background-color: #e0e0f0; }
-            span.h { font-weight: bold; font-size: medium; }
+            .commit_description span.h { font-weight: bold; font-size: medium; color: #AAAAAA; }
             div.l { white-space: pre; }
+            hr { border: none; border-top: 1px #EFEFEF solid; color: #AAAAAA; }
             body {
               font-family:  {{ TYPE_WRITER_FONT_FAMILY }};
               font-size:  {{ TYPE_WRITER_FONT_SIZE }};
@@ -75,13 +73,21 @@
     </style>
   </head>
   <body>
-    <div class='t'>
+    <div class='commit_description'>
             <table width="100%" border=0 cellspacing=0 cellpadding=2>
-              <tr class='thead'>
-                <th></th>
-                <th>
-                  <span class='h'>{{ short_log }}</span>
-                </th>
+              <tr>
+                <td><span class="h">Subject</span></td>
+                <td>
+                  <span>{{ short_log }}</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class='h'>Author<span>
+                </td>
+                <td>
+                  {{ author }}
+                </td>
               </tr>
               {% ifnotequal committer author %}
               <tr>
@@ -95,82 +101,25 @@
               {% endifnotequal %}
               <tr>
                 <td>
-                  <span class='h'>Author<span>
-                </td>
-                <td>
-                  {{ author }}
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <span class='h'>Author date<span>
+                  <span class='h'>Date<span>
                 </td>
                 <td>
                   {{ author_date }}
                 </td>
               </tr>
-              {% if patches %}
               <tr>
                 <td>
-                  <span class='h'>Patches<span>
+                  <span class='h'>Parents<span>
                 </td>
                 <td>
-                  {{ patches|join:"," }}
+                  {% for parent in parents %}
+                    {{ parent }}
+                  {% endfor %}
                 </td>
               </tr>
-              {% endif %}
-              {% for parent in parents %}
-              <tr>
-                <td>
-                  <span class='h'>Parent<span>
-                </td>
-                <td>
-                  {{ parent }}
-                </td>
-              </tr>
-              {% endfor %}
-              {% for child in children %}
-              <tr>
-                <td>
-                  <span class='h'>Child<span>
-                </td>
-                <td>
-                  {{ child }}
-                </td>
-              </tr>
-              {% endfor %}
-              {% for branch in branches %}
-              <tr>
-                <td>
-                  <span class='h'>Branch<span>
-                </td>
-                <td>
-                  {{ branch }}
-                </td>
-              </tr>
-              {% endfor %}
-              {% if following %}
-              <tr>
-                <td>
-                  <span class='h'>Follows<span>
-                </td>
-                <td>
-                  {{ following|join:"," }}
-                </td>
-              </tr>
-              {% endif %}
-              {% if preceding %}
-              <tr>
-                <td>
-                  <span class='h'>Precedes<span>
-                </td>
-                <td>
-                  {{ preceding|join:"," }}
-                </td>
-              </tr>
-              {% endif %}
             </table>
     </div>
+    <hr>
     <div class="l">{{long_log}}</div>
     <div class="changed_files">
       {% if diff_exists %}
