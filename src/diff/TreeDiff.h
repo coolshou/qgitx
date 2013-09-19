@@ -13,8 +13,8 @@ class TreeDiffEntry : public QObject {
     Q_OBJECT
 public:
     enum Status { ADDED, DELETED, CHANGED };
-    TreeDiffEntry(QString fileName, Status status, QSharedPointer<FileDiff> fileDiff) : m_fileName(fileName), m_fileDiff(fileDiff), m_status(status) {}
-    TreeDiffEntry(QString fileName, Status status, QSharedPointer<FileDiff> fileDiff, optional<QString> oldName) : m_fileName(fileName), m_fileDiff(fileDiff), m_status(status), m_oldName(oldName) {}
+    TreeDiffEntry(int id, QString fileName, Status status, QSharedPointer<FileDiff> fileDiff) : m_id(id), m_fileName(fileName), m_fileDiff(fileDiff), m_status(status) {}
+    TreeDiffEntry(int id, QString fileName, Status status, QSharedPointer<FileDiff> fileDiff, optional<QString> oldName) : m_id(id), m_fileName(fileName), m_fileDiff(fileDiff), m_status(status), m_oldName(oldName) {}
 
     bool isRenamed() { return m_oldName.available() && m_status != DELETED; }
     bool isNew() { return m_status == ADDED; }
@@ -24,7 +24,7 @@ public:
     QString fileName() { return m_fileName; }
     QString oldName() { return *m_oldName; }
     QString displayedFileName() { if(isNew()) return fileName(); else if(isDeleted()) return oldName(); else return fileName(); }
-
+    int id() { return m_id; }
     QSharedPointer<FileDiff> fileDiff() { return m_fileDiff; }
 
     Q_PROPERTY(bool isRenamed READ isRenamed)
@@ -35,8 +35,10 @@ public:
     Q_PROPERTY(QString oldName READ oldName)
     Q_PROPERTY(QString displayedFileName READ displayedFileName)
     Q_PROPERTY(QSharedPointer<FileDiff> fileDiff READ fileDiff)
+    Q_PROPERTY(int id READ id)
 
 private:
+    int m_id;
     QString m_fileName;
     QSharedPointer<FileDiff> m_fileDiff;
     Status m_status;

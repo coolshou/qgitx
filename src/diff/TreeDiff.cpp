@@ -2,6 +2,7 @@
 
 Maybe<QSharedPointer<TreeDiff> > TreeDiff::createFromString(const QString& diffText)
 {
+    int idCounter = 1;
     TreeDiffEntryList entries;
     QRegularExpression fileDiffHeaderRE(
                 R"(diff[^\n]*?\n(.*?)---\s([^\n]*?)\n\+\+\+\s([^\n]*?)?\n)",
@@ -61,8 +62,9 @@ Maybe<QSharedPointer<TreeDiff> > TreeDiff::createFromString(const QString& diffT
             return Maybe<QSharedPointer<TreeDiff>>::fail(fileDiff.to_error());
         }
 
-        QSharedPointer<TreeDiffEntry> newEntry(new TreeDiffEntry(newFileName, status, fileDiff.to_value(), oldFileName));
+        QSharedPointer<TreeDiffEntry> newEntry(new TreeDiffEntry(idCounter, newFileName, status, fileDiff.to_value(), oldFileName));
         entries.append(newEntry);
+        ++idCounter;
     }
 
     return Maybe<QSharedPointer<TreeDiff>>::ret(QSharedPointer<TreeDiff>(new TreeDiff(entries)));
