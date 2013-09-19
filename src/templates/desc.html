@@ -1,11 +1,11 @@
 <html>
-	<head>
-		<style type="text/css">
-		        tr.head { background-color: #a0a0e0 }
-		        td.h { font-weight: bold; }
-		        table { background-color: #e0e0f0; }
-		        span.h { font-weight: bold; font-size: medium; }
-		        div.l { white-space: pre; }
+  <head>
+    <style type="text/css">
+            tr.head { background-color: #a0a0e0 }
+            td.h { font-weight: bold; }
+            table { background-color: #e0e0f0; }
+            span.h { font-weight: bold; font-size: medium; }
+            div.l { white-space: pre; }
             body {
               font-family:  {{ TYPE_WRITER_FONT_FAMILY }};
               font-size:  {{ TYPE_WRITER_FONT_SIZE }};
@@ -64,162 +64,162 @@
               background-repeat: repeat-x;
               border: 1px solid #E5E5E5;
             }
-		</style>
-	</head>
-	<body>
-		<div class='t'>
-		        <table width="100%" border=0 cellspacing=0 cellpadding=2>
-							<tr class='thead'>
-								<th></th>
-								<th>
-									<span class='h'>{{ short_log }}</span>
-								</th>
-							</tr>
-							{% ifnotequal committer author %}
-							<tr>
-								<td>
-									<span class='h'>Commiter<span>
-								</td>
-								<td>
-									{{ committer }}
-								</td>
-							</tr>
-							{% endifnotequal %}
-							<tr>
-								<td>
-									<span class='h'>Author<span>
-								</td>
-								<td>
-									{{ author }}
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class='h'>Author date<span>
-								</td>
-								<td>
-									{{ author_date }}
-								</td>
-							</tr>
-							{% if patches %}
-							<tr>
-								<td>
-									<span class='h'>Patches<span>
-								</td>
-								<td>
-									{{ patches|join:"," }}
-								</td>
-							</tr>
-							{% endif %}
-							{% for parent in parents %}
-							<tr>
-								<td>
-									<span class='h'>Parent<span>
-								</td>
-								<td>
-									{{ parent }}
-								</td>
-							</tr>
-							{% endfor %}
-							{% for child in children %}
-							<tr>
-								<td>
-									<span class='h'>Child<span>
-								</td>
-								<td>
-									{{ child }}
-								</td>
-							</tr>
-							{% endfor %}
-							{% for branch in branches %}
-							<tr>
-								<td>
-									<span class='h'>Branch<span>
-								</td>
-								<td>
-									{{ branch }}
-								</td>
-							</tr>
-							{% endfor %}
-							{% if following %}
-							<tr>
-								<td>
-									<span class='h'>Follows<span>
-								</td>
-								<td>
-									{{ following|join:"," }}
-								</td>
-							</tr>
-							{% endif %}
-							{% if preceding %}
-							<tr>
-								<td>
-									<span class='h'>Precedes<span>
-								</td>
-								<td>
-									{{ preceding|join:"," }}
-								</td>
-							</tr>
-							{% endif %}
-						</table>
-		</div>
-		<div class="l">{{long_log}}</div>
-		<div class="changed_files">
-			{% if diff_exists %}
-			<ul>
-				{% for entry in diff.entries %}
-					{% if entry.isNew %}
-						<li class="new">{{ entry.displayedFileName }}</li>
-					{% endif %}
-					{% if entry.isDeleted %}
-						<li class="deleted">{{ entry.displayedFileName }}</li>
-					{% endif %}
-					{% if entry.isRenamed %}
-						<li class="renamed">{{ entry.oldName }} → {{ entry.fileName }}</li>
-					{% endif %}
-					{% if entry.isChanged and not entry.isRenamed %}
-						<li class="changed">{{ entry.displayedFileName }}</li>
-					{% endif %}
-				{% endfor %}
-			</ul>
-			{% else %}
-			<strong>No changed files</strong>
-			{% endif %}
-		</div>
-		{% if diff_exists %}
-			<div class="diff">
-				{% for entry in diff.entries %}
-						<div class="file_diff">
-							<div class="file_diff_meta">
-								<h1 class="file_diff_title">{{ entry.displayedFileName }}</h1>
-							</div>
-							<table width="100%" class="diff_content">
-								{% for hunk in entry.fileDiff.hunks %}
-									{% for line in hunk.lines %}
-										{% if line.adding %}
-											<tr class="diff_line adding">
-										{% endif %}
-										{% if line.deleting %}
-											<tr class="diff_line deleting">
-										{% endif %}
-										{% if line.context %}
-											<tr class="diff_line context">
-										{% endif %}
-											<td class="old_linenumber linenumber">{% if line.hasOldLineNumber %}{{ line.oldLineNumber }}{% endif %}</td>
-											<td class="new_linenumber linenumber">{% if line.hasNewLineNumber %}{{ line.newLineNumber }}{% endif %}</td>
-											<td class="diff_line_content"><code><pre>{{line.content}}</pre></code></td>
-										</tr>
-									{% endfor %}
-									<tr class="hunk_seperator">
-										<td class="old_linenumber linenumber">...</td>
-										<td class="new_linenumber linenumber">...</td>
-										<td class="diff_line_content"></td>
-									</tr>
-								{% endfor %}
-							</table>
-						</div>
-				{% endfor %}
-			</div>
-		{% endif %}
-	</body>
+    </style>
+  </head>
+  <body>
+    <div class='t'>
+            <table width="100%" border=0 cellspacing=0 cellpadding=2>
+              <tr class='thead'>
+                <th></th>
+                <th>
+                  <span class='h'>{{ short_log }}</span>
+                </th>
+              </tr>
+              {% ifnotequal committer author %}
+              <tr>
+                <td>
+                  <span class='h'>Commiter<span>
+                </td>
+                <td>
+                  {{ committer }}
+                </td>
+              </tr>
+              {% endifnotequal %}
+              <tr>
+                <td>
+                  <span class='h'>Author<span>
+                </td>
+                <td>
+                  {{ author }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class='h'>Author date<span>
+                </td>
+                <td>
+                  {{ author_date }}
+                </td>
+              </tr>
+              {% if patches %}
+              <tr>
+                <td>
+                  <span class='h'>Patches<span>
+                </td>
+                <td>
+                  {{ patches|join:"," }}
+                </td>
+              </tr>
+              {% endif %}
+              {% for parent in parents %}
+              <tr>
+                <td>
+                  <span class='h'>Parent<span>
+                </td>
+                <td>
+                  {{ parent }}
+                </td>
+              </tr>
+              {% endfor %}
+              {% for child in children %}
+              <tr>
+                <td>
+                  <span class='h'>Child<span>
+                </td>
+                <td>
+                  {{ child }}
+                </td>
+              </tr>
+              {% endfor %}
+              {% for branch in branches %}
+              <tr>
+                <td>
+                  <span class='h'>Branch<span>
+                </td>
+                <td>
+                  {{ branch }}
+                </td>
+              </tr>
+              {% endfor %}
+              {% if following %}
+              <tr>
+                <td>
+                  <span class='h'>Follows<span>
+                </td>
+                <td>
+                  {{ following|join:"," }}
+                </td>
+              </tr>
+              {% endif %}
+              {% if preceding %}
+              <tr>
+                <td>
+                  <span class='h'>Precedes<span>
+                </td>
+                <td>
+                  {{ preceding|join:"," }}
+                </td>
+              </tr>
+              {% endif %}
+            </table>
+    </div>
+    <div class="l">{{long_log}}</div>
+    <div class="changed_files">
+      {% if diff_exists %}
+      <ul>
+        {% for entry in diff.entries %}
+          {% if entry.isNew %}
+            <li class="new">{{ entry.displayedFileName }}</li>
+          {% endif %}
+          {% if entry.isDeleted %}
+            <li class="deleted">{{ entry.displayedFileName }}</li>
+          {% endif %}
+          {% if entry.isRenamed %}
+            <li class="renamed">{{ entry.oldName }} → {{ entry.fileName }}</li>
+          {% endif %}
+          {% if entry.isChanged and not entry.isRenamed %}
+            <li class="changed">{{ entry.displayedFileName }}</li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+      {% else %}
+      <strong>No changed files</strong>
+      {% endif %}
+    </div>
+    {% if diff_exists %}
+      <div class="diff">
+        {% for entry in diff.entries %}
+            <div class="file_diff">
+              <div class="file_diff_meta">
+                <h1 class="file_diff_title">{{ entry.displayedFileName }}</h1>
+              </div>
+              <table width="100%" class="diff_content">
+                {% for hunk in entry.fileDiff.hunks %}
+                  {% for line in hunk.lines %}
+                    {% if line.adding %}
+                      <tr class="diff_line adding">
+                    {% endif %}
+                    {% if line.deleting %}
+                      <tr class="diff_line deleting">
+                    {% endif %}
+                    {% if line.context %}
+                      <tr class="diff_line context">
+                    {% endif %}
+                      <td class="old_linenumber linenumber">{% if line.hasOldLineNumber %}{{ line.oldLineNumber }}{% endif %}</td>
+                      <td class="new_linenumber linenumber">{% if line.hasNewLineNumber %}{{ line.newLineNumber }}{% endif %}</td>
+                      <td class="diff_line_content"><code><pre>{{line.content}}</pre></code></td>
+                    </tr>
+                  {% endfor %}
+                  <tr class="hunk_seperator">
+                    <td class="old_linenumber linenumber">...</td>
+                    <td class="new_linenumber linenumber">...</td>
+                    <td class="diff_line_content"></td>
+                  </tr>
+                {% endfor %}
+              </table>
+            </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </body>
 </html>
