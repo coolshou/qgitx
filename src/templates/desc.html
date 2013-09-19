@@ -20,6 +20,14 @@
             }
             .changed { background: url("qrc:/icons/modify.svg") no-repeat left center; }
             .renamed { background: url("qrc:/icons/move.svg") no-repeat left center; }
+            .tree_diff a {
+              color: #AAAAAA;
+              text-decoration: none;
+            }
+            .tree_diff a:hover {
+              color: #4484D9;
+              text-decoration: underline;
+            }
             .deleted { background: url("qrc:/icons/delete.svg") no-repeat left center; }
             .new { background: url("qrc:/icons/add.svg") no-repeat left center; }
 
@@ -130,16 +138,16 @@
       <ul class="tree_diff">
         {% for entry in diff.entries %}
           {% if entry.isNew %}
-            <li class="new">{{ entry.displayedFileName }}</li>
+            <li class="new"><a href="#file_diff_{{entry.id}}">{{ entry.displayedFileName }}</a></li>
           {% endif %}
           {% if entry.isDeleted %}
-            <li class="deleted">{{ entry.displayedFileName }}</li>
+            <li class="deleted"><a href="#file_diff_{{entry.id}}">{{ entry.displayedFileName }}</a></li>
           {% endif %}
           {% if entry.isRenamed %}
-            <li class="renamed">{{ entry.oldName }} → {{ entry.fileName }}</li>
+            <li class="renamed"><a href="#file_diff_{{entry.id}}">{{ entry.oldName }} → {{ entry.fileName }}</a></li>
           {% endif %}
           {% if entry.isChanged and not entry.isRenamed %}
-            <li class="changed">{{ entry.displayedFileName }}</li>
+            <li class="changed"><a href="#file_diff_{{entry.id}}">{{ entry.displayedFileName }}</a></li>
           {% endif %}
         {% endfor %}
       </ul>
@@ -150,6 +158,7 @@
     {% if diff_exists %}
       <div class="diff">
         {% for entry in diff.entries %}
+            <a name="file_diff_{{entry.id}}"></a>
             <div class="file_diff">
               <div class="file_diff_meta">
                 <h1 class="file_diff_title">{{ entry.displayedFileName }}</h1>
