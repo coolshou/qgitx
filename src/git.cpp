@@ -26,6 +26,7 @@
 #include "lanes.h"
 #include "myprocess.h"
 #include "filehistory.h"
+#include "diff/diff.h"
 
 using namespace QGit;
 
@@ -1012,6 +1013,22 @@ const QString Git::getDesc(SCRef sha, FileHistory* fh) {
 
         mapping["short_log"] = c->shortLog();
         mapping["long_log"] = c->longLog();
+
+        //load diff for this commit
+        QString diffText = getDiff(sha);
+        auto diff = TreeDiff::createFromString(diffText);
+        if(diff)
+        {
+            mapping["diff_exists"] = true;
+            mapping["diff"] = QVariant::fromValue(diff.to_value());
+            FileDiff::HunksList d = diff.to_value()->entries()[0]->fileDiff()->hunks();
+        }
+        else {
+            mapping["diff_exists"] = false;
+            qWarning() << "error while generating diff for commit " << sha << ": "
+                     << diff.to_error().c_str()
+                     << "\n";
+        }
 
         Grantlee::Context context(mapping);
         Grantlee::Template t = engine->loadByName("desc.html" );
