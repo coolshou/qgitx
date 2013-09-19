@@ -611,7 +611,7 @@ QString Git::getDiff(SCRef sha)
     if (sha.isEmpty())
         return "";
 
-    QString runCmd = QString("git diff-tree -p %1").arg(sha);
+    QString runCmd = QString("git diff-tree --find-renames -p %1").arg(sha);
     QString output;
     run(runCmd, &output);
 
