@@ -47,8 +47,6 @@ private:
 	RevsView* rv;
 	SmartLabel* logTopLbl;
 	SmartLabel* logBottomLbl;
-	SmartLabel* diffTopLbl;
-	SmartLabel* diffBottomLbl;
 	QTime scrollTimer, switchTimer, timeoutTimer;
 	int wheelCnt;
 	bool lablesEnabled;

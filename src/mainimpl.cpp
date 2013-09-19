@@ -731,9 +731,6 @@ QTextEdit* MainImpl::getCurrentTextEdit() {
 	switch (currentTabType(&t)) {
 	case TAB_REV:
 		te = static_cast<RevsView*>(t)->tab()->textBrowserDesc;
-		if (!te->isVisible())
-			te = static_cast<RevsView*>(t)->tab()->textEditDiff;
-		break;
 	default:
 		break;
 	}
@@ -969,11 +966,11 @@ void MainImpl::goRef_triggered(QAction* act) {
 }
 
 void MainImpl::ActToggleLogsDiff_activated() {
-
+    //FIXME remove this
 	Domain* t;
 	if (currentTabType(&t) == TAB_REV) {
 		RevsView* rv = static_cast<RevsView*>(t);
-		rv->toggleDiffView();
+        //rv->toggleDiffView();
 	}
 }
 

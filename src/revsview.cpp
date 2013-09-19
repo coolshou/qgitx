@@ -24,9 +24,6 @@ RevsView::RevsView(MainImpl* mi, Git* g, bool isMain) : Domain(mi, g, isMain) {
 
 	tab()->listViewLog->setup(this, g);
 	tab()->textBrowserDesc->setup(this);
-	tab()->textEditDiff->setup(this, git);
-
-	setTabLogDiffVisible(QGit::testFlag(QGit::LOG_DIFF_TAB_F));
 
 	SmartBrowse* sb = new SmartBrowse(this);
 
@@ -34,9 +31,6 @@ RevsView::RevsView(MainImpl* mi, Git* g, bool isMain) : Domain(mi, g, isMain) {
 	QVector<QSplitter*> v;
 	v << tab()->horizontalSplitter << tab()->verticalSplitter;
 	QGit::restoreGeometrySetting(QGit::REV_GEOM_KEY, NULL, &v);
-
-	connect(m(), SIGNAL(typeWriterFontChanged()),
-	        tab()->textEditDiff, SLOT(typeWriterFontChanged()));
 
 	connect(m(), SIGNAL(flagChanged(uint)),
 	        sb, SLOT(flagChanged(uint)));
@@ -68,9 +62,6 @@ RevsView::RevsView(MainImpl* mi, Git* g, bool isMain) : Domain(mi, g, isMain) {
     //FIXME: remove me
     /*connect(m()->treeView, SIGNAL(contextMenu(const QString&, int)),
             this, SLOT(on_contextMenu(const QString&, int)));*/
-
-	connect(m(), SIGNAL(highlightPatch(const QString&, bool)),
-	        tab()->textEditDiff, SLOT(on_highlightPatch(const QString&, bool)));
 }
 
 RevsView::~RevsView() {
@@ -86,7 +77,6 @@ RevsView::~RevsView() {
 	// d'tor to avoid a crash due to spurious events in
 	// SmartBrowse::eventFilter()
 	delete tab()->textBrowserDesc;
-	delete tab()->textEditDiff;
 
 	delete revTab;
 }
@@ -96,62 +86,11 @@ void RevsView::clear(bool complete) {
 	Domain::clear(complete);
 
 	tab()->textBrowserDesc->clear();
-	tab()->textEditDiff->clear();
 }
 
 void RevsView::setEnabled(bool b) {
 
 	container->setEnabled(b);
-}
-
-void RevsView::toggleDiffView() {
-
-	QStackedWidget* s = tab()->stackedPanes;
-	QTabWidget* t = tab()->tabLogDiff;
-
-	bool isTabPage = (s->currentIndex() == 0);
-	int idx = (isTabPage ? t->currentIndex() : s->currentIndex());
-
-	bool old = container->updatesEnabled();
-	container->setUpdatesEnabled(false);
-
-	if (isTabPage)
-		t->setCurrentIndex(1 - idx);
-	else
-		s->setCurrentIndex(3 - idx);
-
-	container->setUpdatesEnabled(old);
-}
-
-void RevsView::setTabLogDiffVisible(bool b) {
-
-	QStackedWidget* s = tab()->stackedPanes;
-	QTabWidget* t = tab()->tabLogDiff;
-
-	bool isTabPage = (s->currentIndex() == 0);
-	int idx = (isTabPage ? t->currentIndex() : s->currentIndex());
-
-	container->setUpdatesEnabled(false);
-
-	if (b && !isTabPage) {
-
-		t->addTab(tab()->textBrowserDesc, "Log");
-		t->addTab(tab()->textEditDiff, "Diff");
-
-		t->setCurrentIndex(idx - 1);
-		s->setCurrentIndex(0);
-	}
-	if (!b && isTabPage) {
-
-		s->addWidget(tab()->textBrowserDesc);
-		s->addWidget(tab()->textEditDiff);
-
-		// manually remove the two remaining empty pages
-		t->removeTab(0); t->removeTab(0);
-
-		s->setCurrentIndex(idx + 1);
-	}
-	container->setUpdatesEnabled(true);
 }
 
 void RevsView::on_newRevsAdded(const FileHistory* fh, const QVector<ShaString>&) {
@@ -198,10 +137,6 @@ bool RevsView::doUpdate(bool force) {
 		if (st.isChanged(StateInfo::SHA) || force) {
 			on_updateRevDesc();
 			showStatusBarMessage(git->getRevInfo(st.sha()));
-
-			if (   testFlag(QGit::MSG_ON_NEW_F)
-			    && tab()->textEditDiff->isVisible())
-				toggleDiffView();
 		}
 		const RevFile* files = NULL;
 		bool newFiles = false;
@@ -211,7 +146,7 @@ bool RevsView::doUpdate(bool force) {
 			files = git->getFiles(st.sha(), st.diffToSha(), st.allMergeFiles());
 			newFiles = true;
 
-			tab()->textEditDiff->update(st);
+            //TODO update diff here
 		}
 
 		if (st.selectItem()) {
@@ -219,7 +154,7 @@ bool RevsView::doUpdate(bool force) {
 			m()->updateContextActions(st.sha(), st.fileName(), isDir, found);
 		}
 		if (st.isChanged() || force)
-			tab()->textEditDiff->centerOnFileHeader(st);
+            /*TODO update diff here*/;
 	}
 	return (found || st.sha().isEmpty());
 }

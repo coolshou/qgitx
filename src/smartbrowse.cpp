@@ -75,46 +75,27 @@ SmartBrowse::SmartBrowse(RevsView* par) : QObject(par) {
 	QString linkDiff(link.arg(QString::number(GO_DIFF), "Diff"));
 
 	QTextEdit* log = static_cast<QTextEdit*>(rv->tab()->textBrowserDesc);
-	QTextEdit* diff = static_cast<QTextEdit*>(rv->tab()->textEditDiff);
 
 	logTopLbl = new SmartLabel(txt.arg("1uparrow.png", linkUp, ""), log);
 	logBottomLbl = new SmartLabel(txt.arg("1downarrow.png", linkDiff, linkDown), log);
-	diffTopLbl = new SmartLabel(txt.arg("1uparrow.png", linkLog, linkUp), diff);
-	diffBottomLbl = new SmartLabel(txt.arg("1downarrow.png", linkUp, linkDown), diff);
-
-	diffTopLbl->setFont(qApp->font());    // override parent's font to
-	diffBottomLbl->setFont(qApp->font()); // avoid QGit::TYPE_WRITER_FONT
 
 	setVisible(false);
 
 	log->installEventFilter(this);
-	diff->installEventFilter(this);
 
 	QScrollBar* vsbLog = log->verticalScrollBar();
-	QScrollBar* vsbDiff = diff->verticalScrollBar();
 
 	vsbLog->installEventFilter(this);
-	vsbDiff->installEventFilter(this);
 
 	log->horizontalScrollBar()->installEventFilter(this);
-	diff->horizontalScrollBar()->installEventFilter(this);
 
 	connect(vsbLog, SIGNAL(valueChanged(int)),
-	        this, SLOT(updateVisibility()));
-
-	connect(vsbDiff, SIGNAL(valueChanged(int)),
 	        this, SLOT(updateVisibility()));
 
 	connect(logTopLbl, SIGNAL(linkActivated(const QString&)),
 	        this, SLOT(linkActivated(const QString&)));
 
 	connect(logBottomLbl, SIGNAL(linkActivated(const QString&)),
-	        this, SLOT(linkActivated(const QString&)));
-
-	connect(diffTopLbl, SIGNAL(linkActivated(const QString&)),
-	        this, SLOT(linkActivated(const QString&)));
-
-	connect(diffBottomLbl, SIGNAL(linkActivated(const QString&)),
 	        this, SLOT(linkActivated(const QString&)));
 }
 
@@ -123,22 +104,11 @@ void SmartBrowse::setVisible(bool b) {
 	b = b && lablesEnabled;
 	logTopLbl->setVisible(b);
 	logBottomLbl->setVisible(b);
-	diffTopLbl->setVisible(b);
-	diffBottomLbl->setVisible(b);
 }
 
 QTextEdit* SmartBrowse::curTextEdit(bool* isDiff) {
-
-	QTextEdit* log = static_cast<QTextEdit*>(rv->tab()->textBrowserDesc);
-	QTextEdit* diff = static_cast<QTextEdit*>(rv->tab()->textEditDiff);
-
-	if (isDiff)
-		*isDiff = diff->isVisible();
-
-	if (!diff->isVisible() && !log->isVisible())
-		return NULL;
-
-	return (diff->isVisible() ? diff : log);
+    //FIXME remove this
+    return static_cast<QTextEdit*>(rv->tab()->textBrowserDesc);
 }
 
 int SmartBrowse::visibilityFlags(bool* isDiff) {
@@ -159,17 +129,10 @@ int SmartBrowse::visibilityFlags(bool* isDiff) {
 }
 
 void SmartBrowse::updateVisibility() {
-
-	bool isDiff;
-	int flags = visibilityFlags(&isDiff);
-
-	if (isDiff) {
-		diffTopLbl->setVisible(flags & AT_TOP);
-		diffBottomLbl->setVisible(flags & AT_BTM);
-	} else {
-		logTopLbl->setVisible(flags & AT_TOP);
-		logBottomLbl->setVisible(flags & AT_BTM);
-	}
+    bool isDiff;
+    int flags = visibilityFlags(&isDiff);
+    logTopLbl->setVisible(flags & AT_TOP);
+    logBottomLbl->setVisible(flags & AT_BTM);
 }
 
 void SmartBrowse::flagChanged(uint flag) {
@@ -179,18 +142,12 @@ void SmartBrowse::flagChanged(uint flag) {
 		setVisible(curTextEdit()->isEnabled());
 		updatePosition();
 	}
-	if (flag == QGit::LOG_DIFF_TAB_F)
-		rv->setTabLogDiffVisible(QGit::testFlag(QGit::LOG_DIFF_TAB_F));
 }
 
 void SmartBrowse::linkActivated(const QString& text) {
 
 	int key = text.toInt();
 	switch (key) {
-	case GO_LOG:
-	case GO_DIFF:
-		rv->toggleDiffView();
-		break;
 	case GO_UP:
 		rv->tab()->listViewLog->on_keyUp();
 		break;
@@ -243,9 +200,7 @@ void SmartBrowse::updatePosition() {
 	int h = te->height() - hb->height() * hb->isVisible();
 
 	logTopLbl->move(w - logTopLbl->width() - 10, 10);
-	diffTopLbl->move(w - diffTopLbl->width() - 10, 10);
 	logBottomLbl->move(w - logBottomLbl->width() - 10, h - logBottomLbl->height() - 10);
-	diffBottomLbl->move(w - diffBottomLbl->width() - 10, h - diffBottomLbl->height() - 10);
 
 	updateVisibility();
 
@@ -291,9 +246,9 @@ bool SmartBrowse::wheelRolled(int delta, int flags) {
 
 	QLabel* l;
 	if (wheelCnt > 0)
-		l = logTopLbl->isVisible() ? logTopLbl : diffTopLbl;
+        l = logTopLbl;
 	else
-		l = logBottomLbl->isVisible() ? logBottomLbl : diffBottomLbl;
+        l = logBottomLbl;
 
 	wheelCnt = 0;
 	switchTimer.restart();
