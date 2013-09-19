@@ -605,6 +605,24 @@ MyProcess* Git::getDiff(SCRef sha, QObject* receiver, SCRef diffToSha, bool comb
 	return runAsync(runCmd, receiver);
 }
 
+QString Git::getDiff(SCRef sha)
+{
+    if (sha.isEmpty())
+        return "";
+
+    QString runCmd = QString("git diff-tree -p %1").arg(sha);
+    QString output;
+    run(runCmd, &output);
+
+    QStringList lines = output.split(QRegularExpression("\n|(\r\n)"));
+    if(lines.size() > 0)
+    {
+        lines.removeFirst();
+        output = lines.join("\n");
+    }
+    return output;
+}
+
 const QString Git::getWorkDirDiff(SCRef fileName) {
 
 	QString runCmd("git diff-index --no-color -r -z -m -p --full-index --no-commit-id HEAD"), runOutput;
