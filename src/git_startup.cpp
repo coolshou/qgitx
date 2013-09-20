@@ -303,44 +303,6 @@ const RevFile* Git::fakeWorkDirRevFile(const WorkingDirInfo& wd) {
 	return rf;
 }
 
-void Git::getDiffIndex() {
-
-	QString status;
-	if (!run("git status", &status)) // git status refreshes the index, run as first
-		return;
-
-	QString head;
-	if (!run("git rev-parse --revs-only HEAD", &head))
-		return;
-
-	head = head.trimmed();
-	if (!head.isEmpty()) { // repository initialized but still no history
-
-		if (!run("git diff-index " + head, &workingDirInfo.diffIndex))
-			return;
-
-		// check for files already updated in cache, we will
-		// save this information in status third field
-		if (!run("git diff-index --cached " + head, &workingDirInfo.diffIndexCached))
-			return;
-	}
-	// get any file not in tree
-	workingDirInfo.otherFiles = getOthersFiles();
-
-	// now mockup a RevFile
-	revsFiles.insert(ZERO_SHA_RAW, fakeWorkDirRevFile(workingDirInfo));
-
-	// then mockup the corresponding Rev
-	SCRef log = (isNothingToCommit() ? "Nothing to commit" : "Working dir changes");
-	const Rev* r = fakeWorkDirRev(head, log, status, revData->revOrder.count(), revData);
-	revData->revs.insert(ZERO_SHA_RAW, r);
-	revData->revOrder.append(ZERO_SHA_RAW);
-	revData->earlyOutputCntBase = revData->revOrder.count();
-
-	// finally send it to GUI
-	emit newRevsAdded(revData, revData->revOrder);
-}
-
 void Git::parseDiffFormatLine(RevFile& rf, SCRef line, int parNum, FileNamesLoader& fl) {
 
 	if (line[1] == ':') { // it's a combined merge
@@ -667,11 +629,6 @@ void Git::init2() {
 	try {
 		setThrowOnStop(true);
 
-		// load working dir files
-		if (!loadArguments.filteredLoading && testFlag(DIFF_INDEX_F)) {
-			SHOW_MSG(msg1 + "working directory changed files...");
-			getDiffIndex(); // blocking, we could be in setRepository() now
-		}
 		SHOW_MSG(msg1 + "revisions...");
 
 		// build up command line arguments

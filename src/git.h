@@ -225,7 +225,6 @@ private:
 	int addChunk(FileHistory* fh, const QByteArray& ba, int ofs);
 	void parseDiffFormat(RevFile& rf, SCRef buf, FileNamesLoader& fl);
 	void parseDiffFormatLine(RevFile& rf, SCRef line, int parNum, FileNamesLoader& fl);
-	void getDiffIndex();
 	Rev* fakeRevData(SCRef sha, SCList parents, SCRef author, SCRef date, SCRef log,
                          SCRef longLog, SCRef patch, int idx, FileHistory* fh);
 	const Rev* fakeWorkDirRev(SCRef parent, SCRef log, SCRef longLog, int idx, FileHistory* fh);
