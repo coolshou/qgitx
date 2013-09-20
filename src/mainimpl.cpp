@@ -385,12 +385,6 @@ void MainImpl::updateContextActions(SCRef newRevSha, SCRef newFileName,
 
 // ************************* cross-domain update Actions ***************************
 
-void MainImpl::histListView_doubleClicked(const QModelIndex& index) {
-
-	if (index.isValid() && ActViewRev->isEnabled())
-		ActViewRev->activate(QAction::Trigger);
-}
-
 void MainImpl::ActViewRev_activated() {
     viewStack->setCurrentWidget(rv->tabPage());
 }

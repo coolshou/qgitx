@@ -74,7 +74,6 @@ protected:
 protected slots:
 	void initWithEventLoopActive();
 	void refreshRepo(bool setCurRevAfterLoad = true);
-	void histListView_doubleClicked(const QModelIndex&);
 	void openRecent_triggered(QAction*);
 	void goRef_triggered(QAction*);
 	void changesCommitted(bool);
