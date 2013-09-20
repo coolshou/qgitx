@@ -11,6 +11,7 @@
 #include <QRegExp>
 #include <QDir>
 #include <QTreeWidgetItem>
+#include "ui/searchedit.h"
 #include "exceptionmanager.h"
 #include "common.h"
 #include "ui_mainview.h"
@@ -38,20 +39,18 @@ public:
 	void updateContextActions(SCRef newRevSha, SCRef newFileName, bool isDir, bool found);
 	const QString getRevisionDesc(SCRef sha);
 
+    enum ComboSearch {
+        CS_SHORT_LOG,
+        CS_LOG_MSG,
+        CS_AUTHOR,
+        CS_SHA1,
+        CS_FILE,
+        CS_PATCH,
+        CS_PATCH_REGEXP
+    };
+
 	// not buildable with Qt designer, will be created manually
-	QLineEdit* lineEditFilter;
-
-	enum ComboSearch {
-		CS_SHORT_LOG,
-		CS_LOG_MSG,
-		CS_AUTHOR,
-		CS_SHA1,
-		CS_FILE,
-		CS_PATCH,
-		CS_PATCH_REGEXP
-	};
-
-	QComboBox* cmbSearch;
+    SearchEdit<ComboSearch>* lineEditFilter;
 
 signals:
 	void highlightPatch(const QString&, bool);

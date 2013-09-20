@@ -47,20 +47,15 @@ MainImpl::MainImpl(SCRef cd, QWidget* p) : QMainWindow(p) {
 
     navigatorController = new NavigatorController(*navigator); //TODO: does this magically get deleted by QT?
 	// manual setup widgets not buildable with Qt designer
-	lineEditFilter = new QLineEdit(NULL);
-	cmbSearch = new QComboBox(NULL);
-    QStringList list = {
-                "Short log",
-                "Log msg",
-                "Author",
-                "SHA1",
-                "File",
-                "Patch",
-                "Patch (regExp)"
-     };
-    cmbSearch->addItems(list);
+    lineEditFilter = new SearchEdit<ComboSearch>(QPixmap(":/icons/search.svg"), this);
+    lineEditFilter->addFilter("Short log", CS_SHORT_LOG);
+    lineEditFilter->addFilter("Log msg", CS_LOG_MSG);
+    lineEditFilter->addFilter("Author", CS_AUTHOR);
+    lineEditFilter->addFilter("SHA1", CS_SHA1);
+    lineEditFilter->addFilter("File", CS_FILE);
+    lineEditFilter->addFilter("Patch", CS_PATCH);
+    lineEditFilter->addFilter("Patch (regExp)", CS_PATCH_REGEXP);
 	QAction* act = toolBar->insertWidget(ActSearchAndFilter, lineEditFilter);
-	toolBar->insertWidget(act, cmbSearch);
 	connect(lineEditFilter, SIGNAL(returnPressed()), this, SLOT(lineEditFilter_returnPressed()));
 
 	// create light and dark colors for alternate background
@@ -194,6 +189,8 @@ void MainImpl::saveCurrentGeometry() {
 }
 
 void MainImpl::highlightAbbrevSha(SCRef abbrevSha) {
+    //FIXME this is broken now, is it still used?
+#if 0
 	// reset any previous highlight
 	if (ActSearchAndHighlight->isChecked())
 		ActSearchAndHighlight->toggle();
@@ -206,6 +203,7 @@ void MainImpl::highlightAbbrevSha(SCRef abbrevSha) {
 
 	// go with highlighting
 	ActSearchAndHighlight->toggle();
+#endif
 }
 
 void MainImpl::ActBack_activated() {
@@ -538,7 +536,6 @@ void MainImpl::ActSearchAndHighlight_toggled(bool isOn) {
 void MainImpl::filterList(bool isOn, bool onlyHighlight) {
 
 	lineEditFilter->setEnabled(!isOn);
-	cmbSearch->setEnabled(!isOn);
 
 	SCRef filter(lineEditFilter->text());
 	if (filter.isEmpty())
@@ -547,7 +544,7 @@ void MainImpl::filterList(bool isOn, bool onlyHighlight) {
 	ShaSet shaSet;
 	bool patchNeedsUpdate, isRegExp;
 	patchNeedsUpdate = isRegExp = false;
-	int idx = cmbSearch->currentIndex(), colNum = 0;
+    int idx = lineEditFilter->selectedFilter(), colNum = 0;
 	if (isOn) {
 		switch (idx) {
 		case CS_SHORT_LOG:

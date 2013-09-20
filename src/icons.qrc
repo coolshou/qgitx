@@ -49,6 +49,7 @@
         <file alias="modify.svg">resources/modify.svg</file>
         <file alias="delete.svg">resources/delete.svg</file>
         <file alias="move.svg">resources/move.svg</file>
+        <file alias="search.svg">resources/search.svg</file>
     </qresource>
     <qresource prefix="/templates">
         <file alias="desc.html">templates/desc.html</file>
