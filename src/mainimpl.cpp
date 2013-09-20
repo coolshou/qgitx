@@ -188,24 +188,6 @@ void MainImpl::saveCurrentGeometry() {
 	QGit::saveGeometrySetting(QGit::MAIN_GEOM_KEY, this, &v);
 }
 
-void MainImpl::highlightAbbrevSha(SCRef abbrevSha) {
-    //FIXME this is broken now, is it still used?
-#if 0
-	// reset any previous highlight
-	if (ActSearchAndHighlight->isChecked())
-		ActSearchAndHighlight->toggle();
-
-	// set to highlight on SHA matching
-	cmbSearch->setCurrentIndex(CS_SHA1);
-
-	// set substring to search for
-	lineEditFilter->setText(abbrevSha);
-
-	// go with highlighting
-	ActSearchAndHighlight->toggle();
-#endif
-}
-
 void MainImpl::ActBack_activated() {
     //TODO: reimplement functionality that got lost when removing lineEditSHA
 }
