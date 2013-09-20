@@ -610,7 +610,6 @@ bool Git::init(SCRef wd, const QStringList* passedArgs, bool overwriteArgs) {
 		if (!passedArgs) {
 
 			// update text codec according to repo settings
-			bool dummy;
 //			QTextCodec::setCodecForCStrings(getTextCodec(&dummy)); //FIXME: no longer available
 
 			// load references

@@ -61,11 +61,6 @@ R"(@@ -1,5 +1,5 @@
 
     QVERIFY2(hunks[2]->newRange() == diffrange(50, 6), "unexpected newRange for hunk #3");
     QVERIFY2(hunks[2]->oldRange() == diffrange(52, 6), "unexpected oldRange for hunk #3");
-
-    for(auto& hunk : hunks)
-    {
-
-    }
 }
 
 QTEST_APPLESS_MAIN(DiffTest)

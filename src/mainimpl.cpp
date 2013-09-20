@@ -55,7 +55,7 @@ MainImpl::MainImpl(SCRef cd, QWidget* p) : QMainWindow(p) {
     lineEditFilter->addFilter("File", CS_FILE);
     lineEditFilter->addFilter("Patch", CS_PATCH);
     lineEditFilter->addFilter("Patch (regExp)", CS_PATCH_REGEXP);
-	QAction* act = toolBar->insertWidget(ActSearchAndFilter, lineEditFilter);
+    toolBar->insertWidget(ActSearchAndFilter, lineEditFilter);
 	connect(lineEditFilter, SIGNAL(returnPressed()), this, SLOT(lineEditFilter_returnPressed()));
 
 	// create light and dark colors for alternate background
@@ -143,6 +143,7 @@ MainImpl::MainImpl(SCRef cd, QWidget* p) : QMainWindow(p) {
 
     //load branches when git is ready
     connect(this->git, &Git::loadCompleted, [this](const FileHistory* fh, const QString& s) {
+        Q_UNUSED(fh); Q_UNUSED(s);
         navigatorController->clear();
         for(QString branchName : this->git->getAllRefNames(Git::BRANCH, Git::optOnlyLoaded))
         {
@@ -625,6 +626,7 @@ bool MainImpl::event(QEvent* e) {
 
 int MainImpl::currentTabType(Domain** t) {
     //FIXME: adapt this to new code, when ready
+    Q_UNUSED(t);
     return TAB_REV;
 }
 
