@@ -35,6 +35,7 @@ HEADERS += $$PWD/cache.h $$PWD/commitimpl.h $$PWD/common.h $$PWD/config.h \
     $$PWD/tools/tools.h \
     $$PWD/tools/optional.h \
     $$PWD/tools/maybe.h \
+    ../src/ui/searchedit.h
 
 SOURCES += $$PWD/cache.cpp $$PWD/commitimpl.cpp \
            $$PWD/dataloader.cpp $$PWD/domain.cpp $$PWD/exceptionmanager.cpp \
@@ -52,3 +53,4 @@ SOURCES += $$PWD/cache.cpp $$PWD/commitimpl.cpp \
     $$PWD/diff/diff.cpp \
     $$PWD/tools/tools.cpp \
     $$PWD/tools/maybe.cpp \
+    ../src/ui/searchedit.cpp
