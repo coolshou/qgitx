@@ -727,13 +727,14 @@ void MainImpl::goMatch(int delta) {
 QTextEdit* MainImpl::getCurrentTextEdit() {
 
 	QTextEdit* te = NULL;
-	Domain* t;
+    //FIXME RevsView is no longer a QTextEdit widget
+    /*Domain* t;
 	switch (currentTabType(&t)) {
 	case TAB_REV:
 		te = static_cast<RevsView*>(t)->tab()->textBrowserDesc;
 	default:
 		break;
-	}
+    }*/
 	return te;
 }
 

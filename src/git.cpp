@@ -26,6 +26,7 @@
 #include "lanes.h"
 #include "myprocess.h"
 #include "filehistory.h"
+#include "diff/diff.h"
 
 using namespace QGit;
 
@@ -605,6 +606,24 @@ MyProcess* Git::getDiff(SCRef sha, QObject* receiver, SCRef diffToSha, bool comb
 	return runAsync(runCmd, receiver);
 }
 
+QString Git::getDiff(SCRef sha)
+{
+    if (sha.isEmpty())
+        return "";
+
+    QString runCmd = QString("git diff-tree --find-renames -p %1").arg(sha);
+    QString output;
+    run(runCmd, &output);
+
+    QStringList lines = output.split(QRegularExpression("\n|(\r\n)"));
+    if(lines.size() > 0)
+    {
+        lines.removeFirst();
+        output = lines.join("\n");
+    }
+    return output;
+}
+
 const QString Git::getWorkDirDiff(SCRef fileName) {
 
 	QString runCmd("git diff-index --no-color -r -z -m -p --full-index --no-commit-id HEAD"), runOutput;
@@ -995,6 +1014,22 @@ const QString Git::getDesc(SCRef sha, FileHistory* fh) {
         mapping["short_log"] = c->shortLog();
         mapping["long_log"] = c->longLog();
 
+        //load diff for this commit
+        QString diffText = getDiff(sha);
+        auto diff = TreeDiff::createFromString(diffText);
+        if(diff)
+        {
+            mapping["diff_exists"] = true;
+            mapping["diff"] = QVariant::fromValue(diff.to_value());
+            FileDiff::HunksList d = diff.to_value()->entries()[0]->fileDiff()->hunks();
+        }
+        else {
+            mapping["diff_exists"] = false;
+            qWarning() << "error while generating diff for commit " << sha << ": "
+                     << diff.to_error().c_str()
+                     << "\n";
+        }
+
         Grantlee::Context context(mapping);
         Grantlee::Template t = engine->loadByName("desc.html" );
         text = t->render(&context);
@@ -1002,33 +1037,7 @@ const QString Git::getDesc(SCRef sha, FileHistory* fh) {
             text = t->errorString();
         }
 	}
-	// highlight SHA's
-	//
-	// added to commit logs, we avoid to call git rev-parse for a possible abbreviated
-	// sha if there isn't a leading trailing space or an open parenthesis and,
-	// in that case, before the space must not be a ':' character.
-	// It's an ugly heuristic, but seems to work in most cases.
-	QRegExp reSHA("..[0-9a-f]{21,40}|[^:][\\s(][0-9a-f]{6,20}", Qt::CaseInsensitive);
-	reSHA.setMinimal(false);
-	int pos = 0;
-	while ((pos = text.indexOf(reSHA, pos)) != -1) {
 
-		SCRef ref = reSHA.cap(0).mid(2);
-		const Rev* r = (ref.length() == 40 ? revLookup(ref) : revLookup(getRefSha(ref)));
-		if (r && r->sha() != ZERO_SHA_RAW) {
-			QString slog(r->shortLog());
-			if (slog.isEmpty()) // very rare but possible
-				slog = r->sha();
-			if (slog.length() > 60)
-				slog = slog.left(57).trimmed().append("...");
-
-            slog = slog.toHtmlEscaped();
-			const QString link("<a href=\"" + r->sha() + "\">" + slog + "</a>");
-			text.replace(pos + 2, ref.length(), link);
-			pos += link.length();
-		} else
-			pos += reSHA.cap(0).length();
-	}
 	return text;
 }
 

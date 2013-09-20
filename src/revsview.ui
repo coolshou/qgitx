@@ -64,9 +64,6 @@
          </property>
          <item>
           <widget class="RevDesc" name="textBrowserDesc">
-           <property name="lineWrapMode">
-            <enum>QTextEdit::WidgetWidth</enum>
-           </property>
           </widget>
          </item>
         </layout>
@@ -84,7 +81,7 @@
   </customwidget>
   <customwidget>
    <class>RevDesc</class>
-   <extends>QTextBrowser</extends>
+   <extends>QWebView</extends>
    <header>revdesc.h</header>
   </customwidget>
   <customwidget>

@@ -8,27 +8,32 @@
 #include <QContextMenuEvent>
 #include <QRegExp>
 #include <QClipboard>
+#include <QWebFrame>
+#include <QRegularExpression>
 #include "domain.h"
 #include "revdesc.h"
 
-RevDesc::RevDesc(QWidget* p) : QTextBrowser(p), d(NULL) {
+RevDesc::RevDesc(QWidget* p) : QWebView(p), d(NULL) {
 
-	connect(this, SIGNAL(anchorClicked(const QUrl&)),
+    //FIXME signals are not available in QWebView
+/* 	connect(this, SIGNAL(anchorClicked(const QUrl&)),
 	        this, SLOT(on_anchorClicked(const QUrl&)));
 
 	connect(this, SIGNAL(highlighted(const QUrl&)),
-	        this, SLOT(on_highlighted(const QUrl&)));
+            this, SLOT(on_highlighted(const QUrl&)));*/
+    this->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+    connect(this, &QWebView::linkClicked, this, &RevDesc::on_anchorClicked);
 }
 
 void RevDesc::on_anchorClicked(const QUrl& link) {
+    static QRegularExpression anchorRE("^#(.+)$");
+    qDebug() << "clicked on " << link.toDisplayString() << "\n";
+    QWebFrame* frame = this->page()->mainFrame();
 
-	QRegExp re("[0-9a-f]{40}", Qt::CaseInsensitive);
-	if (re.exactMatch(link.toString())) {
-
-		setSource(QUrl()); // override default navigation behavior
-		d->st.setSha(link.toString());
-		UPDATE_DOMAIN(d);
-	}
+    QRegularExpressionMatch anchorMatch = anchorRE.match(link.toDisplayString());
+    if(anchorMatch.hasMatch()) {
+        frame->scrollToAnchor(anchorMatch.captured(1));
+    }
 }
 
 void RevDesc::on_highlighted(const QUrl& link) {
@@ -44,11 +49,12 @@ void RevDesc::on_linkCopy() {
 
 void RevDesc::contextMenuEvent(QContextMenuEvent* e) {
 
-	QMenu* menu = createStandardContextMenu();
+    //FIXME as this is no longer a QTextEdit widget, we no longer have createStandardContextMenu
+/*	QMenu* menu = createStandardContextMenu();
 	if (!highlightedLink.isEmpty()) {
 		QAction* act = menu->addAction("Copy link SHA1");
 		connect(act, SIGNAL(triggered()), this, SLOT(on_linkCopy()));
 	}
 	menu->exec(e->globalPos());
-	delete menu;
+    delete menu;*/
 }

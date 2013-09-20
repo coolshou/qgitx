@@ -4,6 +4,7 @@ INCLUDEPATH += $$PWD
 MAKEFILE = qmake
 RESOURCES += $$PWD/icons.qrc
 LIBS += -lGrantlee_Templates
+QT += webkitwidgets
 
 # Directories
 DESTDIR = $$PWD/../bin
@@ -25,6 +26,12 @@ HEADERS += $$PWD/cache.h $$PWD/commitimpl.h $$PWD/common.h $$PWD/config.h \
     $$PWD/filehistory.h \
     $$PWD/historyview.h \
     $$PWD/navigator/navigatorcontroller.h \
+    $$PWD/diff/DiffLine.h \
+    $$PWD/diff/TreeDiff.h \
+    $$PWD/diff/FileDiff.h \
+    $$PWD/diff/Hunk.h \
+    $$PWD/diff/diff.h \
+    $$PWD/diff/diff_def.h \
     $$PWD/tools/tools.h \
     $$PWD/tools/optional.h \
     $$PWD/tools/maybe.h \
@@ -38,5 +45,10 @@ SOURCES += $$PWD/cache.cpp $$PWD/commitimpl.cpp \
     $$PWD/filehistory.cpp \
     $$PWD/historyview.cpp \
     $$PWD/navigator/navigatorcontroller.cpp \
+    $$PWD/diff/DiffLine.cpp \
+    $$PWD/diff/TreeDiff.cpp \
+    $$PWD/diff/FileDiff.cpp \
+    $$PWD/diff/Hunk.cpp \
+    $$PWD/diff/diff.cpp \
     $$PWD/tools/tools.cpp \
     $$PWD/tools/maybe.cpp \

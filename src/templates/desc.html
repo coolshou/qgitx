@@ -1,112 +1,200 @@
 <html>
-	<head>
-		<style type="text/css">
-		        tr.head { background-color: #a0a0e0 }
-		        td.h { font-weight: bold; }
-		        table { background-color: #e0e0f0; }
-		        span.h { font-weight: bold; font-size: medium; }
-		        div.l { white-space: pre; }
-		        font-family:  {{ TYPE_WRITER_FONT_FAMILY }};
-		        font-size:  {{ TYPE_WRITER_FONT_SIZE }};
-		</style>
-	</head>
-	<body>
-		<div class='t'>
-		        <table width="100%" border=0 cellspacing=0 cellpadding=2>
-							<tr class='thead'>
-								<th></th>
-								<th>
-									<span class='h'>{{ short_log }}</span>
-								</th>
-							</tr>
-							{% ifnotequal committer author %}
-							<tr>
-								<td>
-									<span class='h'>Commiter<span>
-								</td>
-								<td>
-									{{ committer }}
-								</td>
-							</tr>
-							{% endifnotequal %}
-							<tr>
-								<td>
-									<span class='h'>Author<span>
-								</td>
-								<td>
-									{{ author }}
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<span class='h'>Author date<span>
-								</td>
-								<td>
-									{{ author_date }}
-								</td>
-							</tr>
-							{% if patches %}
-							<tr>
-								<td>
-									<span class='h'>Patches<span>
-								</td>
-								<td>
-									{{ patches|join:"," }}
-								</td>
-							</tr>
-							{% endif %}
-							{% for parent in parents %}
-							<tr>
-								<td>
-									<span class='h'>Parent<span>
-								</td>
-								<td>
-									{{ parent }}
-								</td>
-							</tr>
-							{% endfor %}
-							{% for child in children %}
-							<tr>
-								<td>
-									<span class='h'>Child<span>
-								</td>
-								<td>
-									{{ child }}
-								</td>
-							</tr>
-							{% endfor %}
-							{% for branch in branches %}
-							<tr>
-								<td>
-									<span class='h'>Branch<span>
-								</td>
-								<td>
-									{{ branch }}
-								</td>
-							</tr>
-							{% endfor %}
-							{% if following %}
-							<tr>
-								<td>
-									<span class='h'>Follows<span>
-								</td>
-								<td>
-									{{ following|join:"," }}
-								</td>
-							</tr>
-							{% endif %}
-							{% if preceding %}
-							<tr>
-								<td>
-									<span class='h'>Precedes<span>
-								</td>
-								<td>
-									{{ preceding|join:"," }}
-								</td>
-							</tr>
-							{% endif %}
-						</table>
-		</div>
-		<div class="l">{{long_log}}</div>
-	</body>
+  <head>
+    <style type="text/css">
+            .commit_description span.h { font-weight: bold; font-size: medium; color: #AAAAAA; }
+            div.l { white-space: pre; }
+            hr { border: none; border-top: 1px #EFEFEF solid; color: #AAAAAA; }
+            body {
+              font-family:  {{ TYPE_WRITER_FONT_FAMILY }};
+              font-size:  {{ TYPE_WRITER_FONT_SIZE }};
+              color: #333333;
+              background-color: #FFFFFF;
+              height: 100%;
+              width: 100%;
+            }
+            ul.tree_diff {
+              padding-left: 0px;
+            }
+            ul.tree_diff li {
+              list-style: none;
+              padding-left: 18px;
+              padding-bottom: 2px;
+            }
+            .changed { background: url("qrc:/icons/modify.svg") no-repeat left center; }
+            .renamed { background: url("qrc:/icons/move.svg") no-repeat left center; }
+            .tree_diff a {
+              color: #AAAAAA;
+              text-decoration: none;
+            }
+            .tree_diff a:hover {
+              color: #4484D9;
+              text-decoration: underline;
+            }
+            .deleted { background: url("qrc:/icons/delete.svg") no-repeat left center; }
+            .new { background: url("qrc:/icons/add.svg") no-repeat left center; }
+
+            .file_diff { padding-bottom: 32px; }
+            .file_diff .diff_content_wrapper { overflow-x: auto; }
+            .file_diff  table { background-color: #FFFFFF; font-family: Consolas,"Liberation Mono",Courier,monospace; border-collapse: collapse; border-spacing: 0; border: 1px solid #E5E5E5;}
+            .file_diff  table tr,
+            .file_diff  table td { padding: 0; margin: 0; padding: 0; }
+            .file_diff  table .diff_line_content { width: 100%; }
+            .file_diff .hunk_seperator, .file_diff .hunk_seperator .linenumber { background-color: #DFDFDF; }
+            .file_diff .linenumber {
+              color: rgba(0, 0, 0, 0.3);
+              background-color: #EFEFEF;
+              border-right: 1px solid #E5E5E5;
+              line-height: 18px;
+              padding-left: 8px;
+              padding-right: 8px;
+              text-align: right;
+              vertical-align: top;
+              width: 1%;
+            }
+            .file_diff code,  .file_diff pre {
+              font-family: Consolas,"Liberation Mono",Courier,monospace;
+            }
+            .diff_line.adding .diff_line_content {
+              background-color: rgba(0, 255, 0, 0.2);
+            }
+            .diff_line.adding .linenumber {
+              background-color: rgba(0, 255, 0, 0.4);
+            }
+            .diff_line.deleting .diff_line_content {
+              background-color: rgba(255, 0, 0, 0.2);
+            }
+            .diff_line.deleting .linenumber {
+              background-color: rgba(255, 0, 0, 0.4);
+            }
+            .file_diff_meta .file_diff_title {
+              padding: 5px 10px;
+              margin: 0;
+              font-size: 110%;
+              font-family: Consolas,"Liberation Mono",Courier,monospace;
+              text-shadow: 0 1px 0 #FFFFFF;
+              color: #555555;
+            }
+            .file_diff_meta {
+              background-color: #EAEAEA;
+              background-image: linear-gradient(#FAFAFA, #EAEAEA);
+              background-image: -webkit-linear-gradient(#FAFAFA, #EAEAEA);
+              background-repeat: repeat-x;
+              border: 1px solid #E5E5E5;
+            }
+
+            .sha {
+              font-family: Consolas,"Liberation Mono",Courier,monospace;
+            }
+    </style>
+  </head>
+  <body>
+    <div class='commit_description'>
+            <table width="100%" border=0 cellspacing=0 cellpadding=2>
+              <tr>
+                <td><span class="h">Subject</span></td>
+                <td>
+                  <span>{{ short_log }}</span>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class='h'>Author<span>
+                </td>
+                <td>
+                  {{ author }}
+                </td>
+              </tr>
+              {% ifnotequal committer author %}
+              <tr>
+                <td>
+                  <span class='h'>Commiter<span>
+                </td>
+                <td>
+                  {{ committer }}
+                </td>
+              </tr>
+              {% endifnotequal %}
+              <tr>
+                <td>
+                  <span class='h'>Date<span>
+                </td>
+                <td>
+                  {{ author_date }}
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class='h'>Parents<span>
+                </td>
+                <td>
+                  {% for parent in parents %}
+                    <span class="sha">{{ parent }}</span>
+                  {% endfor %}
+                </td>
+              </tr>
+            </table>
+    </div>
+    <hr>
+    <div class="l">{{long_log}}</div>
+    <div class="changed_files">
+      {% if diff_exists %}
+      <ul class="tree_diff">
+        {% for entry in diff.entries %}
+          {% if entry.isNew %}
+            <li class="new"><a href="#file_diff_{{entry.id}}">{{ entry.displayedFileName }}</a></li>
+          {% endif %}
+          {% if entry.isDeleted %}
+            <li class="deleted"><a href="#file_diff_{{entry.id}}">{{ entry.displayedFileName }}</a></li>
+          {% endif %}
+          {% if entry.isRenamed %}
+            <li class="renamed"><a href="#file_diff_{{entry.id}}">{{ entry.oldName }} → {{ entry.fileName }}</a></li>
+          {% endif %}
+          {% if entry.isChanged and not entry.isRenamed %}
+            <li class="changed"><a href="#file_diff_{{entry.id}}">{{ entry.displayedFileName }}</a></li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+      {% else %}
+      <strong>No changed files</strong>
+      {% endif %}
+    </div>
+    {% if diff_exists %}
+      <div class="diff">
+        {% for entry in diff.entries %}
+            <a name="file_diff_{{entry.id}}"></a>
+            <div class="file_diff">
+              <div class="file_diff_meta">
+                <h1 class="file_diff_title">{{ entry.displayedFileName }}</h1>
+              </div>
+              <div class="diff_content_wrapper">
+              <table width="100%" class="diff_content">
+                {% for hunk in entry.fileDiff.hunks %}
+                  {% for line in hunk.lines %}
+                    {% if line.adding %}
+                      <tr class="diff_line adding">
+                    {% endif %}
+                    {% if line.deleting %}
+                      <tr class="diff_line deleting">
+                    {% endif %}
+                    {% if line.context %}
+                      <tr class="diff_line context">
+                    {% endif %}
+                      <td class="old_linenumber linenumber">{% if line.hasOldLineNumber %}{{ line.oldLineNumber }}{% endif %}</td>
+                      <td class="new_linenumber linenumber">{% if line.hasNewLineNumber %}{{ line.newLineNumber }}{% endif %}</td>
+                      <td class="diff_line_content"><code><pre>{{line.content}}</pre></code></td>
+                    </tr>
+                  {% endfor %}
+                  <tr class="hunk_seperator">
+                    <td class="old_linenumber linenumber">...</td>
+                    <td class="new_linenumber linenumber">...</td>
+                    <td class="diff_line_content"></td>
+                  </tr>
+                {% endfor %}
+              </table>
+              </div>
+            </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </body>
 </html>
