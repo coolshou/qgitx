@@ -16,13 +16,8 @@ public:
 	RevDesc(QWidget* parent);
 	void setup(Domain* dm) { d = dm; }
 
-protected:
-	virtual void contextMenuEvent(QContextMenuEvent* e);
-
 private slots:
-	void on_anchorClicked(const QUrl& link);
-	void on_highlighted(const QUrl& link);
-	void on_linkCopy();
+    void on_anchorClicked(const QUrl& link);
 
 private:
 	Domain* d;
