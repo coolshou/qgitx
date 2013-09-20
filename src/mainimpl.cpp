@@ -49,8 +49,16 @@ MainImpl::MainImpl(SCRef cd, QWidget* p) : QMainWindow(p) {
 	// manual setup widgets not buildable with Qt designer
 	lineEditFilter = new QLineEdit(NULL);
 	cmbSearch = new QComboBox(NULL);
-	QString list("Short log,Log msg,Author,SHA1,File,Patch,Patch (regExp)");
-	cmbSearch->addItems(list.split(","));
+    QStringList list = {
+                "Short log",
+                "Log msg",
+                "Author",
+                "SHA1",
+                "File",
+                "Patch",
+                "Patch (regExp)"
+     };
+    cmbSearch->addItems(list);
 	QAction* act = toolBar->insertWidget(ActSearchAndFilter, lineEditFilter);
 	toolBar->insertWidget(act, cmbSearch);
 	connect(lineEditFilter, SIGNAL(returnPressed()), this, SLOT(lineEditFilter_returnPressed()));
