@@ -85,7 +85,6 @@ protected slots:
 	void ActFindNext_activated();
 	void ActViewRev_activated();
 	void ActExternalDiff_activated();
-	void ActToggleLogsDiff_activated();
 	void ActOpenRepo_activated();
 	void ActOpenRepoNewWindow_activated();
 	void ActRefresh_activated();

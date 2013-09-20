@@ -137,7 +137,6 @@
     <addaction name="separator"/>
     <addaction name="ActViewRev"/>
     <addaction name="ActExternalDiff"/>
-    <addaction name="ActToggleLogsDiff"/>
    </widget>
    <addaction name="File"/>
    <addaction name="Edit"/>
@@ -489,20 +488,6 @@
    </property>
    <property name="statusTip">
     <string>Toggle match highlight</string>
-   </property>
-  </action>
-  <action name="ActToggleLogsDiff">
-   <property name="text">
-    <string>Toggle message/diff</string>
-   </property>
-   <property name="iconText">
-    <string>Toggle message/diff</string>
-   </property>
-   <property name="toolTip">
-    <string>Toggle between messages and patch content\n in revision description pane</string>
-   </property>
-   <property name="shortcut">
-    <string>M</string>
    </property>
   </action>
   <action name="ActAmend">
@@ -910,22 +895,6 @@
     </hint>
     <hint type="destinationlabel">
      <x>487</x>
-     <y>238</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>ActToggleLogsDiff</sender>
-   <signal>triggered()</signal>
-   <receiver>MainBase</receiver>
-   <slot>ActToggleLogsDiff_activated()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>452</x>
      <y>238</y>
     </hint>
    </hints>
