@@ -1,90 +1,11 @@
 <html>
   <head>
+    <link rel="stylesheet" href="qrc:/styles/desc.css" type="text/css" charset="utf-8">
     <style type="text/css">
-            .commit_description span.h { font-weight: bold; font-size: medium; color: #AAAAAA; }
-            div.l { white-space: pre; }
-            hr { border: none; border-top: 1px #EFEFEF solid; color: #AAAAAA; }
-            body {
-              font-family:  {{ TYPE_WRITER_FONT_FAMILY }};
-              font-size:  {{ TYPE_WRITER_FONT_SIZE }};
-              color: #333333;
-              background-color: #FFFFFF;
-              height: 100%;
-              width: 100%;
-            }
-            ul.tree_diff {
-              padding-left: 0px;
-            }
-            ul.tree_diff li {
-              list-style: none;
-              padding-left: 18px;
-              padding-bottom: 2px;
-            }
-            .changed { background: url("qrc:/icons/modify.svg") no-repeat left center; }
-            .renamed { background: url("qrc:/icons/move.svg") no-repeat left center; }
-            .tree_diff a {
-              color: #AAAAAA;
-              text-decoration: none;
-            }
-            .tree_diff a:hover {
-              color: #4484D9;
-              text-decoration: underline;
-            }
-            .deleted { background: url("qrc:/icons/delete.svg") no-repeat left center; }
-            .new { background: url("qrc:/icons/add.svg") no-repeat left center; }
-
-            .file_diff { padding-bottom: 32px; }
-            .file_diff .diff_content_wrapper { overflow-x: auto; }
-            .file_diff  table { background-color: #FFFFFF; font-family: Consolas,"Liberation Mono",Courier,monospace; border-collapse: collapse; border-spacing: 0; border: 1px solid #E5E5E5;}
-            .file_diff  table tr,
-            .file_diff  table td { padding: 0; margin: 0; padding: 0; }
-            .file_diff  table .diff_line_content { width: 100%; }
-            .file_diff .hunk_seperator, .file_diff .hunk_seperator .linenumber { background-color: #DFDFDF; }
-            .file_diff .linenumber {
-              color: rgba(0, 0, 0, 0.3);
-              background-color: #EFEFEF;
-              border-right: 1px solid #E5E5E5;
-              line-height: 18px;
-              padding-left: 8px;
-              padding-right: 8px;
-              text-align: right;
-              vertical-align: top;
-              width: 1%;
-            }
-            .file_diff code,  .file_diff pre {
-              font-family: Consolas,"Liberation Mono",Courier,monospace;
-            }
-            .diff_line.adding .diff_line_content {
-              background-color: rgba(0, 255, 0, 0.2);
-            }
-            .diff_line.adding .linenumber {
-              background-color: rgba(0, 255, 0, 0.4);
-            }
-            .diff_line.deleting .diff_line_content {
-              background-color: rgba(255, 0, 0, 0.2);
-            }
-            .diff_line.deleting .linenumber {
-              background-color: rgba(255, 0, 0, 0.4);
-            }
-            .file_diff_meta .file_diff_title {
-              padding: 5px 10px;
-              margin: 0;
-              font-size: 110%;
-              font-family: Consolas,"Liberation Mono",Courier,monospace;
-              text-shadow: 0 1px 0 #FFFFFF;
-              color: #555555;
-            }
-            .file_diff_meta {
-              background-color: #EAEAEA;
-              background-image: linear-gradient(#FAFAFA, #EAEAEA);
-              background-image: -webkit-linear-gradient(#FAFAFA, #EAEAEA);
-              background-repeat: repeat-x;
-              border: 1px solid #E5E5E5;
-            }
-
-            .sha {
-              font-family: Consolas,"Liberation Mono",Courier,monospace;
-            }
+      body {
+        font-family:  {{ TYPE_WRITER_FONT_FAMILY }};
+        font-size:  {{ TYPE_WRITER_FONT_SIZE }};
+      }
     </style>
   </head>
   <body>

@@ -1,0 +1,27 @@
+@import url("common.css");
+@import url("diff.css");
+
+.commit_description span.h { font-weight: bold; font-size: medium; color: #AAAAAA; }
+
+div.l { white-space: pre; }
+
+ul.tree_diff {
+  padding-left: 0px;
+}
+ul.tree_diff li {
+  list-style: none;
+  padding-left: 18px;
+  padding-bottom: 2px;
+}
+.changed { background: url("qrc:/icons/modify.svg") no-repeat left center; }
+.renamed { background: url("qrc:/icons/move.svg") no-repeat left center; }
+.tree_diff a {
+  color: #AAAAAA;
+  text-decoration: none;
+}
+.tree_diff a:hover {
+  color: #4484D9;
+  text-decoration: underline;
+}
+.deleted { background: url("qrc:/icons/delete.svg") no-repeat left center; }
+.new { background: url("qrc:/icons/add.svg") no-repeat left center; }

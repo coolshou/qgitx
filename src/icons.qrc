@@ -54,4 +54,9 @@
     <qresource prefix="/templates">
         <file alias="desc.html">templates/desc.html</file>
     </qresource>
+    <qresource prefix="/styles">
+        <file alias="common.css">resources/styles/common.css</file>
+        <file alias="diff.css">resources/styles/diff.css</file>
+        <file alias="desc.css">resources/styles/desc.css</file>
+    </qresource>
 </RCC>
