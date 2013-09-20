@@ -5,8 +5,8 @@ Maybe<QSharedPointer<TreeDiff> > TreeDiff::createFromString(const QString& diffT
     int idCounter = 1;
     TreeDiffEntryList entries;
     QRegularExpression fileDiffHeaderRE(
-                R"(diff[^\n]*?\n(.*?)---\s([^\n]*?)\n\+\+\+\s([^\n]*?)?\n)",
-                QRegularExpression::DotMatchesEverythingOption
+                R"(^diff[^\n]*?\n(.*?)^---\s([^\n]*?)\n^\+\+\+\s([^\n]*?)?\n)",
+                QRegularExpression::DotMatchesEverythingOption | QRegularExpression::MultilineOption
                 );
 
     auto matchIterator = fileDiffHeaderRE.globalMatch(diffText);
