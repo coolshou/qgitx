@@ -21,7 +21,7 @@ FORMS += $$PWD/commit.ui $$PWD/help.ui \
 HEADERS += $$PWD/cache.h $$PWD/commitimpl.h $$PWD/common.h $$PWD/config.h \
            $$PWD/dataloader.h $$PWD/domain.h $$PWD/exceptionmanager.h \
            $$PWD/git.h $$PWD/help.h $$PWD/lanes.h \
-           $$PWD/mainimpl.h $$PWD/myprocess.h $$PWD/patchcontent.h \
+           $$PWD/mainimpl.h $$PWD/myprocess.h \
            $$PWD/revdesc.h $$PWD/revsview.h $$PWD/settingsimpl.h \
     $$PWD/filehistory.h \
     $$PWD/historyview.h \
@@ -41,7 +41,6 @@ SOURCES += $$PWD/cache.cpp $$PWD/commitimpl.cpp \
            $$PWD/dataloader.cpp $$PWD/domain.cpp $$PWD/exceptionmanager.cpp \
            $$PWD/git.cpp $$PWD/git_startup.cpp \
            $$PWD/lanes.cpp $$PWD/mainimpl.cpp $$PWD/myprocess.cpp $$PWD/namespace_def.cpp \
-           $$PWD/patchcontent.cpp \
            $$PWD/revdesc.cpp $$PWD/revsview.cpp $$PWD/settingsimpl.cpp \
     $$PWD/filehistory.cpp \
     $$PWD/historyview.cpp \

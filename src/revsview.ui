@@ -84,11 +84,6 @@
    <extends>QWebView</extends>
    <header>revdesc.h</header>
   </customwidget>
-  <customwidget>
-   <class>PatchContent</class>
-   <extends>QTextEdit</extends>
-   <header>patchcontent.h</header>
-  </customwidget>
  </customwidgets>
  <includes>
   <include location="local">revdesc.h</include>
