@@ -1,6 +1,7 @@
 #include "navigatorcontroller.h"
 
 #include <QTreeWidget>
+#include <QDebug>
 
 NavigatorController::NavigatorController(QTreeWidget &widget) : widget(widget)
 {
@@ -122,7 +123,7 @@ void NavigatorController::markBranchAsHEAD(const QString branchName)
 {
     Key key = makeKey(BRANCHES, branchName);
     if(!itemsMap.contains(key)) {
-        qDebug(QString("item to be marked as head branch was not found: $1").arg(key.second).toLatin1());
+        qDebug() << "item to be marked as head branch was not found: " << key.second << "\n";
         return;
     }
 
@@ -174,7 +175,7 @@ void NavigatorController::addItem(Key key, QTreeWidgetItem* parent, QTreeWidgetI
  void NavigatorController::removeItem(Key key)
 {
     if(!itemsMap.contains(key)) {
-        qDebug(QString("item to be removed could not be found: $1, $2").arg(key.first).arg(key.second).toLatin1());
+        qDebug() << "item to be removed could not be found: " << key.first << "," << key.second << "\n";
         return;
     }
 
