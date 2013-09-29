@@ -795,6 +795,7 @@ void ListViewDelegate::addTextPixmap(QPixmap** pp, SCRef txt, const QStyleOption
     QPixmap* newPm = new QPixmap(ofs + pw + 2, fmBigFont.height());
 	QPainter p;
 	p.begin(newPm);
+    p.setRenderHints(QPainter::Antialiasing);
     newPm->fill(opt.palette.base().color());
 	if (!pm->isNull()) {
 		p.drawPixmap(0, 0, *pm);
