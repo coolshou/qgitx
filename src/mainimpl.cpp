@@ -33,6 +33,7 @@
 #include "revsview.h"
 #include "settingsimpl.h"
 #include "navigator/navigatorcontroller.h"
+#include "filehistory.h"
 #include "ui_help.h"
 #include "ui_revsview.h"
 

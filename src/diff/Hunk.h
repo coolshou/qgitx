@@ -32,8 +32,6 @@ private:
     optional<QString> m_header;
 };
 
-Q_DECLARE_METATYPE(QList<QSharedPointer<DiffLine>>)
-
 class HunkBuilder {
 public:
     HunkBuilder(diffrange oldRange, diffrange newRange) : m_oldRange(oldRange), m_newRange(newRange), m_positionInOld(oldRange.start), m_positionInNew(newRange.start) {}

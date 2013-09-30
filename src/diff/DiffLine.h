@@ -41,5 +41,4 @@ protected:
     QString m_content;
 };
 
-Q_DECLARE_METATYPE(QSharedPointer<DiffLine>)
 #endif //DIFFLINE_H

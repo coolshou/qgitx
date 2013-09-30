@@ -63,6 +63,4 @@ private:
     TreeDiffEntryList m_entries;
 };
 
-Q_DECLARE_METATYPE(QList<QSharedPointer<TreeDiffEntry>>)
-
 #endif // TREEDIFF_H

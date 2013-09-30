@@ -20,6 +20,4 @@ private:
     HunksList m_hunks;
 };
 
-Q_DECLARE_METATYPE(QList<QSharedPointer<Hunk>>)
-
 #endif //DIFFERENCE_H
