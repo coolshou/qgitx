@@ -60,7 +60,8 @@ Git::Git(QObject* p) : QObject(p) {
     //initialize template engine
     //will load templates from resources under the path /templates
     engine = new Grantlee::Engine();
-    Grantlee::FileSystemTemplateLoader::Ptr loader = Grantlee::FileSystemTemplateLoader::Ptr( new Grantlee::FileSystemTemplateLoader() );
+    //Grantlee::FileSystemTemplateLoader::Ptr loader = Grantlee::FileSystemTemplateLoader::Ptr( new Grantlee::FileSystemTemplateLoader() );
+    auto loader = QSharedPointer<Grantlee::FileSystemTemplateLoader>::create();
     loader->setTemplateDirs(QStringList() << ":/templates/");
     engine->addTemplateLoader(loader);
 }
