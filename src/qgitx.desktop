@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=qgitx
+Comment=qgitx
+Icon=qgitx.png
+Exec=qgit
+Terminal=false
+Categories=Development;RevisionControl;
+Name[zh_TW]=qgitx
+Comment[zh_TW]=qgitx
+StartupNotify=true
