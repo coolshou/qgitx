@@ -40,7 +40,8 @@ win32 {
 
 unix {
     TARGET = qgit
-    target.path = ~/bin
+    #target.path = ~/bin
+    target.path = /usr/bin
     CONFIG += x11
 }
 
