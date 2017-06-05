@@ -1,0 +1,18 @@
+Source: qgitx
+Section: devel
+Priority: optional
+Maintainer: coolshou <coolshou2060@gmail.com>
+Build-Depends: debhelper (>=9), qt5-qmake (>=5.5.1), qtbase5-dev (>=5.5.1), libqt5webkit5-dev (>=5.5.1)
+Recommends: kompare, meld
+Standards-Version: 3.9.6
+Homepage: https://github.com/coolshou/qgitx
+Vcs-Git: git://github.com/coolshou/qgitx
+Vcs-Browser: https://github.com/coolshou/qgitx
+
+Package: qgitx
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: QGitX, a git GUI viewer, based on qgit4
+ With qgit you will be able to browse revisions history, view patch 
+ content and changed files, graphically following different development 
+ branches.
